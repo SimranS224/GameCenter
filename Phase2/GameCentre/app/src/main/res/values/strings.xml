@@ -1,0 +1,56 @@
+<resources>
+    <string name="app_name">Game Centre</string>
+    <string name="_4x4">4x4</string>
+    <string name="_3x3">3x3</string>
+    <string name="_5x5">5x5</string>
+
+    <string name="_3_undo">3 Undo</string>
+    <string name="unlimited_undo">Unlimited Undo</string>
+    <string name="game_setup">Game Setup</string>
+    <string name="start">Start</string>
+    <string name="back">Back</string>
+    <string name="welcome_to_sliding_tiles_n_a_puzzle_game_where_you_must_arrange_the_numbers_in_the_correct_order">Welcome To Sliding Tiles   A Puzzle Game where you must arrange the numbers in the correct order</string>
+    <string name="choose_the_number_of_undos">Choose the Number of Undos</string>
+    <string name="unlimited">Unlimited</string>
+    <string name="choose_your_board_size">Choose your board size</string>
+    <string name="choose_the_type_of_tiles">Choose the type of tiles</string>
+    <string name="number_tiles">Number tiles</string>
+    <string name="image_tiles">Image tiles</string>
+    <string name="if_image_tile_option_selected_choose_an_image">If image tile option selected, choose an image</string>
+    <string name="american_pie">American Pie</string>
+    <string name="u_of_t">U of T</string>
+    <string name="flower">Flower</string>
+    <string name="i_m_a_new_user">I\'m A New User</string>
+    <string name="game_centre">Game Centre</string>
+    <string name="now_displaying_your_best_scores">Now Displaying Your Best Scores</string>
+    <string name="for_3x3">For 3x3:</string>
+    <string name="game_centre_user_registration">Game Centre User Registration</string>
+    <string name="name">Name</string>
+    <string name="email_address">Email Address</string>
+    <string name="password">Password</string>
+    <string name="already_a_user">Already A User</string>
+    <string name="register">Register</string>
+    <string name="_0">0</string>
+    <string name="undo">UNDO</string>
+    <string name="leader_board">Leader Board</string>
+    <string name="new_game">New Game</string>
+    <string name="load_saved_game">Load Saved Game</string>
+    <string name="save_game">Save Game</string>
+    <string name="log_out">Log out</string>
+    <string name="welcome_back_user">Welcome Back User</string>
+    <string name="switch_to_global_rankings">Switch to Global Rankings</string>
+    <string name="leaderboard">LeaderBoard</string>
+
+    <string name="now_displaying_global_rankings">Now Displaying Global Rankings</string>
+    <string name="for_4x4">For 4x4:</string>
+    <string name="for_5x5">For 5x5:</string>
+    <string name="login">Login</string>
+    <string name="i_m_a_new_user_">I\'m A New User</string>
+    <string name="switch_to_my_best_scores_">switch to my best scores</string>
+    <string name="password2">Password</string>
+    <string name="switch_to_my_best_scores3">switch to my best scores</string>
+    <string name="switch_to_my_best_scores5">switch to my best scores</string>
+    <string name="game_centre_user_login">Game Centre User Login</string>
+    <string name="email_address2">Email Address</string>
+    <string name="login_">Login</string>
+</resources>

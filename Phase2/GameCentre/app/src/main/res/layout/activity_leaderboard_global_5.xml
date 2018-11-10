@@ -1,0 +1,101 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/Leaderboard"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/special_gradient">
+
+
+    <TextView
+        android:id="@+id/globalRanktext"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="151dp"
+        android:layout_marginTop="69dp"
+        android:text="@string/for_5x5"
+        android:textAlignment="viewStart"
+        android:textColor="@android:color/white"
+        android:textSize="24sp" />
+
+    <TextView
+        android:id="@+id/LeaderBoardtext"
+        android:layout_width="172dp"
+        android:layout_height="42dp"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="4dp"
+        android:text="@string/leaderboard"
+        android:textAlignment="center"
+        android:textColor="@android:color/white"
+        android:textSize="30sp" />
+
+    <TextView
+        android:id="@+id/GlobalRanktext"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="21dp"
+        android:layout_marginTop="45dp"
+        android:text="@string/now_displaying_global_rankings"
+        android:textAlignment="viewStart"
+        android:textColor="@android:color/white"
+        android:textSize="24sp" />
+
+    <ListView
+        android:id="@+id/listLead5"
+        android:layout_width="match_parent"
+        android:layout_height="484dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginStart="0dp"
+        android:layout_marginBottom="12dp"
+        android:background="@android:color/white"
+        android:cacheColorHint="#FFFFFF"
+        android:clipToPadding="false"
+        android:dividerHeight="1dp"
+        android:paddingBottom="56dp" />
+
+    <Button
+        android:id="@+id/switchMyScores"
+        android:layout_width="132dp"
+        android:layout_height="55dp"
+        android:layout_above="@+id/listLead5"
+        android:layout_alignParentStart="true"
+        android:layout_marginStart="0dp"
+        android:layout_marginBottom="0dp"
+        android:background="@android:color/white"
+        android:text="@string/switch_to_my_best_scores5"
+        android:textColor="@color/colorPrimary" />
+
+    <Button
+        android:id="@+id/globalHigh4"
+        android:layout_width="72dp"
+        android:layout_height="70dp"
+        android:layout_above="@+id/listLead5"
+        android:layout_below="@+id/globalRanktext"
+        android:layout_marginStart="93dp"
+        android:layout_marginTop="1dp"
+        android:layout_marginBottom="2dp"
+        android:layout_toEndOf="@+id/switchMyScores"
+        android:background="@android:color/white"
+        android:text="@string/_4x4"
+        android:textColor="@color/colorPrimary" />
+
+    <Button
+        android:id="@+id/globalHigh3"
+        android:layout_width="72dp"
+        android:layout_height="70dp"
+        android:layout_above="@+id/listLead5"
+        android:layout_below="@+id/globalRanktext"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="0dp"
+        android:layout_marginBottom="2dp"
+        android:layout_toEndOf="@+id/switchMyScores"
+        android:background="@android:color/white"
+        android:text="@string/_3x3"
+        android:textColor="@color/colorPrimary" />
+
+
+</RelativeLayout>

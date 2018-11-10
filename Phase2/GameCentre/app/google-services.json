@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "190042246880",
+    "firebase_url": "https://sliding-tiles-c924d.firebaseio.com",
+    "project_id": "sliding-tiles-c924d",
+    "storage_bucket": "sliding-tiles-c924d.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:190042246880:android:8188f088a96293fd",
+        "android_client_info": {
+          "package_name": "fall2018s.csc2017.slidingtile"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "190042246880-3ih4n0mclqmhok9aslr3ujkov5rod552.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "fall2018s.csc2017.slidingtile",
+            "certificate_hash": "d549a42b9bec12f48860385104198acf4246aae4"
+          }
+        },
+        {
+          "client_id": "190042246880-kv2ojarq94qdba9qlpucpahjagps7gt3.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCkZWWOgs2Ob2NqE6qthQUqyBkgnm5LBzM"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "190042246880-kv2ojarq94qdba9qlpucpahjagps7gt3.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

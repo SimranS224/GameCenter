@@ -1,0 +1,210 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/special_gradient"
+        android:orientation="vertical"
+        android:padding="20sp"
+        tools:context=".SettingsActivity">
+
+        <ScrollView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+        </ScrollView>
+
+        <TextView
+            android:id="@+id/gameSetup"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:layout_marginBottom="50dp"
+            android:text="@string/game_setup"
+            android:textAlignment="center"
+            android:textColor="@android:color/white"
+            android:textSize="50sp" />
+
+
+        <TextView
+            android:id="@+id/guide1"
+            android:layout_width="342dp"
+            android:layout_height="31dp"
+            android:text="@string/choose_the_number_of_undos"
+            android:textColor="@android:color/white"
+            android:textSize="24sp" />
+
+        <RadioGroup
+            android:id="@+id/undoSettings"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:orientation="horizontal">
+
+            <RadioButton
+                android:id="@+id/unlimitedUndo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/unlimited"
+                android:textColor="@android:color/white" />
+
+            <RadioButton
+                android:id="@+id/limitedUndo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/_3_undo"
+                android:textColor="@android:color/white" />
+
+        </RadioGroup>
+
+        <TextView
+            android:id="@+id/guide2"
+            android:layout_width="343dp"
+            android:layout_height="30dp"
+            android:text="@string/choose_your_board_size"
+            android:textColor="@android:color/white"
+            android:textSize="24sp" />
+
+        <RadioGroup
+            android:id="@+id/boardSize"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:orientation="horizontal">
+
+            <RadioButton
+                android:id="@+id/threeByThree"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/_3x3"
+                android:textColor="@android:color/black" />
+
+            <RadioButton
+                android:id="@+id/fourByFour"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/_4x4" />
+
+            <RadioButton
+                android:id="@+id/fiveByFive"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/_5x5" />
+
+        </RadioGroup>
+
+        <TextView
+            android:id="@+id/guide3"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/choose_the_type_of_tiles"
+            android:textColor="@android:color/white"
+            android:textSize="24sp" />
+
+        <RadioGroup
+            android:id="@+id/boardType"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:orientation="horizontal">
+
+            <RadioButton
+                android:id="@+id/numberTiles"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/number_tiles" />
+
+            <RadioButton
+                android:id="@+id/imageTiles"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/image_tiles" />
+
+        </RadioGroup>
+
+        <TextView
+            android:id="@+id/guide4"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/if_image_tile_option_selected_choose_an_image"
+            android:textColor="@android:color/white"
+            android:textSize="24sp" />
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:id="@+id/american_pie_image"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:layout_marginEnd="10dp"
+                app:srcCompat="@drawable/american_pie" />
+
+            <ImageView
+                android:id="@+id/uoft_image"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:layout_marginEnd="10dp"
+                app:srcCompat="@drawable/uoft" />
+
+            <ImageView
+                android:id="@+id/flower_image"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:layout_marginEnd="10dp"
+                app:srcCompat="@drawable/flower" />
+
+
+        </LinearLayout>
+
+        <RadioGroup
+            android:id="@+id/imageSettings"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:orientation="horizontal">
+
+            <RadioButton
+                android:id="@+id/american_pie"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/american_pie" />
+
+            <RadioButton
+                android:id="@+id/uoft"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/u_of_t" />
+
+            <RadioButton
+                android:id="@+id/flower"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/flower" />
+
+        </RadioGroup>
+
+        <Button
+            android:id="@+id/confirm"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:text="@string/start" />
+
+        <Button
+            android:id="@+id/back"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/back" />
+    </LinearLayout>
+</ScrollView>
