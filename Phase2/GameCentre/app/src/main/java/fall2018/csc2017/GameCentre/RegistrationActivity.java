@@ -155,7 +155,7 @@ public class RegistrationActivity extends AppCompatActivity {
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
                 FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
                 if(user!=null) {
-                    Intent intent = new Intent(RegistrationActivity.this,StartingActivity.class);
+                    Intent intent = new Intent(RegistrationActivity.this,GameChoiceActivity.class);
                     startActivity(intent);
                     finish();
                 }

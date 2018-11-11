@@ -21,7 +21,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".GameActivity" />
-        <activity android:name=".StartingActivity"></activity>
+        <activity android:name=".StartingActivity" />
         <activity android:name=".LeaderBoardMain" />
         <activity android:name=".GlobalThreeByThree" />
         <activity android:name=".GlobalFiveByFive" />
@@ -31,7 +31,8 @@
         <activity android:name=".LocalFiveByFive" />
         <activity android:name=".LocalThreeByThree" />
         <activity android:name=".SettingsActivity" />
-        <activity android:name=".FirstActivity"></activity>
+        <activity android:name=".FirstActivity" />
+        <activity android:name=".GameChoiceActivity"></activity>
     </application>
 
 </manifest>
