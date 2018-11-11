@@ -3,7 +3,7 @@ apply plugin: 'com.android.application'
 android {
     compileSdkVersion 27
     defaultConfig {
-        applicationId "fall2018s.csc2017.slidingtile"
+        applicationId "fall2018s.csc2017.gamecentre"
         minSdkVersion 26
         targetSdkVersion 26
         versionCode 1

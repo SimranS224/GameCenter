@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="fall2018.csc2017.GameCentre">
+
     <uses-permission android:name="android.permission.GET_ACCOUNTS" />
     <uses-permission android:name="android.permission.READ_PROFILE" />
     <uses-permission android:name="android.permission.READ_CONTACTS" />
@@ -12,7 +13,7 @@
         android:roundIcon="@mipmap/ic_launcher_round1"
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.Light.NoActionBar">
-        <activity android:name=".FirstActivity">
+        <activity android:name=".SplashActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -20,18 +21,17 @@
             </intent-filter>
         </activity>
         <activity android:name=".GameActivity" />
-        <activity android:name=".StartingActivity">
-
-        </activity>
-        <activity android:name=".LeaderBoardMain"/>
-        <activity android:name=".GlobalThreeByThree"/>
-        <activity android:name=".GlobalFiveByFive"/>
+        <activity android:name=".StartingActivity"></activity>
+        <activity android:name=".LeaderBoardMain" />
+        <activity android:name=".GlobalThreeByThree" />
+        <activity android:name=".GlobalFiveByFive" />
         <activity android:name=".LoginActivityMain" />
         <activity android:name=".RegistrationActivity" />
-        <activity android:name=".LeaderBoardCurrentUser"/>
-        <activity android:name=".LocalFiveByFive"/>
-        <activity android:name=".LocalThreeByThree"/>
-        <activity android:name=".SettingsActivity"></activity>
+        <activity android:name=".LeaderBoardCurrentUser" />
+        <activity android:name=".LocalFiveByFive" />
+        <activity android:name=".LocalThreeByThree" />
+        <activity android:name=".SettingsActivity" />
+        <activity android:name=".FirstActivity"></activity>
     </application>
 
 </manifest>
