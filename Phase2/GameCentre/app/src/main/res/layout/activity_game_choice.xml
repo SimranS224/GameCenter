@@ -34,20 +34,20 @@
         android:text="Sliding Tiles" />
 
     <Button
-        android:id="@+id/GameTwo"
+        android:id="@+id/Sequencer"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/GameText"
         android:layout_toStartOf="@+id/SlidingTiles"
-        android:text="Game Two" />
+        android:text="Sequencer" />
 
     <Button
-        android:id="@+id/GameThree"
+        android:id="@+id/TicTacToe"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/GameText"
         android:layout_toEndOf="@+id/SlidingTiles"
-        android:text="Game Three" />
+        android:text="TicTacToe" />
 
 
     <RelativeLayout
