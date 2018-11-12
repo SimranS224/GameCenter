@@ -243,7 +243,7 @@ public class SequencerStartingActivity extends AppCompatActivity {
      * Switch to the GameActivity view to play the game.
      */
     private void switchToGame() {
-        Intent tmp = new Intent(this, GameActivity.class);
+        Intent tmp = new Intent(this, SequencerGameActivity.class);
         saveToFile(StartingActivity.TEMP_SAVE_FILENAME);
         startActivity(tmp);
     }
