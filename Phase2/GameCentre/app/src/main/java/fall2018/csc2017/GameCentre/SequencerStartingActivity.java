@@ -29,9 +29,10 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.Random;
 
-
+/**
+ * The initial activity for the sliding puzzle tile game.
+ */
 public class SequencerStartingActivity extends AppCompatActivity {
-
     /**
      * The RelativeLayout.
      */
@@ -48,7 +49,7 @@ public class SequencerStartingActivity extends AppCompatActivity {
     /**
      * The board manager.
      */
-    private BoardManager boardManager;
+    private SequencerBoardManager boardManager;
 
     /**
      * The Welcome Text
@@ -84,9 +85,9 @@ public class SequencerStartingActivity extends AppCompatActivity {
         TEMP_SAVE_FILENAME= userID + "save_file_tmp.ser";
 
         getUserInfoFromDatabase();
-        boardManager = new BoardManager();
+        boardManager = new SequencerBoardManager();
         getUserInfoFromDatabase();
-        String type1 = Board.getType();
+        String type1 = SequencerBoard.getType();
         System.out.println(type1);
 
 
@@ -109,7 +110,7 @@ public class SequencerStartingActivity extends AppCompatActivity {
         mWelcomeText = findViewById(R.id.welcomeText);
         getUserInfoFromDatabase();
 
-        addBackgroundTapListener();
+       addBackgroundTapListener();
     }
 
     /**
@@ -134,7 +135,7 @@ public class SequencerStartingActivity extends AppCompatActivity {
         startButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(SequencerStartingActivity.this,SettingsActivity.class);
+                Intent intent = new Intent(SequencerStartingActivity.this,SequencerSettingsActivity.class);
                 startActivity(intent);
 
             }
@@ -240,11 +241,11 @@ public class SequencerStartingActivity extends AppCompatActivity {
     }
 
     /**
-     * Switch to the GameActivity view to play the game.
+     * Switch to the SequencerGameActivity view to play the game.
      */
     private void switchToGame() {
         Intent tmp = new Intent(this, SequencerGameActivity.class);
-        saveToFile(StartingActivity.TEMP_SAVE_FILENAME);
+        saveToFile(SequencerStartingActivity.TEMP_SAVE_FILENAME);
         startActivity(tmp);
     }
 
@@ -256,20 +257,20 @@ public class SequencerStartingActivity extends AppCompatActivity {
     private void loadFromFile(String fileName) {
 
 
-        //String dbFileName =downloadUserBoard(fileName);
+           //String dbFileName =downloadUserBoard(fileName);
 
 
         try {
             InputStream inputStream = this.openFileInput(fileName);
             if (inputStream != null) {
                 ObjectInputStream input = new ObjectInputStream(inputStream);
-                boardManager = (BoardManager) input.readObject();
+                boardManager = (SequencerBoardManager) input.readObject();
 
                 inputStream.close();
             }
 
 
-        } catch (FileNotFoundException e) {
+       } catch (FileNotFoundException e) {
             Log.e("login activity", "File not found: " + e.toString());
         } catch (IOException e) {
             Log.e("login activity", "Can not read file: " + e.toString());
@@ -294,7 +295,7 @@ public class SequencerStartingActivity extends AppCompatActivity {
         } catch (IOException e) {
             Log.e("Exception", "File write failed: " + e.toString());
         }
-        //  uploadUserBoard(fileName);
+      //  uploadUserBoard(fileName);
 
 
 
@@ -313,24 +314,24 @@ public class SequencerStartingActivity extends AppCompatActivity {
                     Map<String, Object> map = (Map<String,Object>) dataSnapshot.getValue();
                     assert map != null;
                     if (map.get("Name")!=null) {
-                        String name = map.get("Name").toString();
-                        mWelcomeText.setText("Welcome Back "+name);
+                            String name = map.get("Name").toString();
+                            mWelcomeText.setText("Welcome Back "+name);
                     }
-                    if (map.get("Board Size")!=null) {
-                        String boardSize = map.get("Board Size").toString();
+                    if (map.get("SequencerBoard Size")!=null) {
+                        String boardSize = map.get("SequencerBoard Size").toString();
                         switch (boardSize) {
                             case "3x3":
                                 oldBoardSize = 3;
-                                Board.setBoardSize(oldBoardSize);
+                                SequencerBoard.setBoardSize(oldBoardSize);
                                 break;
                             case "4x4":
                                 oldBoardSize = 4;
-                                Board.setBoardSize(oldBoardSize);
+                                SequencerBoard.setBoardSize(oldBoardSize);
 
                                 break;
                             case "5x5":
                                 oldBoardSize = 5;
-                                Board.setBoardSize(oldBoardSize);
+                                SequencerBoard.setBoardSize(oldBoardSize);
                                 break;
                         }
                     }
@@ -362,12 +363,12 @@ public class SequencerStartingActivity extends AppCompatActivity {
 
                     if(map.get("Board_Type")!= null) {
                         String lastSavedBoardType = map.get("Board_Type").toString();
-                        Board.setType(lastSavedBoardType);
+                        SequencerBoard.setType(lastSavedBoardType);
 
                     }
                     if(map.get("requested_image")!= null) {
                         String lastSavedBoardImage = map.get("requested_image").toString();
-                        Board.setIMAGE(lastSavedBoardImage);
+                        SequencerBoard.setIMAGE(lastSavedBoardImage);
                     }
 
 
@@ -388,7 +389,7 @@ public class SequencerStartingActivity extends AppCompatActivity {
 
         FirebaseAuth mAuth = FirebaseAuth.getInstance();
         userID = Objects.requireNonNull(mAuth.getCurrentUser()).getUid();
-        mUserDatabase= FirebaseDatabase.getInstance().getReference().child("Users").child("userId").child(userID).child("Sequencer");
+        mUserDatabase= FirebaseDatabase.getInstance().getReference().child("Users").child("userId").child(userID);
     }
 
 //    private String downloadUserBoard(String fileName) {
@@ -404,9 +405,9 @@ public class SequencerStartingActivity extends AppCompatActivity {
 //
 //            File localFile = null;
 //            if (fileName.equals(SAVE_FILENAME)) {
-//                localFile = new File(StartingActivity.this.getFilesDir().getAbsolutePath() + "/" + SAVE_FILENAME);
+//                localFile = new File(SequencerStartingActivity.this.getFilesDir().getAbsolutePath() + "/" + SAVE_FILENAME);
 //            } else if (fileName.equals(TEMP_SAVE_FILENAME)) {
-//                localFile = new File(StartingActivity.this.getFilesDir().getAbsolutePath() + "/" + TEMP_SAVE_FILENAME);
+//                localFile = new File(SequencerStartingActivity.this.getFilesDir().getAbsolutePath() + "/" + TEMP_SAVE_FILENAME);
 //            }
 //            // Log.d(localFile.getAbsolutePath(), "downloadUserBoard: ");
 //
@@ -439,7 +440,7 @@ public class SequencerStartingActivity extends AppCompatActivity {
 //        // Create a storage reference from our app
 //        StorageReference filePath = FirebaseStorage.getInstance().getReference().child("Saved_Games").child(userID);
 //
-//        Uri file = Uri.fromFile(new File(StartingActivity.this.getFilesDir().getAbsolutePath()+"/"+fileName));
+//        Uri file = Uri.fromFile(new File(SequencerStartingActivity.this.getFilesDir().getAbsolutePath()+"/"+fileName));
 //        final StorageReference riversRef = filePath.child("last_saved_game/"+file.getLastPathSegment());
 //        UploadTask uploadTask = riversRef.putFile(file);
 //

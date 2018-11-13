@@ -33,8 +33,10 @@
         <activity android:name=".SettingsActivity" />
         <activity android:name=".FirstActivity" />
         <activity android:name=".GameChoiceActivity" />
+        <activity android:name=".SequencerSettingsActivity" />
         <activity android:name=".SequencerStartingActivity" />
-        <activity android:name=".SequencerGameActivity"></activity>
+        <activity android:name=".SequencerGameActivity" />
+
     </application>
 
 </manifest>

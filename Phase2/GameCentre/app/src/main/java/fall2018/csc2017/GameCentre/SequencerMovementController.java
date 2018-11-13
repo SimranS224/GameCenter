@@ -4,17 +4,16 @@ import android.content.Context;
 import android.widget.Toast;
 
 
-class MovementController {
+class SequencerMovementController {
 
-    private BoardManager boardManager = null;
+    private SequencerBoardManager boardManager = null;
 
-    MovementController() {
+    SequencerMovementController() {
     }
 
-    void setBoardManager(BoardManager boardManager) {
+    void setBoardManager(SequencerBoardManager boardManager) {
         this.boardManager = boardManager;
     }
-
     void processTapMovement(Context context, int position) {
         if (boardManager.isValidTap(position)) {
             boardManager.touchMove(position);

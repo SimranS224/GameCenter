@@ -1,11 +1,16 @@
 package fall2018.csc2017.GameCentre;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
-public class SequencerBoardManager {
+/**
+ * Manage a board, including swapping tiles, checking for a win, and managing taps.
+ */
+class SequencerBoardManager implements Serializable {
+
     /**
      * score
      */
@@ -14,7 +19,7 @@ public class SequencerBoardManager {
     /**
      * The board being managed.
      */
-    private Board board;
+    private SequencerBoard board;
     MoveStack stack;
 
     /**
@@ -22,7 +27,7 @@ public class SequencerBoardManager {
      *
      * @param board the board
      */
-    SequencerBoardManager(Board board) {
+    SequencerBoardManager(SequencerBoard board) {
         this.board = board;
         this.score = 0;
         this.stack = new MoveStack();
@@ -31,7 +36,7 @@ public class SequencerBoardManager {
     /**
      * Return the current board.
      */
-    Board getBoard() {
+    SequencerBoard getBoard() {
         return board;
     }
 
@@ -40,13 +45,13 @@ public class SequencerBoardManager {
      */
     SequencerBoardManager() {
         List<Tile> tiles = new ArrayList<>();
-        final int numTiles = Board.NUM_ROWS * Board.NUM_COLS;
+        final int numTiles = SequencerBoard.NUM_ROWS * SequencerBoard.NUM_COLS;
         for (int tileNum = 0; tileNum != (numTiles-1); tileNum++) {
             tiles.add(new Tile(tileNum));
         }
         tiles.add(new Tile(24));
         Collections.shuffle(tiles);
-        this.board = new Board(tiles);
+        this.board = new SequencerBoard(tiles);
         this.score = 0;
         stack = new MoveStack();
     }
@@ -102,14 +107,14 @@ public class SequencerBoardManager {
      */
     boolean isValidTap(int position) {
 
-        int row = position / Board.NUM_COLS;
-        int col = position % Board.NUM_COLS;
+        int row = position / SequencerBoard.NUM_COLS;
+        int col = position % SequencerBoard.NUM_COLS;
         int blankId = 25;
         // Are any of the 4 the blank tile?
         Tile above = row == 0 ? null : board.getTile(row - 1, col);
-        Tile below = row == Board.NUM_ROWS - 1 ? null : board.getTile(row + 1, col);
+        Tile below = row == SequencerBoard.NUM_ROWS - 1 ? null : board.getTile(row + 1, col);
         Tile left = col == 0 ? null : board.getTile(row, col - 1);
-        Tile right = col == Board.NUM_COLS - 1 ? null : board.getTile(row, col + 1);
+        Tile right = col == SequencerBoard.NUM_COLS - 1 ? null : board.getTile(row, col + 1);
         return (below != null && below.getId() == blankId)
                 || (above != null && above.getId() == blankId)
                 || (left != null && left.getId() == blankId)
@@ -123,8 +128,8 @@ public class SequencerBoardManager {
      */
     void touchMove(int position) {
 
-        int row = position / Board.NUM_ROWS;
-        int col = position % Board.NUM_COLS;
+        int row = position / SequencerBoard.NUM_ROWS;
+        int col = position % SequencerBoard.NUM_COLS;
         int blankId = 25;
 
         if (isValidTap(position)) {
@@ -135,8 +140,8 @@ public class SequencerBoardManager {
             while (iter.next().getId() != blankId) {
                 blankPos++;
             }
-            int blankRow = blankPos / Board.NUM_ROWS;
-            int blankCol = blankPos % Board.NUM_COLS;
+            int blankRow = blankPos / SequencerBoard.NUM_ROWS;
+            int blankCol = blankPos % SequencerBoard.NUM_COLS;
 
             //swap them
             board.swapTiles(row, col, blankRow, blankCol);

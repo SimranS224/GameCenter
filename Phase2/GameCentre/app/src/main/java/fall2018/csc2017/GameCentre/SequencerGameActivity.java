@@ -5,9 +5,9 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewTreeObserver;
@@ -35,13 +35,14 @@ import java.util.Objects;
 import java.util.Observable;
 import java.util.Observer;
 
-
+/**
+ * The game activity.
+ */
 public class SequencerGameActivity extends AppCompatActivity implements Observer {
-
     /**
      * The board manager.
      */
-    private BoardManager boardManager;
+    private SequencerBoardManager boardManager;
 
     /**
      * The buttons to display.
@@ -51,7 +52,7 @@ public class SequencerGameActivity extends AppCompatActivity implements Observer
     /**
      * The GridView of the Game
      */
-    private GestureDetectGridView gridView;
+    private SequencerGestureDetectGridView gridView;
 
     /**
      * The calculated column width and Height Based on Device Size
@@ -92,23 +93,23 @@ public class SequencerGameActivity extends AppCompatActivity implements Observer
     ArrayList<Bitmap> chunckedImages;
 
     /**
-     * Checks the type the Board class is set as.
+     * Checks the type the SequencerBoard class is set as.
      *
-     * @return whether the Board type is set to Image Tile
+     * @return whether the SequencerBoard type is set to Image Tile
      */
     private boolean isImage() {
-        return Board.getType().equals("Image tiles");
+        return SequencerBoard.getType().equals("Image tiles");
     }
 
     /**
-     * Gets the image depending on what is set up in Board.
+     * Gets the image depending on what is set up in SequencerBoard.
      *
      * @return A bitmap of the image selected.
      */
     private Bitmap getImage() {
-        if (Board.getIMAGE().equals("American Pie")) {
+        if (SequencerBoard.getIMAGE().equals("American Pie")) {
             return BitmapFactory.decodeResource(getResources(), R.drawable.american_pie);
-        } else if (Board.getIMAGE().equals("U of T")) {
+        } else if (SequencerBoard.getIMAGE().equals("U of T")) {
             return BitmapFactory.decodeResource(getResources(), R.drawable.uoft);
         }
         return BitmapFactory.decodeResource(getResources(), R.drawable.flower);
@@ -125,8 +126,8 @@ public class SequencerGameActivity extends AppCompatActivity implements Observer
         gridView.setAdapter(new CustomAdapter(tileButtons, columnWidth, columnHeight));
 
         //autosave
-        saveToFile(StartingActivity.SAVE_FILENAME);
-        saveToFile(StartingActivity.TEMP_SAVE_FILENAME);
+        saveToFile(SequencerStartingActivity.SAVE_FILENAME);
+        saveToFile(SequencerStartingActivity.TEMP_SAVE_FILENAME);
     }
 
     @Override
@@ -135,17 +136,17 @@ public class SequencerGameActivity extends AppCompatActivity implements Observer
 
         getUserDatabaseReference();
 
-        loadFromFile(StartingActivity.TEMP_SAVE_FILENAME);
+        loadFromFile(SequencerStartingActivity.TEMP_SAVE_FILENAME);
         int unn = MoveStack.NUM_UNDOS;
         System.out.println(unn);
         createTileButtons(this);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_sequencer_game);
         if (isImage()) {
             chunckedImages = splitImage(getImage());
         }
         // Add View to activity
         gridView = findViewById(R.id.grid);
-        gridView.setNumColumns(Board.NUM_COLS);
+        gridView.setNumColumns(SequencerBoard.NUM_COLS);
         gridView.setBoardManager(boardManager);
         boardManager.getBoard().addObserver(this);
 
@@ -159,8 +160,8 @@ public class SequencerGameActivity extends AppCompatActivity implements Observer
                         int displayWidth = gridView.getMeasuredWidth();
                         int displayHeight = gridView.getMeasuredHeight();
 
-                        columnWidth = displayWidth / Board.NUM_COLS;
-                        columnHeight = displayHeight / Board.NUM_ROWS;
+                        columnWidth = displayWidth / SequencerBoard.NUM_COLS;
+                        columnHeight = displayHeight / SequencerBoard.NUM_ROWS;
 
                         display();
                     }
@@ -194,7 +195,7 @@ public class SequencerGameActivity extends AppCompatActivity implements Observer
             @Override
             public void onClick(View v) {
                 Toast.makeText(getApplicationContext(), "UNDO BUTTON PRESSED", Toast.LENGTH_SHORT).show();
-                Board board = boardManager.getBoard();
+                SequencerBoard board = boardManager.getBoard();
                 if (boardManager.stack.canUndo()) {
                     Integer[] lastMoves = boardManager.stack.remove();
                     board.swapTiles(lastMoves[0], lastMoves[1], lastMoves[2], lastMoves[3]);
@@ -217,10 +218,10 @@ public class SequencerGameActivity extends AppCompatActivity implements Observer
      * @param context the context
      */
     private void createTileButtons(Context context) {
-        Board board = boardManager.getBoard();
+        SequencerBoard board = boardManager.getBoard();
         tileButtons = new ArrayList<>();
-        for (int row = 0; row != Board.NUM_ROWS; row++) {
-            for (int col = 0; col != Board.NUM_COLS; col++) {
+        for (int row = 0; row != SequencerBoard.NUM_ROWS; row++) {
+            for (int col = 0; col != SequencerBoard.NUM_COLS; col++) {
                 Button tmp = new Button(context);
                 tmp.setBackgroundResource(board.getTile(row, col).getBackground());
                 this.tileButtons.add(tmp);
@@ -232,11 +233,11 @@ public class SequencerGameActivity extends AppCompatActivity implements Observer
      * Update the backgrounds on the buttons to match the tiles.
      */
     private void updateTileButtons() {
-        Board board = boardManager.getBoard();
+        SequencerBoard board = boardManager.getBoard();
         int nextPos = 0;
         for (Button b : tileButtons) {
-            int row = nextPos / Board.NUM_ROWS;
-            int col = nextPos % Board.NUM_COLS;
+            int row = nextPos / SequencerBoard.NUM_ROWS;
+            int col = nextPos % SequencerBoard.NUM_COLS;
             if (isImage()) {
                 int i = board.getTile(row, col).getId() - 1;
                 if (i == 24 || i >= chunckedImages.size()) {
@@ -262,7 +263,7 @@ public class SequencerGameActivity extends AppCompatActivity implements Observer
     @Override
     protected void onPause() {
         super.onPause();
-        saveToFile(StartingActivity.TEMP_SAVE_FILENAME);
+        saveToFile(SequencerStartingActivity.TEMP_SAVE_FILENAME);
     }
 
     /**
@@ -278,7 +279,7 @@ public class SequencerGameActivity extends AppCompatActivity implements Observer
             InputStream inputStream = this.openFileInput(fileName);
             if (inputStream != null) {
                 ObjectInputStream input = new ObjectInputStream(inputStream);
-                boardManager = (BoardManager) input.readObject();
+                boardManager = (SequencerBoardManager) input.readObject();
                 inputStream.close();
             }
         } catch (FileNotFoundException e) {
@@ -332,7 +333,7 @@ public class SequencerGameActivity extends AppCompatActivity implements Observer
 
         Map<String, Object> userInfo = new HashMap<>();
 
-        String boardSize = Board.NUM_ROWS + "x" + Board.NUM_ROWS;
+        String boardSize = SequencerBoard.NUM_ROWS + "x" + SequencerBoard.NUM_ROWS;
 
         //read the current users best scores into a list for sorting and displaying
         readUserScores(boardSize);
@@ -474,7 +475,7 @@ public class SequencerGameActivity extends AppCompatActivity implements Observer
 
         //For height and width of the small image chunks
         int chunkHeight, chunkWidth;
-        int chunkNumbers = Board.NUM_COLS * Board.NUM_ROWS;
+        int chunkNumbers = SequencerBoard.NUM_COLS * SequencerBoard.NUM_ROWS;
 
         //To store all the small image chunks in bitmap format in this list
         ArrayList<Bitmap> chunkedImages = new ArrayList<>(chunkNumbers);

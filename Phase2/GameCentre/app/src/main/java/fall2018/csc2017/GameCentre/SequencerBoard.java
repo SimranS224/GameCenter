@@ -8,9 +8,13 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Observable;
-import java.util.Observer;
 
+/**
+ * The sliding tiles board .
+ * Implements Serializable and Iterable<Tile> Interface
+ */
 public class SequencerBoard extends Observable implements Serializable, Iterable<Tile> {
+
     /**
      * The number of rows.
      */
@@ -43,8 +47,8 @@ public class SequencerBoard extends Observable implements Serializable, Iterable
 
         Iterator<Tile> iter = tiles.iterator();
 
-        for (int row = 0; row != Board.NUM_ROWS; row++) {
-            for (int col = 0; col != Board.NUM_COLS; col++) {
+        for (int row = 0; row != SequencerBoard.NUM_ROWS; row++) {
+            for (int col = 0; col != SequencerBoard.NUM_COLS; col++) {
                 this.tiles[row][col] = iter.next();
             }
         }
@@ -103,7 +107,7 @@ public class SequencerBoard extends Observable implements Serializable, Iterable
     }
 
     /**
-     * Get the size of the Board
+     * Get the size of the SequencerBoard
      * @return the number of rows in the board
      */
     public int getBoardSize() {
@@ -130,7 +134,7 @@ public class SequencerBoard extends Observable implements Serializable, Iterable
 
     @Override
     public String toString() {
-        return "Board{" +
+        return "SequencerBoard{" +
                 "tiles=" + Arrays.toString(tiles) +
                 '}';
     }
@@ -139,13 +143,13 @@ public class SequencerBoard extends Observable implements Serializable, Iterable
     @NonNull
     @Override
     public Iterator<Tile> iterator() {
-        return new SequencerBoard.SequencerBoardIterator();
+        return new BoardIterator();
     }
 
     /**
      * The iterator for the board that implements the Iterator<Tile> Interface
      */
-    private class SequencerBoardIterator implements Iterator<Tile> {
+    private class BoardIterator implements Iterator<Tile> {
 
         /**
          * Row of the next tile in the board
@@ -201,4 +205,3 @@ public class SequencerBoard extends Observable implements Serializable, Iterable
 
     }
 }
-
