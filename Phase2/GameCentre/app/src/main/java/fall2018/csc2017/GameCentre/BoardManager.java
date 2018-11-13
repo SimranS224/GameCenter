@@ -50,10 +50,64 @@ class BoardManager implements Serializable {
             tiles.add(new Tile(tileNum));
         }
         tiles.add(new Tile(24));
-        Collections.shuffle(tiles);
+
+        //check if puzzle is solvable
+        boolean solvable = false;
+
+        while (!solvable) {
+            Collections.shuffle(tiles);
+            solvable = checkPuzzleSolvable(tiles);
+        }
+
         this.board = new Board(tiles);
         this.score = 0;
         stack = new MoveStack();
+    }
+
+    /**
+     * An algorithm to see whether the board is solvable
+     * @return boolean, True if solvable, False otherwise
+     */
+    public boolean checkPuzzleSolvable(List<Tile> tiles) {
+        // calculate number of inversions
+        int inversions = 0;
+        boolean solvable = false;
+        for (int i = 0; i < tiles.size(); i++){
+            //get the ith iteration of the from the tiles list
+            //use it as a reference
+            for(int j = i + 1; j < tiles.size(); j++) {
+                //check whether the ith iteration from tiles list is
+                // greater than jth iteration from tiles list
+                if (tiles.get(i).getId() > tiles.get(j).getId())
+                    inversions += 1;
+            }
+        }
+        //check if number of rows is odd or even
+        // If the grid width is odd, then the number of inversions in a solvable situation is even.
+        if (this.getBoard().getNumRows() % 2 != 0) {
+            if (inversions % 2 == 0) {
+                solvable = true;
+            }
+        }
+        else {
+            // the number of rows is even
+            // If the grid width is even, and the blank is on an odd row counting from the bottom
+            // (first, third-last etc), then the number of inversions in a solvable situation
+            // is odd
+            //check row position of blank tile
+            int position = 0;
+            for (int i = 0; i < tiles.size(); i++){
+                if (tiles.get(i).getId() == 0) {
+                    position = i;
+                    break;
+                }
+            }
+            // get row position
+            int row_pos = position / this.getBoard().getNumCols();
+            solvable = ((row_pos % 2 == 0) && (inversions % 2 == 0)) ||
+                    ((row_pos % 2 != 0) && (inversions % 2 != 0));
+        }
+        return solvable;
     }
 
     /**
