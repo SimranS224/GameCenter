@@ -36,6 +36,8 @@
         <activity android:name=".SequencerSettingsActivity" />
         <activity android:name=".SequencerStartingActivity" />
         <activity android:name=".SequencerGameActivity" />
+        <activity android:name=".TicTacToe.TicTacGameActivity" />
+        <activity android:name=".TicTacToe.TicTacMainActivity" />
 
     </application>
 
