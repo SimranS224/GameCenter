@@ -2,11 +2,13 @@ package fall2018.csc2017.GameCentre.TicTacToe;
 
 import android.content.Context;
 import android.graphics.Bitmap;
-import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.os.Bundle;
 import android.util.Log;
 import android.view.ViewTreeObserver;
 import android.widget.Button;
+
+import fall2018.csc2017.GameCentre.R;
 
 import java.io.IOException;
 import java.io.ObjectOutputStream;
@@ -14,9 +16,8 @@ import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Observer;
 
-import fall2018.csc2017.GameCentre.R;
-
 public class TicTacGameActivity extends AppCompatActivity implements Observer {
+
 
     /**
      * The board manager.
@@ -130,6 +131,11 @@ public class TicTacGameActivity extends AppCompatActivity implements Observer {
         super.onCreate(savedInstanceState);
         boardManager = new TicTacBoardManager();
         setContentView(R.layout.tictac_game_activity);
+        /*if (savedInstanceState == null) {
+            getSupportFragmentManager().beginTransaction()
+                    .replace(R.id.container, Con4GameFragment.newInstance())
+                    .commitNow();
+        }*/
 
         createTileButtons(this);
         // set to tictac_game_activity

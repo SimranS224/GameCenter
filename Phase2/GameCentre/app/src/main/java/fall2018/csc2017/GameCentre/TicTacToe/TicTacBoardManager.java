@@ -4,7 +4,6 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-
 import fall2018.csc2017.GameCentre.R;
 
 /**
@@ -42,7 +41,7 @@ class TicTacBoardManager implements Serializable {
     }
 
     /**
-     * Manage a new shuffled board.
+     * Manage a new board.
      */
     TicTacBoardManager() {
         List<TicTacMarker> ticTacMarkers = new ArrayList<>();
@@ -53,8 +52,8 @@ class TicTacBoardManager implements Serializable {
             }
 
         }
-        //tiles.add(new TicTacMarker(24));
-        this.board = new TicTacBoard(ticTacMarkers);
+        // assume p1 always goes first
+        this.board = new TicTacBoard(ticTacMarkers, true);
         this.score = 0;
         stack = new TicTacMoveStack();
     }
@@ -76,60 +75,120 @@ class TicTacBoardManager implements Serializable {
     }
 
     /**
-     * Return whether the tiles are in row-major order.
-     *
-     * @return True if the tiles are in row major order, false if otherwise.
+     * Checks if all the markers have been filled
+     * @return if the puzzle markers have been filled.
      */
-    boolean puzzleSolved() {
-        Iterator<TicTacMarker> MarkerIterator = this.board.iterator();
-        TicTacMarker past = MarkerIterator.next();
-        boolean solved = true;
-        while (true) {
-            if (MarkerIterator.hasNext()) {
-                TicTacMarker current = MarkerIterator.next();
-                if (past.getId() > current.getId()) {
-                    solved = false;
-                    break;
-                }
-                else {
-                    past = current;
-                }
-            }
-            else {
-                break;
+    boolean isOver() {
+        int count = 0;
+
+        while (count != (board.getCols()* board.getRows())) {
+            if (board.iterator().next().getBackgroundId() != 0) {
+                count++;
             }
         }
-        return solved;
+        if(count == (board.getCols()* board.getRows())) {
+            // board is full and game is over (tie)
+            board.setGameOver(true);
+            return true;
+        } else {
+            return false;
+        }
     }
 
     /**
-     * Return whether any of the four surrounding tiles is the blank tile.
+     * Return whether the tiles are in row-major order.
+     * @param current_player the current player
+     * @return True if the tiles are in row major order, false if otherwise.
+     */
+    boolean puzzleSolved(int current_player) {
+        int background_id = 0;
+        // after turn, check board to see if anyone has one
+        if ((this.board.getMarker(0,0).getBackgroundId() ==
+                this.board.getMarker(0,1).getBackgroundId()) &&
+                ((this.board.getMarker(0,0).getBackgroundId() ==
+                this.board.getMarker(0,2).getBackgroundId()))) {
+            background_id = this.board.getMarker(0,1).getBackgroundId();
+        } else if ((this.board.getMarker(1,0).getBackgroundId() ==
+                this.board.getMarker(1,1).getBackgroundId()) &&
+                ((this.board.getMarker(1,0).getBackgroundId() ==
+                        this.board.getMarker(1,2).getBackgroundId()))) {
+            background_id = this.board.getMarker(1,0).getBackgroundId();
+        } else if ((this.board.getMarker(2,0).getBackgroundId() ==
+                this.board.getMarker(2,1).getBackgroundId()) &&
+                ((this.board.getMarker(2,0).getBackgroundId() ==
+                        this.board.getMarker(2,2).getBackgroundId()))) {
+            background_id = this.board.getMarker(2,0).getBackgroundId();
+        } else if ((this.board.getMarker(0,0).getBackgroundId() ==
+                this.board.getMarker(1,0).getBackgroundId()) &&
+                ((this.board.getMarker(2,0).getBackgroundId() ==
+                        this.board.getMarker(1,0).getBackgroundId()))) {
+            background_id = this.board.getMarker(0,0).getBackgroundId();
+        } else if ((this.board.getMarker(0,1).getBackgroundId() ==
+                this.board.getMarker(1,1).getBackgroundId()) &&
+                ((this.board.getMarker(2,1).getBackgroundId() ==
+                        this.board.getMarker(1,1).getBackgroundId()))) {
+            background_id = this.board.getMarker(1,1).getBackgroundId();
+        } else if ((this.board.getMarker(0,2).getBackgroundId() ==
+                this.board.getMarker(1,2).getBackgroundId()) &&
+                ((this.board.getMarker(2,2).getBackgroundId() ==
+                        this.board.getMarker(1,2).getBackgroundId()))) {
+            background_id = this.board.getMarker(2,2).getBackgroundId();
+        } else if ((this.board.getMarker(0,0).getBackgroundId() ==
+                this.board.getMarker(1,1).getBackgroundId()) &&
+                ((this.board.getMarker(2,2).getBackgroundId() ==
+                        this.board.getMarker(1,1).getBackgroundId()))) {
+            background_id = this.board.getMarker(1,1).getBackgroundId();
+        } else if ((this.board.getMarker(2,0).getBackgroundId() ==
+                this.board.getMarker(1,1).getBackgroundId()) &&
+                ((this.board.getMarker(0,2).getBackgroundId() ==
+                        this.board.getMarker(1,1).getBackgroundId()))) {
+            background_id = this.board.getMarker(1,1).getBackgroundId();
+
+        }
+        if (background_id == board.getPlayerBackground(current_player)) {
+            // current player wins and game is over
+            board.setGameOver(true);
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * Return whether the blank tile is used.
      *
      * @param position the tile to check
-     * @return whether the tile at position is surrounded by a blank tile
+     * @return whether the tile at position is blank tile
      */
     boolean isValidTap(int position) {
 
         int row = position / TicTacBoard.NUM_COLS;
         int col = position % TicTacBoard.NUM_COLS;
-        return (board.getMarker(row,col).getBackground() == R.drawable.blank_marker);
+        return (board.getMarker(row,col).getBackgroundId() == 0);
     }
+
 
     /**
      * Process a touch at position in the board, swapping tiles as appropriate.
      *
      * @param position the position
+     * @return the current player turn
      */
-    void touchMove(int position) {
+    public int touchMove(int position) {
 
         int row = position / TicTacBoard.NUM_COLS;
         int col = position % TicTacBoard.NUM_COLS;
-        int blankId = 25;
-
+        int current_player = board.getCurrentPlayer();
         if (isValidTap(position)) {
             //check whos turn it is and drop the marker accordingly
             //get row and column of blank tile
-            board.getMarker(row, col).setBackground(1);
+            if (board.getCurrentPlayer() == 0) {
+                board.getMarker(row, col).setBackground(board.getP1Background());
+            } else if ((board.getCurrentPlayer() == 1)) {
+                board.getMarker(row, col).setBackground(board.getP2_background());
+            }
+            // change player turns after tap
+            board.changeTurns();
+
  /*           int blankPos = 0;
             Iterator<TicTacMarker> iter = board.iterator();
             while (iter.next().getId() != blankId) {
@@ -147,7 +206,7 @@ class TicTacBoardManager implements Serializable {
 
         }
         score++;
-
+        return current_player;
     }
 
 }

@@ -16,13 +16,22 @@ class TicTacMovementController {
     }
 
     void processTapMovement(Context context, int position) {
+        if (boardManager.getBoard().getGameOver() == true) {
+            return;
+        }
         if (boardManager.isValidTap(position)) {
-            boardManager.touchMove(position);
-            // check i f game is solved
-            Toast.makeText(context, "Add code to check puzzleSolved()", Toast.LENGTH_SHORT).show();
-            //if (boardManager.puzzleSolved()) {
-            //    Toast.makeText(context, "YOU WIN!", Toast.LENGTH_SHORT).show();
-            //}
+            int current_player =  boardManager.touchMove(position);
+            // check if game is solved
+            // Toast.makeText(context, "Add code to check puzzleSolved()", Toast.LENGTH_SHORT).show();
+            if (boardManager.puzzleSolved(current_player)) {
+                if(current_player == 0) {
+                    Toast.makeText(context, "P1 WIN!", Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(context, "P2 WIN!", Toast.LENGTH_SHORT).show();
+                }
+            }
+        } else if (boardManager.isOver()) {
+            Toast.makeText(context, "TIE", Toast.LENGTH_SHORT).show();
         } else {
             Toast.makeText(context, "Invalid Tap: position:" + position , Toast.LENGTH_SHORT).show();
         }
