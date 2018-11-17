@@ -43,6 +43,7 @@ public class LeaderBoardMain extends AppCompatActivity {
         switchToMyBestScores();
         switchTo3x3();
         switchTo5x5();
+        swipe_test();
         getUserDatabaseReference();
 
         // gets called when activity starts, and whenever a change is made to the database
@@ -61,6 +62,19 @@ public class LeaderBoardMain extends AppCompatActivity {
         });
 
 
+    }
+
+    private void swipe_test() {
+        Button test_button = findViewById(R.id.swipe_test);
+        test_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(LeaderBoardMain.this, swipeTest.class);
+                startActivity(intent);
+                finish();
+
+            }
+        });
     }
 
     /**
