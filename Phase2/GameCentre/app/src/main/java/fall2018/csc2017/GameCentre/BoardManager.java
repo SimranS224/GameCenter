@@ -104,8 +104,8 @@ class BoardManager implements Serializable {
             }
             // get row position
             int row_pos = position / this.getBoard().getNumCols();
-            solvable = ((row_pos % 2 == 0) && (inversions % 2 == 0)) ||
-                    ((row_pos % 2 != 0) && (inversions % 2 != 0));
+            solvable = ((row_pos % 2 != 0) && (inversions % 2 == 0)) ||
+                    ((row_pos % 2 == 0) && (inversions % 2 != 0));
         }
         return solvable;
     }
