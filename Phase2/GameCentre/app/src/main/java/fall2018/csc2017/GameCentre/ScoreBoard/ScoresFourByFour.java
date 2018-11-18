@@ -8,7 +8,7 @@ import java.util.ArrayList;
 public class ScoresFourByFour extends ScoresForAllUserData {
     private static ArrayList<String> allCurrentUserScores3;
 
-    ScoresFourByFour() {
+    public ScoresFourByFour() {
         super();
         allCurrentUserScores3 = new ArrayList<>();
     }}

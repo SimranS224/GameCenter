@@ -54,4 +54,5 @@
     <string name="email_address2">Email Address</string>
     <string name="login_">Login</string>
     <string name="logo">logo</string>
+    <string name="message_here">message_here</string>
 </resources>

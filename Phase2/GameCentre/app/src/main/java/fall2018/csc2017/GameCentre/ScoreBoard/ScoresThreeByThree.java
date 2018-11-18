@@ -8,7 +8,7 @@ import java.util.ArrayList;
 public class ScoresThreeByThree extends ScoresForAllUserData {
     private static ArrayList<String> allCurrentUserScores3;
 
-    ScoresThreeByThree() {
+    public ScoresThreeByThree() {
         super();
         allCurrentUserScores3 = new ArrayList<>();
     }}

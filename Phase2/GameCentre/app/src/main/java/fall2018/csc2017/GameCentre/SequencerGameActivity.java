@@ -1,5 +1,8 @@
 package fall2018.csc2017.GameCentre;
 
+import fall2018.csc2017.GameCentre.ScoreBoard.ScoresFourByFour;
+import fall2018.csc2017.GameCentre.ScoreBoard.ScoresFiveByFive;
+import fall2018.csc2017.GameCentre.ScoreBoard.ScoresThreeByThree;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;

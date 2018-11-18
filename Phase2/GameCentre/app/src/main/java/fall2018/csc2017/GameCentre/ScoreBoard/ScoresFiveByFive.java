@@ -8,7 +8,7 @@ import java.util.ArrayList;
 public class ScoresFiveByFive extends ScoresForAllUserData {
     private static ArrayList<String> allCurrentUserScores5;
 
-    ScoresFiveByFive() {
+    public ScoresFiveByFive() {
         super();
         allCurrentUserScores5 = new ArrayList<>();
     }}
