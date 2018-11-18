@@ -1,18 +1,19 @@
 package fall2018.csc2017.GameCentre;
 
 import android.support.annotation.NonNull;
-import java.util.NoSuchElementException;
-import java.util.Observable;
+
 import java.io.Serializable;
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
+import java.util.NoSuchElementException;
+import java.util.Observable;
 
 /**
  * The sliding tiles board .
  * Implements Serializable and Iterable<Tile> Interface
  */
-public class Board extends Observable implements Serializable, Iterable<Tile> {
+public class SequencerBoard extends Observable implements Serializable, Iterable<Tile> {
 
     /**
      * The number of rows.
@@ -42,16 +43,15 @@ public class Board extends Observable implements Serializable, Iterable<Tile> {
      *
      * @param tiles the tiles for the board
      */
-    Board(List<Tile> tiles) {
+    SequencerBoard(List<Tile> tiles) {
 
         Iterator<Tile> iter = tiles.iterator();
 
-        for (int row = 0; row != Board.NUM_ROWS; row++) {
-            for (int col = 0; col != Board.NUM_COLS; col++) {
+        for (int row = 0; row != SequencerBoard.NUM_ROWS; row++) {
+            for (int col = 0; col != SequencerBoard.NUM_COLS; col++) {
                 this.tiles[row][col] = iter.next();
             }
         }
-
     }
 
     /**
@@ -65,21 +65,6 @@ public class Board extends Observable implements Serializable, Iterable<Tile> {
         return tiles[row][col];
     }
 
-    /**
-     * Get number of rows of the board
-     * @return the number of rows of the board
-     */
-    public static int getNumRows() {
-        return Board.NUM_ROWS;
-    }
-
-    /**
-     * Get number of cols of the board
-     * @return the number of cols of the board
-     */
-    public static int getNumCols() {
-        return Board.NUM_COLS;
-    }
     /**
      * Set the size of the board
      * @param size the size of the board
@@ -122,7 +107,7 @@ public class Board extends Observable implements Serializable, Iterable<Tile> {
     }
 
     /**
-     * Get the size of the Board
+     * Get the size of the SequencerBoard
      * @return the number of rows in the board
      */
     public int getBoardSize() {
@@ -149,7 +134,7 @@ public class Board extends Observable implements Serializable, Iterable<Tile> {
 
     @Override
     public String toString() {
-        return "Board{" +
+        return "SequencerBoard{" +
                 "tiles=" + Arrays.toString(tiles) +
                 '}';
     }

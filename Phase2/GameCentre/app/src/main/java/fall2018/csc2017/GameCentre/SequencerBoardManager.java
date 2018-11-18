@@ -9,7 +9,7 @@ import java.util.List;
 /**
  * Manage a board, including swapping tiles, checking for a win, and managing taps.
  */
-class BoardManager implements Serializable {
+class SequencerBoardManager implements Serializable {
 
     /**
      * score
@@ -19,7 +19,7 @@ class BoardManager implements Serializable {
     /**
      * The board being managed.
      */
-    private Board board;
+    private SequencerBoard board;
     MoveStack stack;
 
     /**
@@ -27,7 +27,7 @@ class BoardManager implements Serializable {
      *
      * @param board the board
      */
-    BoardManager(Board board) {
+    SequencerBoardManager(SequencerBoard board) {
         this.board = board;
         this.score = 0;
         this.stack = new MoveStack();
@@ -36,78 +36,24 @@ class BoardManager implements Serializable {
     /**
      * Return the current board.
      */
-    Board getBoard() {
+    SequencerBoard getBoard() {
         return board;
     }
 
     /**
      * Manage a new shuffled board.
      */
-    BoardManager() {
+    SequencerBoardManager() {
         List<Tile> tiles = new ArrayList<>();
-        final int numTiles = Board.NUM_ROWS * Board.NUM_COLS;
+        final int numTiles = SequencerBoard.NUM_ROWS * SequencerBoard.NUM_COLS;
         for (int tileNum = 0; tileNum != (numTiles-1); tileNum++) {
             tiles.add(new Tile(tileNum));
         }
         tiles.add(new Tile(24));
-
-        //check if puzzle is solvable
-        boolean solvable = false;
-
-        while (!solvable) {
-            Collections.shuffle(tiles);
-            solvable = checkPuzzleSolvable(tiles);
-        }
-
-        this.board = new Board(tiles);
+        Collections.shuffle(tiles);
+        this.board = new SequencerBoard(tiles);
         this.score = 0;
         stack = new MoveStack();
-    }
-
-    /**
-     * An algorithm to see whether the board is solvable
-     * @return boolean, True if solvable, False otherwise
-     */
-    public boolean checkPuzzleSolvable(List<Tile> tiles) {
-        // calculate number of inversions
-        int inversions = 0;
-        boolean solvable = false;
-        for (int i = 0; i < tiles.size(); i++){
-            //get the ith iteration of the from the tiles list
-            //use it as a reference
-            for(int j = i + 1; j < tiles.size(); j++) {
-                //check whether the ith iteration from tiles list is
-                // greater than jth iteration from tiles list
-                if (tiles.get(i).getId() > tiles.get(j).getId())
-                    inversions += 1;
-            }
-        }
-        //check if number of rows is odd or even
-        // If the grid width is odd, then the number of inversions in a solvable situation is even.
-        if (this.getBoard().getNumRows() % 2 != 0) {
-            if (inversions % 2 == 0) {
-                solvable = true;
-            }
-        }
-        else {
-            // the number of rows is even
-            // If the grid width is even, and the blank is on an odd row counting from the bottom
-            // (first, third-last etc), then the number of inversions in a solvable situation
-            // is odd
-            //check row position of blank tile
-            int position = 0;
-            for (int i = 0; i < tiles.size(); i++){
-                if (tiles.get(i).getId() == 0) {
-                    position = i;
-                    break;
-                }
-            }
-            // get row position
-            int row_pos = position / this.getBoard().getNumCols();
-            solvable = ((row_pos % 2 == 0) && (inversions % 2 == 0)) ||
-                    ((row_pos % 2 != 0) && (inversions % 2 != 0));
-        }
-        return solvable;
     }
 
     /**
@@ -161,14 +107,14 @@ class BoardManager implements Serializable {
      */
     boolean isValidTap(int position) {
 
-        int row = position / Board.NUM_COLS;
-        int col = position % Board.NUM_COLS;
+        int row = position / SequencerBoard.NUM_COLS;
+        int col = position % SequencerBoard.NUM_COLS;
         int blankId = 25;
         // Are any of the 4 the blank tile?
         Tile above = row == 0 ? null : board.getTile(row - 1, col);
-        Tile below = row == Board.NUM_ROWS - 1 ? null : board.getTile(row + 1, col);
+        Tile below = row == SequencerBoard.NUM_ROWS - 1 ? null : board.getTile(row + 1, col);
         Tile left = col == 0 ? null : board.getTile(row, col - 1);
-        Tile right = col == Board.NUM_COLS - 1 ? null : board.getTile(row, col + 1);
+        Tile right = col == SequencerBoard.NUM_COLS - 1 ? null : board.getTile(row, col + 1);
         return (below != null && below.getId() == blankId)
                 || (above != null && above.getId() == blankId)
                 || (left != null && left.getId() == blankId)
@@ -182,8 +128,8 @@ class BoardManager implements Serializable {
      */
     void touchMove(int position) {
 
-        int row = position / Board.NUM_ROWS;
-        int col = position % Board.NUM_COLS;
+        int row = position / SequencerBoard.NUM_ROWS;
+        int col = position % SequencerBoard.NUM_COLS;
         int blankId = 25;
 
         if (isValidTap(position)) {
@@ -194,8 +140,8 @@ class BoardManager implements Serializable {
             while (iter.next().getId() != blankId) {
                 blankPos++;
             }
-            int blankRow = blankPos / Board.NUM_ROWS;
-            int blankCol = blankPos % Board.NUM_COLS;
+            int blankRow = blankPos / SequencerBoard.NUM_ROWS;
+            int blankCol = blankPos % SequencerBoard.NUM_COLS;
 
             //swap them
             board.swapTiles(row, col, blankRow, blankCol);

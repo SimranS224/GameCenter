@@ -8,8 +8,8 @@ import java.util.Set;
 /**
  * Parent abstract class for the current user scores.
  */
-abstract class ScoresForAllUserData {
-    private static ArrayList<String> allCurrentUserScores;
+public class ScoresForAllUserData {
+    private ArrayList<String> allCurrentUserScores;
 
     /**
      * Initiates the class

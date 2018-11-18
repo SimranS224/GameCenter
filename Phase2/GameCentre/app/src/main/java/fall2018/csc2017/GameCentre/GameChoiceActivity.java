@@ -51,6 +51,7 @@ public class GameChoiceActivity extends AppCompatActivity {
         getUserInfoFromDatabase();
 
         addSlidingTilesButtonListener();
+        addSequencerButtonListener();
 
         addLogoutButtonListener();
     }
@@ -88,6 +89,17 @@ public class GameChoiceActivity extends AppCompatActivity {
             }
         });
 
+    }
+    private void addSequencerButtonListener() {
+        Button mSequencerButton = findViewById(R.id.Sequencer);
+        mSequencerButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(GameChoiceActivity.this,SequencerStartingActivity.class);
+                startActivity(intent);
+                finish();
+            }
+        });
     }
 
     /**

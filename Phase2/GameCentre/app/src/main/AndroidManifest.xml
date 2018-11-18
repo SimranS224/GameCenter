@@ -32,7 +32,13 @@
         <activity android:name=".LocalThreeByThree" />
         <activity android:name=".SettingsActivity" />
         <activity android:name=".FirstActivity" />
-        <activity android:name=".GameChoiceActivity"></activity>
+        <activity android:name=".GameChoiceActivity" />
+        <activity android:name=".SequencerSettingsActivity" />
+        <activity android:name=".SequencerStartingActivity" />
+        <activity android:name=".SequencerGameActivity" />
+        <activity android:name=".TicTacToe.TicTacGameActivity" />
+        <activity android:name=".TicTacToe.TicTacMainActivity" />
+
     </application>
 
 </manifest>

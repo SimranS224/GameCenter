@@ -1,28 +1,29 @@
-package fall2018.csc2017.GameCentre;
+package fall2018.csc2017.GameCentre.TicTacToe;
 
 import android.support.annotation.NonNull;
-import java.util.NoSuchElementException;
-import java.util.Observable;
+
 import java.io.Serializable;
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
+import java.util.NoSuchElementException;
+import java.util.Observable;
 
 /**
- * The sliding tiles board .
- * Implements Serializable and Iterable<Tile> Interface
+ * The sliding ticTacMarkers board .
+ * Implements Serializable and Iterable<TicTacMarker> Interface
  */
-public class Board extends Observable implements Serializable, Iterable<Tile> {
+public class TicTacBoard extends Observable implements Serializable, Iterable<TicTacMarker> {
 
     /**
      * The number of rows.
      */
-    static int NUM_ROWS = 4;
+    static int NUM_ROWS = 3;
 
     /**
      * The number of rows.
      */
-    static int NUM_COLS = 4;
+    static int NUM_COLS = 3;
     /**
      * Type of the board, number or image.
      */
@@ -33,53 +34,37 @@ public class Board extends Observable implements Serializable, Iterable<Tile> {
     private static String IMAGE = "Flower";
 
     /**
-     * The tiles on the board in row-major order.
+     * The ticTacMarkers on the board in row-major order.
      */
-    private Tile[][] tiles = new Tile[NUM_ROWS][NUM_COLS];
+    private TicTacMarker[][] ticTacMarkers = new TicTacMarker[NUM_ROWS][NUM_COLS];
     /**
-     * A new board of tiles in row-major order.
-     * Precondition: len(tiles) == NUM_ROWS * NUM_COLS
+     * A new board of ticTacMarkers in row-major order.
+     * Precondition: len(ticTacMarkers) == NUM_ROWS * NUM_COLS
      *
-     * @param tiles the tiles for the board
+     * @param ticTacMarkers the ticTacMarkers for the board
      */
-    Board(List<Tile> tiles) {
+    TicTacBoard(List<TicTacMarker> ticTacMarkers) {
 
-        Iterator<Tile> iter = tiles.iterator();
+        Iterator<TicTacMarker> iter = ticTacMarkers.iterator();
 
-        for (int row = 0; row != Board.NUM_ROWS; row++) {
-            for (int col = 0; col != Board.NUM_COLS; col++) {
-                this.tiles[row][col] = iter.next();
+        for (int row = 0; row < TicTacBoard.NUM_ROWS; row++) {
+            for (int col = 0; col < TicTacBoard.NUM_COLS; col++) {
+                this.ticTacMarkers[row][col] = iter.next();
             }
         }
-
     }
 
     /**
-     * Return the tile at (row, col)
+     * Return the TicTacMarker at (row, col)
      *
-     * @param row the tile row
-     * @param col the tile column
-     * @return the tile at (row, col)
+     * @param row the TicTacMarker row
+     * @param col the TicTacMarker column
+     * @return the TicTacMarker at (row, col)
      */
-    Tile getTile(int row, int col) {
-        return tiles[row][col];
+    TicTacMarker getMarker(int row, int col) {
+        return ticTacMarkers[row][col];
     }
 
-    /**
-     * Get number of rows of the board
-     * @return the number of rows of the board
-     */
-    public static int getNumRows() {
-        return Board.NUM_ROWS;
-    }
-
-    /**
-     * Get number of cols of the board
-     * @return the number of cols of the board
-     */
-    public static int getNumCols() {
-        return Board.NUM_COLS;
-    }
     /**
      * Set the size of the board
      * @param size the size of the board
@@ -130,17 +115,27 @@ public class Board extends Observable implements Serializable, Iterable<Tile> {
     }
 
     /**
-     * Swap the tiles at (row1, col1) and (row2, col2)
+     * Swap the ticTacMarkers at (row1, col1) and (row2, col2)
      *
-     * @param row1 the first tile row
-     * @param col1 the first tile col
-     * @param row2 the second tile row
-     * @param col2 the second tile col
+     * @param row1 the first TicTacMarker row
+     * @param col1 the first TicTacMarker col
+     * @param row2 the second TicTacMarker row
+     * @param col2 the second TicTacMarker col
      */
-    void swapTiles(int row1, int col1, int row2, int col2) {
-        Tile temp = tiles[row1][col1]; //to store original tile
-        tiles[row1][col1] = tiles[row2][col2];
-        tiles[row2][col2] = temp;
+    void swapMarkers(int row1, int col1, int row2, int col2) {
+        TicTacMarker temp = ticTacMarkers[row1][col1]; //to store original TicTacMarker
+        ticTacMarkers[row1][col1] = ticTacMarkers[row2][col2];
+        ticTacMarkers[row2][col2] = temp;
+
+
+        setChanged();
+        notifyObservers();
+    }
+
+    // set background
+    void setBackground(int row, int col, int background) {
+        ticTacMarkers[row][col].setBackground(background); //to store original TicTacMarker
+
 
 
         setChanged();
@@ -150,29 +145,29 @@ public class Board extends Observable implements Serializable, Iterable<Tile> {
     @Override
     public String toString() {
         return "Board{" +
-                "tiles=" + Arrays.toString(tiles) +
+                "ticTacMarkers=" + Arrays.toString(ticTacMarkers) +
                 '}';
     }
 
     //implementing the iterator
     @NonNull
     @Override
-    public Iterator<Tile> iterator() {
+    public Iterator<TicTacMarker> iterator() {
         return new BoardIterator();
     }
 
     /**
-     * The iterator for the board that implements the Iterator<Tile> Interface
+     * The iterator for the board that implements the Iterator<TicTacMarker> Interface
      */
-    private class BoardIterator implements Iterator<Tile> {
+    private class BoardIterator implements Iterator<TicTacMarker> {
 
         /**
-         * Row of the next tile in the board
+         * Row of the next TicTacMarker in the board
          */
         int nextRow = 0;
 
         /**
-         * Column of the next tile in the board
+         * Column of the next TicTacMarker in the board
          */
         int nextColumn = 0;
 
@@ -182,7 +177,7 @@ public class Board extends Observable implements Serializable, Iterable<Tile> {
         }
 
         @Override
-        public Tile next() {
+        public TicTacMarker next() {
 
             if (!this.hasNext()) {
                 throw new NoSuchElementException("End of board reached");
@@ -193,8 +188,8 @@ public class Board extends Observable implements Serializable, Iterable<Tile> {
                 //iterate through the columns of the board
                 if (nextColumn < NUM_COLS) {
 
-                    if (tiles[nextRow][nextColumn] != null) {
-                        Tile nextTile = tiles[nextRow][nextColumn];
+                    if (ticTacMarkers[nextRow][nextColumn] != null) {
+                        TicTacMarker nextTicTacMarker = ticTacMarkers[nextRow][nextColumn];
                         nextColumn++;
 
                         //reset nextColumn and nextRow if end of column reached
@@ -202,7 +197,7 @@ public class Board extends Observable implements Serializable, Iterable<Tile> {
                             nextColumn = 0;
                             nextRow++;
                         }
-                        return nextTile;
+                        return nextTicTacMarker;
                     } else {
                         nextColumn++;
                         //reset nextColumn and nextRow if end of column reached
@@ -216,7 +211,6 @@ public class Board extends Observable implements Serializable, Iterable<Tile> {
             }
             return null;
         }
-
 
     }
 }
