@@ -1,8 +1,10 @@
-package fall2018.csc2017.GameCentre;
+package fall2018.csc2017.GameCentre.ScoreBoard;
 
 
 import java.util.ArrayList;
 import java.util.Collections;
+
+import fall2018.csc2017.GameCentre.ScoreBoard.Scores;
 
 
 /**
@@ -70,7 +72,7 @@ public class UserScores {
      *
      * @return True if the array is empty, False if the array is not empty.
      */
-    boolean isEmpty() {
+    public boolean isEmpty() {
         return array.size() == 0;
     }
 

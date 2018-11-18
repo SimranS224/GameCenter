@@ -1,4 +1,4 @@
-package fall2018.csc2017.GameCentre;
+package fall2018.csc2017.GameCentre.ScoreBoard;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -7,8 +7,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.TextView;
 
-// firebase imports
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -17,27 +17,36 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.Map;
 
-/**
- * Used to display and store the Three by Three global scores.
- */
-public class GlobalThreeByThree extends AppCompatActivity {
+import fall2018.csc2017.GameCentre.R;
 
-    //ref pointing to user database where we get id from
+/**
+ * Leader board class
+ */
+public class LeaderBoardMain extends AppCompatActivity {
+
+    /**
+     * Firebase Database reference pointing to the current user
+     */
     private DatabaseReference mUserDatabase;
+    /**
+     * The TextView representing number of Undos left in the current game
+     */
+    TextView textView;
+
     // the listview
     private ListView listLead;
     private UserScores allUsers = new UserScores(); // all the users
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_leaderboard_global_3);
+        setContentView(R.layout.activity_leaderboard);
 
-        listLead = findViewById(R.id.listLead3);
+        listLead = findViewById(R.id.listLead);
         switchToMyBestScores();
-        switchTo4x4();
+        switchTo3x3();
         switchTo5x5();
+        swipe_test();
         getUserDatabaseReference();
-
 
         // gets called when activity starts, and whenever a change is made to the database
         mUserDatabase.addValueEventListener(new ValueEventListener() {
@@ -57,15 +66,28 @@ public class GlobalThreeByThree extends AppCompatActivity {
 
     }
 
+    private void swipe_test() {
+        Button test_button = findViewById(R.id.swipe_test);
+        test_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(LeaderBoardMain.this, swipeTest.class);
+                startActivity(intent);
+                finish();
+
+            }
+        });
+    }
+
     /**
-     * Activate the switch to 4x4b utton.
+     * Activate the switch to 3x3 button.
      */
-    private void switchTo4x4() {
-        Button globalRankButton = findViewById(R.id.globalHigh4);
+    private void switchTo3x3() {
+        Button globalRankButton = findViewById(R.id.globalHigh3);
         globalRankButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(GlobalThreeByThree.this, LeaderBoardMain.class);
+                Intent intent = new Intent(LeaderBoardMain.this, GlobalThreeByThree.class);
                 startActivity(intent);
                 finish();
 
@@ -81,7 +103,7 @@ public class GlobalThreeByThree extends AppCompatActivity {
         globalRankButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(GlobalThreeByThree.this, GlobalFiveByFive.class);
+                Intent intent = new Intent(LeaderBoardMain.this, GlobalFiveByFive.class);
                 startActivity(intent);
                 finish();
 
@@ -90,14 +112,14 @@ public class GlobalThreeByThree extends AppCompatActivity {
     }
 
     /**
-     * Activate the swtich to my best rankings button.
+     * Activate the switch to my best rankings button.
      */
     private void switchToMyBestScores() {
         Button switchMyScore = findViewById(R.id.switchMyScores);
         switchMyScore.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(GlobalThreeByThree.this, LeaderBoardCurrentUser.class);
+                Intent intent = new Intent(LeaderBoardMain.this, LeaderBoardCurrentUser.class);
                 startActivity(intent);
                 finish();
 
@@ -106,15 +128,14 @@ public class GlobalThreeByThree extends AppCompatActivity {
     }
 
     /**
-     * Reads the data from the databse from Firebase.
+     * Reads the data from the DataSnapshot from Firebase
      *
-     * @param d snapshot
+     * @param d The snapshot
      */
     private void readData(DataSnapshot d) {
         for (DataSnapshot dataSnapshot : d.getChildren()) {
             if (dataSnapshot.exists() && dataSnapshot.getChildrenCount() > 0) {
                 Map<String, Object> map = (Map<String, Object>) dataSnapshot.getValue();
-
                 assert map != null;
                 if (map.get("Name") != null) {
                     String name = map.get("Name").toString();
@@ -123,7 +144,6 @@ public class GlobalThreeByThree extends AppCompatActivity {
                     userScore.setName(name);
 
                     userScore.setScore(score);
-
                     if (!userScore.getScore().equals("NA")) {
                         allUsers.add(userScore);
                     }
@@ -137,21 +157,21 @@ public class GlobalThreeByThree extends AppCompatActivity {
     }
 
     /**
-     * Returns wining score from Firebase map.
+     * Get the winning score for this leaderboard
      *
      * @param map from Firebase
-     * @return Winning score
+     * @return returns the score in String form
      */
     public String returnWinningScore(Map<String, Object> map) {
-        if (map.get("First_Best_Time3x3") != null) {
-            return map.get("First_Best_Time3x3").toString();
+        if (map.get("First_Best_Time4x4") != null) {
+            return map.get("First_Best_Time4x4").toString();
         } else {
             return "NA";
         }
     }
 
     /**
-     * Gets reference from Firebase database
+     * Gets user reference from Firebase.
      */
     private void getUserDatabaseReference() {
         mUserDatabase = FirebaseDatabase.getInstance().getReference("Users").child("userId");
