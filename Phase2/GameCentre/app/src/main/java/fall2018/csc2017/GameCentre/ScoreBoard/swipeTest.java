@@ -1,9 +1,11 @@
-package fall2018.csc2017.GameCentre;
+package fall2018.csc2017.GameCentre.ScoreBoard;
 
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
+
+import fall2018.csc2017.GameCentre.R;
 
 
 public class swipeTest extends FragmentActivity {

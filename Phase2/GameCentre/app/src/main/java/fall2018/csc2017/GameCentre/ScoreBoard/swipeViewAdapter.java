@@ -1,8 +1,10 @@
-package fall2018.csc2017.GameCentre;
+package fall2018.csc2017.GameCentre.ScoreBoard;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.os.Bundle;
+
+import fall2018.csc2017.GameCentre.ScoreBoard.DemoFragment;
 
 
 public class swipeViewAdapter extends FragmentStatePagerAdapter{
