@@ -8,11 +8,11 @@
     android:focusableInTouchMode="true"
     android:orientation="vertical">
 
-    <com.example.gosen.tictac.TicTacGridView xmlns:app="http://schemas.android.com/apk/res-auto"
+    <fall2018.csc2017.GameCentre.TicTacToe.TicTacGridView xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
         android:id="@+id/gridView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context="com.example.gosen.tictac.TicTacGameActivity" />
+        tools:context=".TicTacToe.TicTacGameActivity" />
 
 </LinearLayout>

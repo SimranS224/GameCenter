@@ -1,5 +1,4 @@
 package fall2018.csc2017.GameCentre.TicTacToe;
-
 /*
 Taken from:
 https://github.com/DaveNOTDavid/sample-puzzle/blob/master/app/src/main/java/com/davenotdavid/samplepuzzle/CustomAdapter.java

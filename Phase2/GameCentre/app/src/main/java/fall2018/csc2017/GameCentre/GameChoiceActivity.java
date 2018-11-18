@@ -18,6 +18,8 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.Map;
 import java.util.Objects;
 
+import fall2018.csc2017.GameCentre.TicTacToe.TicTacMainActivity;
+
 /**
  * Activity where the user chooses the Game to play.
  */
@@ -52,7 +54,7 @@ public class GameChoiceActivity extends AppCompatActivity {
 
         addSlidingTilesButtonListener();
         addSequencerButtonListener();
-
+        addTicTacToeButtonListener();
         addLogoutButtonListener();
     }
 
@@ -96,6 +98,18 @@ public class GameChoiceActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(GameChoiceActivity.this,SequencerStartingActivity.class);
+                startActivity(intent);
+                finish();
+            }
+        });
+    }
+
+    private void addTicTacToeButtonListener() {
+        Button mSequencerButton = findViewById(R.id.TicTacToe);
+        mSequencerButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(GameChoiceActivity.this,TicTacMainActivity.class);
                 startActivity(intent);
                 finish();
             }

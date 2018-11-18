@@ -14,6 +14,9 @@ import java.util.Observable;
  * Implements Serializable and Iterable<TicTacMarker> Interface
  */
 public class TicTacBoard extends Observable implements Serializable, Iterable<TicTacMarker> {
+
+    private static int P1_ID = 0;
+    private static int P2_ID = 1;
     /**
      * The first player
      */
@@ -123,6 +126,14 @@ public class TicTacBoard extends Observable implements Serializable, Iterable<Ti
     public int getCurrentPlayer() {
         return this.current_player;
     }
+
+    /**
+     * Return player2 id
+     */
+    public int getPlayer2() {
+        return this.P2_ID;
+    }
+
 
     /**
      * Return background

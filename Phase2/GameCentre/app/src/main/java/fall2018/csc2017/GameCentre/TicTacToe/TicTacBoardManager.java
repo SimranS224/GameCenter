@@ -1,15 +1,26 @@
 package fall2018.csc2017.GameCentre.TicTacToe;
 
+import fall2018.csc2017.GameCentre.R;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-import fall2018.csc2017.GameCentre.R;
 
 /**
  * Manage a board, including swapping tiles, checking for a win, and managing taps.
  */
 class TicTacBoardManager implements Serializable {
+
+
+    /**
+     * movement controller
+     */
+    private TicTacMovementController mController;
+
+    /**
+     * strategy
+     */
+    private TicTacStrategy strategy;
 
     /**
      * score
@@ -41,9 +52,18 @@ class TicTacBoardManager implements Serializable {
     }
 
     /**
+     * Return the strategy
+     */
+    public TicTacStrategy getStrategy() {
+        return this.strategy;
+    }
+    /**
      * Manage a new board.
      */
-    TicTacBoardManager() {
+    TicTacBoardManager(TicTacStrategy strategy) {
+        this.strategy = strategy;
+        mController = new TicTacMovementController();
+
         List<TicTacMarker> ticTacMarkers = new ArrayList<>();
         final int numMarkers = TicTacBoard.NUM_ROWS * TicTacBoard.NUM_COLS;
         for (int row = 0; row < TicTacBoard.NUM_ROWS; row++) {
@@ -74,13 +94,17 @@ class TicTacBoardManager implements Serializable {
         score = s;
     }
 
+
     /**
      * Checks if all the markers have been filled
      * @return if the puzzle markers have been filled.
      */
     boolean isOver() {
         int count = 0;
-
+        //check if the game oover flag is set
+        if (board.getGameOver()) {
+            return true;
+        }
         while (count != (board.getCols()* board.getRows())) {
             if (board.iterator().next().getBackgroundId() != 0) {
                 count++;
@@ -166,6 +190,16 @@ class TicTacBoardManager implements Serializable {
         return (board.getMarker(row,col).getBackgroundId() == 0);
     }
 
+    public ArrayList<Integer> getValidMoves() {
+        ArrayList<Integer> validMoves = new ArrayList<Integer>();
+        for (int position = 0; position < board.getRows() * board.getCols(); position++) {
+            if (isValidTap(position)) {
+                Integer IntPos = new Integer(position);
+                validMoves.add(IntPos);
+            }
+        }
+        return validMoves;
+    }
 
     /**
      * Process a touch at position in the board, swapping tiles as appropriate.

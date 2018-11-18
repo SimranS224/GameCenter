@@ -7,7 +7,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.ViewTreeObserver;
 import android.widget.Button;
-
+import android.widget.Toast;
 import fall2018.csc2017.GameCentre.R;
 
 import java.io.IOException;
@@ -129,7 +129,27 @@ public class TicTacGameActivity extends AppCompatActivity implements Observer {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        boardManager = new TicTacBoardManager();
+        Bundle b = getIntent().getExtras();
+        int gametype = -1; // or other values
+        int depth = -1;
+        if(b != null) {
+            gametype = b.getInt("gametype");
+            depth = b.getInt("depth");
+        }
+        if (gametype == -1) {
+            //Toast.makeText(getApplicationContext(), "Invalid game type", Toast.LENGTH_SHORT).show();
+            return;
+        } else if (gametype == TicTacMainActivity.PLAYER_TO_PLAYER) {
+            //PLAYER TO PLAYER CASE
+            boardManager = new TicTacBoardManager(new TicTacEmptyStrategy(depth));
+        } else if (gametype == TicTacMainActivity.PLAYER_TO_RANDOM) {
+            //PLAYER TO RANDOM AI CASE
+            boardManager = new TicTacBoardManager(new TicTacRandomStrategy(depth));
+        } else if (gametype == TicTacMainActivity.PLAYER_TO_AI) {
+            //PLAYER TO MINIMAX AI CASE
+            boardManager = new TicTacBoardManager(new TicTacMinimaxStrategy(depth));
+        }
+
         setContentView(R.layout.tictac_game_activity);
         /*if (savedInstanceState == null) {
             getSupportFragmentManager().beginTransaction()
