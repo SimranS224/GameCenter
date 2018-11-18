@@ -1,10 +1,8 @@
 package fall2018.csc2017.GameCentre.TicTacToe;
 
 import android.support.annotation.NonNull;
-
-import java.io.Serializable;
-
 import fall2018.csc2017.GameCentre.R;
+import java.io.Serializable;
 
 /**
  * A Tile in a sliding tiles puzzle.
@@ -15,6 +13,7 @@ public class TicTacMarker implements Comparable<TicTacMarker>, Serializable {
      * The background id to find the tile image.
      */
     private int background;
+    private int backgroundid;
     private int row;
     private int column;
     /**
@@ -27,13 +26,22 @@ public class TicTacMarker implements Comparable<TicTacMarker>, Serializable {
      *
      * @return the background id
      */
-    public int getBackground() {
-        return background;
+    public int getBackgroundId() {
+        return backgroundid;
     }
 
-    public void setBackground(int background) {
-        //this.background = background;
-        switch (background) {
+    /**
+     * Return the background.
+     *
+     * @return the background
+     */
+    public int getBackground() {
+        return this.background;
+    }
+
+    public void setBackground(int backgroundid) {
+        this.backgroundid = backgroundid;
+        switch (this.backgroundid) {
             case 0:
                 this.background = R.drawable.blank_marker;
                 break;
@@ -62,11 +70,12 @@ public class TicTacMarker implements Comparable<TicTacMarker>, Serializable {
      * A Tile with id and background. The background may not have a corresponding image.
      *
      * @param id         the id
-     * @param background the background
+     * @param backgroundid the background
      */
-    TicTacMarker(int id, int background) {
+    TicTacMarker(int id, int backgroundid) {
         this.id = id;
-        this.background = background;
+        this.backgroundid = backgroundid;
+        this.setBackground(this.backgroundid);
     }
 
     /**
@@ -77,7 +86,7 @@ public class TicTacMarker implements Comparable<TicTacMarker>, Serializable {
     TicTacMarker(int row, int column, int backgroundId) {
         this.row = row;
         this.column = column;
-        this.id = backgroundId;
+        this.backgroundid = backgroundId;
         setBackground(backgroundId);
     }
 

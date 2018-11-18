@@ -14,6 +14,34 @@ import java.util.Observable;
  * Implements Serializable and Iterable<TicTacMarker> Interface
  */
 public class TicTacBoard extends Observable implements Serializable, Iterable<TicTacMarker> {
+    /**
+     * The first player
+     */
+    // if true, p1 plays first, false p1 plays second
+    private boolean p1_turn;
+
+    /**
+     * game over
+     */
+    // if true,game is over, false not over
+    private boolean game_over;
+
+    /**
+     * The current player
+     * current_player = 0 means player 1 turn
+     * current_player = 1 means player 2 turn
+     */
+    private int current_player;
+
+    /**
+     * p1 marker color
+     */
+    private int p1_background = 1;
+
+    /**
+     * p2 marker color
+     */
+    private int p2_background = 2;
 
     /**
      * The number of rows.
@@ -43,8 +71,15 @@ public class TicTacBoard extends Observable implements Serializable, Iterable<Ti
      *
      * @param ticTacMarkers the ticTacMarkers for the board
      */
-    TicTacBoard(List<TicTacMarker> ticTacMarkers) {
-
+    TicTacBoard(List<TicTacMarker> ticTacMarkers, boolean p1_turn) {
+        this.p1_turn = p1_turn;
+        this.game_over = false;
+        //set the players turn to player 1 or 2
+        if (this.p1_turn == true) {
+            this.current_player = 0;
+        } else {
+            this.current_player = 1;
+        }
         Iterator<TicTacMarker> iter = ticTacMarkers.iterator();
 
         for (int row = 0; row < TicTacBoard.NUM_ROWS; row++) {
@@ -54,6 +89,83 @@ public class TicTacBoard extends Observable implements Serializable, Iterable<Ti
         }
     }
 
+    /**
+     * Return p1 background
+     */
+    public int getP1Background() {
+        return this.p1_background;
+    }
+
+    /**
+     * Return gameover
+     */
+    public boolean getGameOver() {
+        return this.game_over;
+    }
+
+    /**
+     * set gameover
+     */
+    public void setGameOver(boolean game_over) {
+        this.game_over = game_over;
+    }
+
+    /**
+     * Return p2 background
+     */
+    public int getP2_background() {
+        return this.p2_background;
+    }
+
+    /**
+     * Return current player
+     */
+    public int getCurrentPlayer() {
+        return this.current_player;
+    }
+
+    /**
+     * Return background
+     */
+    public int getPlayerBackground(int player) {
+        if (player == 0) {
+            return p1_background;
+        } else {
+            return p2_background;
+        }
+    }
+
+    /**
+     * Return current player
+     */
+    public boolean getP1Turn() {
+        return this.p1_turn;
+    }
+
+    /**
+     * change turns
+     */
+    public void changeTurns() {
+        if (this.current_player == 0) {
+            this.current_player = 1;
+        } else {
+            this.current_player = 0;
+        }
+    }
+
+    /**
+     * Return num rows
+     */
+    public int getRows() {
+        return this.NUM_ROWS;
+    }
+
+    /**
+     * Return num cols
+     */
+    public int getCols() {
+        return this.NUM_COLS;
+    }
     /**
      * Return the TicTacMarker at (row, col)
      *
