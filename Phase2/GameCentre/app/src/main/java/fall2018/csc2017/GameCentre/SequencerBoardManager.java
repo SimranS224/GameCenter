@@ -21,7 +21,7 @@ class SequencerBoardManager implements Serializable {
      */
     private SequencerBoard board;
     MoveStack stack;
-
+    Sequence sequence;
     /**
      * Manage a board that has been pre-populated.
      *
@@ -54,6 +54,7 @@ class SequencerBoardManager implements Serializable {
         this.board = new SequencerBoard(tiles);
         this.score = 0;
         stack = new MoveStack();
+        this.sequence = new Sequence();
     }
 
     /**
@@ -106,19 +107,7 @@ class SequencerBoardManager implements Serializable {
      * @return whether the tile at position is surrounded by a blank tile
      */
     boolean isValidTap(int position) {
-
-        int row = position / SequencerBoard.NUM_COLS;
-        int col = position % SequencerBoard.NUM_COLS;
-        int blankId = 25;
-        // Are any of the 4 the blank tile?
-        Tile above = row == 0 ? null : board.getTile(row - 1, col);
-        Tile below = row == SequencerBoard.NUM_ROWS - 1 ? null : board.getTile(row + 1, col);
-        Tile left = col == 0 ? null : board.getTile(row, col - 1);
-        Tile right = col == SequencerBoard.NUM_COLS - 1 ? null : board.getTile(row, col + 1);
-        return (below != null && below.getId() == blankId)
-                || (above != null && above.getId() == blankId)
-                || (left != null && left.getId() == blankId)
-                || (right != null && right.getId() == blankId);
+        return position == sequence.get();
     }
 
     /**

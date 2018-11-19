@@ -15,13 +15,11 @@ class SequencerMovementController {
         this.boardManager = boardManager;
     }
     void processTapMovement(Context context, int position) {
+        System.out.println("---------------  " + boardManager.sequence.position + "  ----------------------");
         if (boardManager.isValidTap(position)) {
-            boardManager.touchMove(position);
-            if (boardManager.puzzleSolved()) {
-                Toast.makeText(context, "YOU WIN!", Toast.LENGTH_SHORT).show();
-            }
+            Toast.makeText(context, "Correct!", Toast.LENGTH_SHORT).show();
         } else {
-            Toast.makeText(context, "Invalid Tap", Toast.LENGTH_SHORT).show();
+            Toast.makeText(context, "Incorrect", Toast.LENGTH_SHORT).show();
         }
     }
 }

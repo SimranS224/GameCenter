@@ -3,14 +3,15 @@ package fall2018.csc2017.GameCentre;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewTreeObserver;
+import android.view.animation.AlphaAnimation;
+import android.view.animation.Animation;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -137,8 +138,6 @@ public class SequencerGameActivity extends AppCompatActivity implements Observer
         getUserDatabaseReference();
 
         loadFromFile(SequencerStartingActivity.TEMP_SAVE_FILENAME);
-        int unn = MoveStack.NUM_UNDOS;
-        System.out.println(unn);
         createTileButtons(this);
         setContentView(R.layout.activity_sequencer_game);
         if (isImage()) {
@@ -180,8 +179,10 @@ public class SequencerGameActivity extends AppCompatActivity implements Observer
             }
         });
         addUndoButtonListener();
-
         saveUserInformationOnDatabase();
+        Speak(5);
+        boardManager.sequence.resetPos();
+        System.out.println(boardManager.sequence.position);
     }
 
     /**
@@ -236,20 +237,9 @@ public class SequencerGameActivity extends AppCompatActivity implements Observer
         SequencerBoard board = boardManager.getBoard();
         int nextPos = 0;
         for (Button b : tileButtons) {
-            int row = nextPos / SequencerBoard.NUM_ROWS;
-            int col = nextPos % SequencerBoard.NUM_COLS;
-            if (isImage()) {
-                int i = board.getTile(row, col).getId() - 1;
-                if (i == 24 || i >= chunckedImages.size()) {
-                    b.setBackgroundResource(board.getTile(row, col).getBackground());
-                } else {
-                    Drawable d = new BitmapDrawable(getResources(), chunckedImages.get(i));
-                    b.setBackground(d);
-                }
-            } else {
-                b.setBackgroundResource(board.getTile(row, col).getBackground());
-            }
-
+            int row = nextPos / Board.NUM_ROWS;
+            int col = nextPos % Board.NUM_COLS;
+            b.setBackgroundResource(R.drawable.green);
             nextPos++;
         }
         final TextView score = findViewById(R.id.score);
@@ -504,5 +494,25 @@ public class SequencerGameActivity extends AppCompatActivity implements Observer
          */
         //Start a new activity to show these chunks into a grid
         return chunkedImages;
+    }
+    private void lightUp() {
+        Animation anim = new AlphaAnimation(1.0f, 0.0f);
+        anim.setDuration(1000); //You can manage the blinking time with this parameter
+        anim.setRepeatCount(1);
+        anim.setRepeatMode(Animation.REVERSE);
+        Button b = tileButtons.get(boardManager.sequence.get());
+        b.startAnimation(anim);
+
+    }
+    private void Speak(int round) {
+        Handler handler = new Handler();
+        for (int i = 0; i < round; i++) {
+            handler.postDelayed(new Runnable() {
+                public void run() {
+                    lightUp();
+                }
+            }, 2000 * i);   //5 seconds
+        }
+        boardManager.sequence.resetPos();
     }
 }
