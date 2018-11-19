@@ -15,7 +15,7 @@ class SequencerMovementController {
         this.boardManager = boardManager;
     }
     void processTapMovement(Context context, int position) {
-        System.out.println("---------------  " + boardManager.sequence.position + "  ----------------------");
+
         if (boardManager.isValidTap(position)) {
             Toast.makeText(context, "Correct!", Toast.LENGTH_SHORT).show();
         } else {

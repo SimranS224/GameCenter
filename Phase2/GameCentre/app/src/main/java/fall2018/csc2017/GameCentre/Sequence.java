@@ -18,9 +18,12 @@ public class Sequence implements Serializable {
     }
     public int get(){
         position += 1;
+        System.out.println("---------------  " + position + "  ----------------------");
+
         return sequence.get(position - 1);
     }
     public void resetPos() {
         position = 0;
+        System.out.println("---------------  " + position + "  ----------------------");
     }
 }

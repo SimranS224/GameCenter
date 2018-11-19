@@ -133,10 +133,14 @@ public class SequencerGameActivity extends AppCompatActivity implements Observer
     public void display() {
         updateTileButtons();
         gridView.setAdapter(new CustomAdapter(tileButtons, columnWidth, columnHeight));
+        System.out.println("Display function run");
 
         //autosave
         saveToFile(SequencerStartingActivity.SAVE_FILENAME);
         saveToFile(SequencerStartingActivity.TEMP_SAVE_FILENAME);
+        if (boardManager.sequence.position == round) {
+
+        }
     }
 
     @Override
@@ -188,9 +192,7 @@ public class SequencerGameActivity extends AppCompatActivity implements Observer
         });
         addUndoButtonListener();
         saveUserInformationOnDatabase();
-        Speak(5);
-        boardManager.sequence.resetPos();
-        System.out.println(boardManager.sequence.position);
+        Speak(3);
     }
 
     /**
@@ -232,7 +234,7 @@ public class SequencerGameActivity extends AppCompatActivity implements Observer
         for (int row = 0; row != SequencerBoard.NUM_ROWS; row++) {
             for (int col = 0; col != SequencerBoard.NUM_COLS; col++) {
                 Button tmp = new Button(context);
-                tmp.setBackgroundResource(board.getTile(row, col).getBackground());
+                tmp.setBackgroundResource(R.drawable.green);
                 this.tileButtons.add(tmp);
             }
         }
@@ -519,8 +521,12 @@ public class SequencerGameActivity extends AppCompatActivity implements Observer
                 public void run() {
                     lightUp();
                 }
-            }, 2000 * i);   //5 seconds
+            }, 2000 * i);
         }
-        boardManager.sequence.resetPos();
+        handler.postDelayed(new Runnable() {
+            public void run() {
+                boardManager.sequence.resetPos();
+            }
+        }, 2000 * round);
     }
 }
