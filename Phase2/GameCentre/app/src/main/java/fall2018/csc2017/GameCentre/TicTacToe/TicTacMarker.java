@@ -67,6 +67,13 @@ public class TicTacMarker implements Comparable<TicTacMarker>, Serializable {
     }
 
     /**
+     * set the tile id
+     */
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    /**
      * A Tile with id and background. The background may not have a corresponding image.
      *
      * @param id         the id

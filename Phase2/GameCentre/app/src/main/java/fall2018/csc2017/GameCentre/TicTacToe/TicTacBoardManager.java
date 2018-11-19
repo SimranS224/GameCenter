@@ -184,21 +184,11 @@ class TicTacBoardManager implements Serializable {
      * @return whether the tile at position is blank tile
      */
     boolean isValidTap(int position) {
-
-        int row = position / TicTacBoard.NUM_COLS;
-        int col = position % TicTacBoard.NUM_COLS;
-        return (board.getMarker(row,col).getBackgroundId() == 0);
+        return board.isValidTap(position);
     }
 
     public ArrayList<Integer> getValidMoves() {
-        ArrayList<Integer> validMoves = new ArrayList<Integer>();
-        for (int position = 0; position < board.getRows() * board.getCols(); position++) {
-            if (isValidTap(position)) {
-                Integer IntPos = new Integer(position);
-                validMoves.add(IntPos);
-            }
-        }
-        return validMoves;
+        return board.getValidMoves();
     }
 
     /**

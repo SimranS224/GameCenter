@@ -100,7 +100,6 @@ public class TicTacGameActivity extends AppCompatActivity implements Observer {
         for (int row = 0; row < TicTacBoard.NUM_ROWS; row++) {
             for (int col = 0; col < TicTacBoard.NUM_COLS; col++) {
                 Button tmp = new Button(context);
-                System.out.println("Add ROW: " + row + "  COL: " + col);
                 tmp.setBackgroundResource(board.getMarker(row, col).getBackground());
                 this.markerButtons.add(tmp);
             }
@@ -116,7 +115,6 @@ public class TicTacGameActivity extends AppCompatActivity implements Observer {
         for (Button b : markerButtons) {
             int row = nextPos / TicTacBoard.NUM_COLS;
             int col = nextPos % TicTacBoard.NUM_COLS;
-            System.out.println("ROW: " + row + "  COL: " + col);
             b.setBackgroundResource(board.getMarker(row, col).getBackground());
             nextPos++;
         }
