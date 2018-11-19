@@ -138,9 +138,6 @@ public class SequencerGameActivity extends AppCompatActivity implements Observer
         //autosave
         saveToFile(SequencerStartingActivity.SAVE_FILENAME);
         saveToFile(SequencerStartingActivity.TEMP_SAVE_FILENAME);
-        if (boardManager.sequence.position == round) {
-
-        }
     }
 
     @Override
