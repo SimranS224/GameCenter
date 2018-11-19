@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".TicTacToe.TicTacMainActivity">
+
+    <Button
+        android:id="@+id/connect4button"
+        android:layout_width="131dp"
+        android:layout_height="78dp"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="125dp"
+        android:layout_marginEnd="137dp"
+        android:text="Player vs. Player"
+        tools:layout_editor_absoluteX="127dp"
+        tools:layout_editor_absoluteY="79dp" />
+
+    <Button
+        android:id="@+id/randomAI_button"
+        android:layout_width="132dp"
+        android:layout_height="70dp"
+        android:layout_alignStart="@+id/connect4button"
+        android:layout_alignParentBottom="true"
+        android:layout_marginStart="0dp"
+        android:layout_marginBottom="188dp"
+        android:text="Player vs. AI (Random)" />
+
+    <Button
+        android:id="@+id/minimaxAI_button"
+        android:layout_width="132dp"
+        android:layout_height="70dp"
+        android:layout_alignStart="@+id/connect4button"
+        android:layout_alignTop="@+id/randomAI_button"
+        android:layout_alignParentBottom="true"
+        android:layout_marginStart="-3dp"
+        android:layout_marginTop="105dp"
+        android:layout_marginBottom="83dp"
+        android:text="PLAYER VS AI (MINIMAX)" />
+
+</RelativeLayout>

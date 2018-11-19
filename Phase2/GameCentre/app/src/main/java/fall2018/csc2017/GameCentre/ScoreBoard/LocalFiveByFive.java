@@ -1,4 +1,4 @@
-package fall2018.csc2017.GameCentre;
+package fall2018.csc2017.GameCentre.ScoreBoard;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -20,37 +20,39 @@ import java.util.ArrayList;
 import java.util.Map;
 import java.util.Objects;
 
+import fall2018.csc2017.GameCentre.R;
 
+// firebase imports
 /**
- * The local LeaderBoard Activity of the Current User for a 4x4 Board
+ * The local leaderBoard of the current user for a 5x5 Board
  */
-public class LeaderBoardCurrentUser extends AppCompatActivity {
-
+public class LocalFiveByFive extends AppCompatActivity {
 
     /**
-     * The reference pointing to the Database reference of the current user
+     * Reference pointing to the database of the current user
      */
     private DatabaseReference mUserDatabase;
 
+
     /**
-     * The list view with all the scores
+     * The listView of the scores
      */
     private ListView listLeadCurrentUser;
 
     /**
-     * The ArrayList containing all the scores of the user
+     * The ArrayList containing all the scores of the current user
      */
-    private ArrayList<String> allCurrScores = new ArrayList<>(); //all the users
+    private ArrayList<String> allCurrScores = new ArrayList<>(); // all the users
 
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_leaderboardcurrentuser);
+        setContentView(R.layout.activity_leaderboardcurrentuser_5);
 
-        listLeadCurrentUser = findViewById(R.id.listLeadCurrentUser);
+        listLeadCurrentUser = findViewById(R.id.listLeadCurrentUser5);
         switchToGlobalRankings();
+        switchTo4x4();
         switchTo3x3();
-        switchTo5x5();
         getUserDatabaseReference();
 
         // gets called when activity starts, and whenever a change is made to the database
@@ -70,31 +72,27 @@ public class LeaderBoardCurrentUser extends AppCompatActivity {
     }
 
     /**
-     * Read 3 best scores of the users for a 4x4 Board
+     * Reads the 5 best scores of the user for a 5x5 board
      *
-     * @param d The DataSnapshot of the Firebase Database
+     * @param d Datasnapshot of the firebase database
      */
     private void readData(DataSnapshot d) {
         if (d.exists() && d.getChildrenCount() > 0) {
             Map<String, Object> map = (Map<String, Object>) d.getValue();
             assert map != null;
-            if (map.get("First_Best_Time4x4") != null) {
-
-
-                String score = map.get("First_Best_Time4x4").toString();
+            if (map.get("First_Best_Time5x5") != null) {
+                String score = map.get("First_Best_Time5x5").toString();
                 allCurrScores.add(score);
             }
-            if (map.get("Second_Best_Time4x4") != null) {
-                String score = map.get("Second_Best_Time4x4").toString();
+            if (map.get("Second_Best_Time5x5") != null) {
+
+                String score = map.get("Second_Best_Time5x5").toString();
                 allCurrScores.add(score);
-
-
             }
-            if (map.get("Third_Best_Time4x4") != null) {
-                String score = map.get("Third_Best_Time4x4").toString();
+            if (map.get("Third_Best_Time5x5") != null) {
+
+                String score = map.get("Third_Best_Time5x5").toString();
                 allCurrScores.add(score);
-
-
             }
         }
 
@@ -104,14 +102,30 @@ public class LeaderBoardCurrentUser extends AppCompatActivity {
 
 
     /**
-     * Activate the switch to 4x4 button.
+     * Activate the switch to my best rankings button.
      */
-    private void switchTo5x5() {
-        Button globalRankButton = findViewById(R.id.UserHigh5);
+    private void switchToGlobalRankings() {
+        Button globalRankButton = findViewById(R.id.globalrank);
         globalRankButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(LeaderBoardCurrentUser.this, LocalFiveByFive.class);
+                Intent intent = new Intent(LocalFiveByFive.this, LeaderBoardMain.class);
+                startActivity(intent);
+                finish();
+
+            }
+        });
+    }
+
+    /**
+     * Activate the switch to 4x4 button.
+     */
+    private void switchTo4x4() {
+        Button globalRankButton = findViewById(R.id.UserHigh4);
+        globalRankButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(LocalFiveByFive.this, LeaderBoardCurrentUser.class);
                 startActivity(intent);
                 finish();
 
@@ -127,7 +141,7 @@ public class LeaderBoardCurrentUser extends AppCompatActivity {
         globalRankButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(LeaderBoardCurrentUser.this, LocalThreeByThree.class);
+                Intent intent = new Intent(LocalFiveByFive.this, LocalThreeByThree.class);
                 startActivity(intent);
                 finish();
 
@@ -135,28 +149,12 @@ public class LeaderBoardCurrentUser extends AppCompatActivity {
         });
     }
 
-    /**
-     * Activate the switch to my best rankings button.
-     */
-    private void switchToGlobalRankings() {
-        Button globalRankButton = findViewById(R.id.globalrank);
-        globalRankButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(LeaderBoardCurrentUser.this, LeaderBoardMain.class);
-                startActivity(intent);
-                finish();
 
-            }
-        });
-    }
-
-    /**
-     * Get the reference pointing to the database of the current user
-     */
     private void getUserDatabaseReference() {
 
+        // get instance of the current authorization
         FirebaseAuth mAuth = FirebaseAuth.getInstance();
+        // the current user's id
         String userID = Objects.requireNonNull(mAuth.getCurrentUser()).getUid();
         mUserDatabase = FirebaseDatabase.getInstance().getReference("Users").child("userId").child(userID);
     }

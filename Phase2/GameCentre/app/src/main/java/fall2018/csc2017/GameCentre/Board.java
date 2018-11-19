@@ -51,6 +51,7 @@ public class Board extends Observable implements Serializable, Iterable<Tile> {
                 this.tiles[row][col] = iter.next();
             }
         }
+
     }
 
     /**
@@ -64,6 +65,21 @@ public class Board extends Observable implements Serializable, Iterable<Tile> {
         return tiles[row][col];
     }
 
+    /**
+     * Get number of rows of the board
+     * @return the number of rows of the board
+     */
+    public static int getNumRows() {
+        return Board.NUM_ROWS;
+    }
+
+    /**
+     * Get number of cols of the board
+     * @return the number of cols of the board
+     */
+    public static int getNumCols() {
+        return Board.NUM_COLS;
+    }
     /**
      * Set the size of the board
      * @param size the size of the board

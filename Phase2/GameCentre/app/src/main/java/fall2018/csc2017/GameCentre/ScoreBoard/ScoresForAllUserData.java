@@ -1,4 +1,4 @@
-package fall2018.csc2017.GameCentre;
+package fall2018.csc2017.GameCentre.ScoreBoard;
 
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -8,8 +8,8 @@ import java.util.Set;
 /**
  * Parent abstract class for the current user scores.
  */
-abstract class ScoresForAllUserData {
-    private static ArrayList<String> allCurrentUserScores;
+public class ScoresForAllUserData {
+    private ArrayList<String> allCurrentUserScores;
 
     /**
      * Initiates the class
@@ -37,7 +37,7 @@ abstract class ScoresForAllUserData {
     /**
      * Sorts the list according the the custom comparator (lowest score first)
      */
-    void sortTheList() {
+    public void sortTheList() {
         if (this.getSize() > 1) {
             allCurrentUserScores.sort(new CustomComparator());
         }
@@ -63,7 +63,7 @@ abstract class ScoresForAllUserData {
      * @param i index of the item
      * @return The item
      */
-    String getAtIndex(int i) {
+    public String getAtIndex(int i) {
         return allCurrentUserScores.get(i);
     }
 
@@ -71,14 +71,14 @@ abstract class ScoresForAllUserData {
      * Gets the lowest score (Best score)
      * @return the score
      */
-    String getLowest() {
+    public String getLowest() {
         sortTheList();
         if (this.getSize() > 0) {
             return allCurrentUserScores.get(this.getSize() - 1);
         }else
             return "100000";
     }
-    void removeDuplicates(){
+    public void removeDuplicates(){
 
         Set<String> remover = new HashSet<>(allCurrentUserScores);
         allCurrentUserScores.clear();

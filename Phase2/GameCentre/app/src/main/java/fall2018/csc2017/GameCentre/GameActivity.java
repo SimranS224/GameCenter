@@ -29,7 +29,11 @@ import java.io.InputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Observable;
@@ -39,6 +43,29 @@ import java.util.Observer;
  * The game activity.
  */
 public class GameActivity extends AppCompatActivity implements Observer {
+
+    /**
+     * The Score of the User's Current Game
+     */
+    private TextView score;
+
+    /**
+     * The TextView representing number of Undos left in the current game
+     */
+    TextView textView;
+    /**
+     * The current users top 3 scores for the 4x4 board size.
+     */
+    private ArrayList<Long> allScoresFour = new ArrayList<>();
+    /**
+     * The current users top 3 scores for the 3x3 board size.
+     */
+    private ArrayList<Long> allScoresThree = new ArrayList<>();
+    /**
+     * The current users top 3 scores for the 5x5 board size.
+     */
+    private ArrayList<Long> allScoresFive = new ArrayList<>();
+
     /**
      * The board manager.
      */
@@ -63,29 +90,6 @@ public class GameActivity extends AppCompatActivity implements Observer {
      * Firebase Database reference pointing to the current user
      */
     private DatabaseReference mUserDatabase;
-
-
-    /**
-     * The Score of the User's Current Game
-     */
-    private TextView score;
-
-    /**
-     * The TextView representing number of Undos left in the current game
-     */
-    TextView textView;
-    /**
-     * The current users top 3 scores for the 4x4 board size.
-     */
-    private ScoresFourByFour allScoresFourByFour = new ScoresFourByFour();
-    /**
-     * The current users top 3 scores for the 3x3 board size.
-     */
-    private ScoresThreeByThree allScoresThreeByThree = new ScoresThreeByThree();
-    /**
-     * The current users top 3 scores for the 5x5 board size.
-     */
-    private ScoresFiveByFive allScoresFiveByFive = new ScoresFiveByFive();
 
     /**
      * ArrayList where the parts of the image are going to be stored.
@@ -180,9 +184,238 @@ public class GameActivity extends AppCompatActivity implements Observer {
             }
         });
         addUndoButtonListener();
-
+        // saves score on database
         saveUserInformationOnDatabase();
     }
+    /*
+    Scoreboard code which reads scores as the game when the game ends
+     */
+
+    /**
+     * Get database reference from the Firebase Database pointing to the current user
+     */
+    private void getUserDatabaseReference() {
+
+        // Firebase User Authorisation
+        FirebaseAuth mAuth = FirebaseAuth.getInstance();
+        String userID = Objects.requireNonNull(mAuth.getCurrentUser()).getUid();
+        mUserDatabase = FirebaseDatabase.getInstance().getReference().child("Users").child("userId").child(userID);
+    }
+
+    /**
+     * Saves the Current User's settings to the database
+     */
+    private void saveUserInformationOnDatabase() {
+        Long winningScore = null;
+
+        Map<String, Object> userInfo = new HashMap<>();
+
+        String boardSize = Board.NUM_ROWS + "x" + Board.NUM_ROWS;
+        //read the current users best scores into a list for sorting and displaying
+        readUserScores();
+
+        if (boardManager.puzzleSolved()) {
+            winningScore = Long.parseLong(score.getText().toString());
+        }
+        // Depending on the board size add the winning score to the correct class.
+        organizeWinningScore(winningScore, userInfo, boardSize);
+
+        String lastSavedScore = score.getText().toString();
+        String lastSavedUndoCount = textView.getText().toString();
+
+        userInfo.put("last_Saved_Score", lastSavedScore);
+        userInfo.put("last_saved_undo_count", lastSavedUndoCount);
+
+        mUserDatabase.updateChildren(userInfo);
+    }
+
+    /**
+     * Chooses one of the lists to add the winning score to
+     *
+     * @param winningScore the score that the player won the game with
+     * @param userInfo     the mapping used to access the database
+     * @param boardSize    the size of the board currently being played on
+     */
+    private void organizeWinningScore(Long winningScore, Map<String, Object> userInfo, String boardSize) {
+        switch (boardSize) {
+            case "3x3":
+                addWinningScore(winningScore, allScoresThree, userInfo, "Three");
+                break;
+            case "4x4":
+                addWinningScore(winningScore, allScoresFour, userInfo, "Four");
+                break;
+            case "5x5":
+                addWinningScore(winningScore, allScoresFive, userInfo, "Five");
+                break;
+        }
+    }
+
+    /**
+     * Adds winning score to the current list
+     *
+     * @param winningScore Winning score
+     * @param lst          The current user score list
+     * @param userInfo     information about the user (map) from Firebase
+     * @param boardSize    Size of the board.
+     */
+    private void addWinningScore(Long winningScore, ArrayList<Long> lst, Map<String, Object> userInfo, String boardSize) {
+
+        if (winningScore != null && (!lst.contains(winningScore))) {
+//            Log.d("SlidingTiles", "3x3=============== " + userInfo.get("SlidingTilesThree"));
+//
+//            Log.d("thecurrnetlist", "3x3=============== " + lst);
+//            Log.d("SlidingTiles", "4x4=============== " + userInfo.get("SlidingTilesFour"));
+
+            Long worstCur = null;
+            if (lst.size() > 0) {
+                worstCur = (Long) lst.get(lst.size() - 1);
+            } else {
+                worstCur = 100000L;
+            }
+            if ((worstCur > winningScore) || (lst.size() < 5)) {
+                lst.add(winningScore);
+                Collections.sort(lst);
+                if (lst.size() > 5) {
+                    lst.remove(lst.size() - 1);
+                }
+                userInfo.put("SlidingTiles" + boardSize, lst);
+//                Log.d("SlidingTiles", "3x3=============== " + userInfo.get("SlidingTilesThree"));
+//                Log.d("SlidingTiles", "4x4=============== " + userInfo.get("SlidingTilesFour"));
+
+            }
+        }
+    }
+
+
+    /**
+     * Reads the user scores from Firebase databse and updates the arraylists representing board size
+     * accordingly.
+     */
+    public void readUserScores() {
+
+        mUserDatabase.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if (dataSnapshot.exists() && dataSnapshot.getChildrenCount() > 0) {
+                    Map<String, ArrayList<Integer>> map = (Map<String, ArrayList<Integer>>) dataSnapshot.getValue();
+                    assert map != null;
+                    // Reads preexisting values from the database to be stored for
+                    // later use.
+                    List<String> sizes = Arrays.asList("Three", "Four", "Five");
+                    for (String s : sizes) {
+                        if (map.get("SlidingTiles" + s) != null) {
+                            ArrayList<Long> theCurrentList = returnBoardToRead(s);
+                            ArrayList theStoredList = map.get("SlidingTiles" + s);
+//                            Log.d("checking list", "thestoredlist=============== " + theStoredList);
+//                            Log.d("checking listtype", "oneelement=============== " + theStoredList.get(0));
+
+                            for (int i = 0; i < theStoredList.size(); i++) {
+//                                Log.d("for loop conversion runnint", "iteration=============== " + i);
+                                if (i <= 4) {
+                                    Long scoreToAdd = (Long) theStoredList.get(i);
+                                    if (!theCurrentList.contains(scoreToAdd)) {
+                                        theCurrentList.add((Long) theStoredList.get(i));
+
+                                    }
+                                }
+                            }
+//                            Log.d("three list", "threelist======," + allScoresThree);
+//                            Log.d("four list", "fourlist======," + allScoresFour);
+                        }
+                    }
+
+                }
+            }
+
+            //
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+    }
+
+    /**
+     * Returns the arraylist which corresponds to the board size.
+     *
+     * @param theBoard A string represeting the size of the board
+     * @return the arraylist that corresponds to each size
+     */
+    private ArrayList<Long> returnBoardToRead(String theBoard) {
+        switch (theBoard) {
+            case "Three":
+                return allScoresThree;
+            case "Five":
+                return allScoresFive;
+            default:
+                return allScoresFour;
+        }
+    }
+
+
+    /*
+    Saving functions
+     */
+
+    /**
+     * Dispatch onPause() to fragments.
+     */
+    @Override
+    protected void onPause() {
+        super.onPause();
+        saveToFile(StartingActivity.TEMP_SAVE_FILENAME);
+    }
+
+    /**
+     * Load the board manager from fileName.
+     *
+     * @param fileName the name of the file
+     */
+    private void loadFromFile(String fileName) {
+
+        //String dbFileName= downloadUserBoard(fileName);
+
+        try {
+            InputStream inputStream = this.openFileInput(fileName);
+            if (inputStream != null) {
+                ObjectInputStream input = new ObjectInputStream(inputStream);
+                boardManager = (BoardManager) input.readObject();
+                inputStream.close();
+            }
+        } catch (FileNotFoundException e) {
+            Log.e("login activity", "File not found: " + e.toString());
+        } catch (IOException e) {
+            Log.e("login activity", "Can not read file: " + e.toString());
+        } catch (ClassNotFoundException e) {
+            Log.e("login activity", "File contained unexpected data type: " + e.toString());
+        }
+    }
+
+    /**
+     * Save the board manager to fileName.
+     *
+     * @param fileName the name of the file
+     */
+    public void saveToFile(String fileName) {
+        try {
+            ObjectOutputStream outputStream = new ObjectOutputStream(
+                    this.openFileOutput(fileName, MODE_PRIVATE));
+            outputStream.writeObject(boardManager);
+            outputStream.close();
+        } catch (IOException e) {
+            Log.e("Exception", "File write failed: " + e.toString());
+        }
+        //uploadUserBoard(fileName);
+    }
+
+    @Override
+    public void update(Observable o, Object arg) {
+        display();
+    }
+
+    /*
+    Buttons
+     */
 
     /**
      * Provides the functionality for the undo button.
@@ -257,208 +490,9 @@ public class GameActivity extends AppCompatActivity implements Observer {
         saveUserInformationOnDatabase();
     }
 
-    /**
-     * Dispatch onPause() to fragments.
+    /*
+    Bitmap code for using Images
      */
-    @Override
-    protected void onPause() {
-        super.onPause();
-        saveToFile(StartingActivity.TEMP_SAVE_FILENAME);
-    }
-
-    /**
-     * Load the board manager from fileName.
-     *
-     * @param fileName the name of the file
-     */
-    private void loadFromFile(String fileName) {
-
-        //String dbFileName= downloadUserBoard(fileName);
-
-        try {
-            InputStream inputStream = this.openFileInput(fileName);
-            if (inputStream != null) {
-                ObjectInputStream input = new ObjectInputStream(inputStream);
-                boardManager = (BoardManager) input.readObject();
-                inputStream.close();
-            }
-        } catch (FileNotFoundException e) {
-            Log.e("login activity", "File not found: " + e.toString());
-        } catch (IOException e) {
-            Log.e("login activity", "Can not read file: " + e.toString());
-        } catch (ClassNotFoundException e) {
-            Log.e("login activity", "File contained unexpected data type: " + e.toString());
-        }
-    }
-
-    /**
-     * Save the board manager to fileName.
-     *
-     * @param fileName the name of the file
-     */
-    public void saveToFile(String fileName) {
-        try {
-            ObjectOutputStream outputStream = new ObjectOutputStream(
-                    this.openFileOutput(fileName, MODE_PRIVATE));
-            outputStream.writeObject(boardManager);
-            outputStream.close();
-        } catch (IOException e) {
-            Log.e("Exception", "File write failed: " + e.toString());
-        }
-        //uploadUserBoard(fileName);
-    }
-
-    @Override
-    public void update(Observable o, Object arg) {
-        display();
-    }
-
-
-    /**
-     * Get database reference from the Firebase Database pointing to the current user
-     */
-    private void getUserDatabaseReference() {
-
-        // Firebase User Authorisation
-        FirebaseAuth mAuth = FirebaseAuth.getInstance();
-        String userID = Objects.requireNonNull(mAuth.getCurrentUser()).getUid();
-        mUserDatabase = FirebaseDatabase.getInstance().getReference().child("Users").child("userId").child(userID);
-    }
-
-    /**
-     * Saves the Current User's settings to the database
-     */
-    private void saveUserInformationOnDatabase() {
-        String winningScore = null;
-
-        Map<String, Object> userInfo = new HashMap<>();
-
-        String boardSize = Board.NUM_ROWS + "x" + Board.NUM_ROWS;
-
-        //read the current users best scores into a list for sorting and displaying
-        readUserScores(boardSize);
-
-
-        if (boardManager.puzzleSolved()) {
-            winningScore = score.getText().toString();
-        }
-        // Depending on the board size add the winning score to the correct class.
-        switch (boardSize) {
-            case "3x3":
-                addWinningScore(winningScore, allScoresThreeByThree, userInfo, boardSize);
-                break;
-            case "4x4":
-                addWinningScore(winningScore, allScoresFourByFour, userInfo, boardSize);
-                break;
-            case "5x5":
-                addWinningScore(winningScore, allScoresFiveByFive, userInfo, boardSize);
-                break;
-        }
-
-        String lastSavedScore = score.getText().toString();
-        String lastSavedUndoCount = textView.getText().toString();
-
-        userInfo.put("last_Saved_Score", lastSavedScore);
-        userInfo.put("last_saved_undo_count", lastSavedUndoCount);
-
-        mUserDatabase.updateChildren(userInfo);
-    }
-
-    /**
-     * Adds winning score to the current list
-     *
-     * @param winningScore Winning score
-     * @param lst          The current user score list
-     * @param userInfo     information about the user (map) from Firebase
-     * @param boardSize    Size of the board.
-     */
-    private void addWinningScore(String winningScore, ScoresForAllUserData lst, Map<String, Object> userInfo, String boardSize) {
-        lst.removeDuplicates();
-
-        if (winningScore != null) {
-            Integer curGameWinScore = Integer.parseInt(winningScore);
-            Integer worstCur = Integer.parseInt(lst.getLowest());
-            if (lst.getSize() < 5 || worstCur > curGameWinScore) {
-                lst.add(winningScore);
-                putScoresIntoDatabase(userInfo, lst, boardSize);
-            }
-        }
-    }
-
-    /**
-     * Puts the newly updated scores into the database.
-     *
-     * @param uinfo     the hashmap used to access the database
-     * @param uScores   the class which contains the user scores for a particular board size.
-     * @param boardSize the size of the board currently.
-     */
-    public void putScoresIntoDatabase(Map<String, Object> uinfo, ScoresForAllUserData uScores, String boardSize) {
-        String theBoard = boardSize + "";
-        uScores.sortTheList();
-        // depending on the board size adds a key to the database which is mapped to a
-        // a vlaue in uScores.
-        if (uScores.getSize() == 1) {
-            uinfo.put("First_Best_Time" + theBoard, uScores.getAtIndex(0));
-        } else if (uScores.getSize() == 2) {
-            uinfo.put("First_Best_Time" + theBoard, uScores.getAtIndex(0));
-            uinfo.put("Second_Best_Time" + theBoard, uScores.getAtIndex(1));
-        } else if (uScores.getSize() == 3) {
-            uinfo.put("First_Best_Time" + theBoard, uScores.getAtIndex(0));
-            uinfo.put("Second_Best_Time" + theBoard, uScores.getAtIndex(1));
-            uinfo.put("Third_Best_Time" + theBoard, uScores.getAtIndex(2));
-        }
-    }
-
-    /**
-     * Reads the user scores from Firebase databse and updates allCurrentScores accordingly.
-     *
-     * @param x Size of the board
-     */
-    public void readUserScores(String x) {
-        final String theBoard = x + "";
-        mUserDatabase.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                if (dataSnapshot.exists() && dataSnapshot.getChildrenCount() > 0) {
-                    Map<String, Object> map = (Map<String, Object>) dataSnapshot.getValue();
-                    assert map != null;
-                    // Reads preexisting values from the database to be stored for
-                    // later use.
-                    ScoresForAllUserData toAddTo = getStorage();
-                    if (map.get("First_Best_Time" + theBoard) != null) {
-                        String score = map.get("First_Best_Time" + theBoard).toString();
-                        Log.d("adding more", "firstbesttimes " + score);
-
-                        toAddTo.add(score);
-                    }
-                    if (map.get("Second_Best_Time" + theBoard) != null) {
-                        String score = map.get("Second_Best_Time" + theBoard).toString();
-                        toAddTo.add(score);
-                    }
-                    if (map.get("Third_Best_Time" + theBoard) != null) {
-                        String score = map.get("Third_Best_Time" + theBoard).toString();
-                        toAddTo.add(score);
-                    }
-                }
-            }
-
-            private ScoresForAllUserData getStorage() {
-                switch (theBoard) {
-                    case "3":
-                        return allScoresThreeByThree;
-                    case "5":
-                        return allScoresFiveByFive;
-                    default:
-                        return allScoresFourByFour;
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-        });
-    }
 
     /**
      * Returns the image split into smaller sub images.
@@ -505,4 +539,6 @@ public class GameActivity extends AppCompatActivity implements Observer {
         //Start a new activity to show these chunks into a grid
         return chunkedImages;
     }
+
+
 }

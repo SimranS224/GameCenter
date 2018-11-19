@@ -22,20 +22,22 @@
         </activity>
         <activity android:name=".GameActivity" />
         <activity android:name=".StartingActivity" />
-        <activity android:name=".LeaderBoardMain" />
-        <activity android:name=".GlobalThreeByThree" />
-        <activity android:name=".GlobalFiveByFive" />
+        <activity android:name=".ScoreBoard.LeaderBoardMain" />
+        <activity android:name=".ScoreBoard.GlobalThreeByThree" />
+        <activity android:name=".ScoreBoard.GlobalFiveByFive" />
         <activity android:name=".LoginActivityMain" />
         <activity android:name=".RegistrationActivity" />
-        <activity android:name=".LeaderBoardCurrentUser" />
-        <activity android:name=".LocalFiveByFive" />
-        <activity android:name=".LocalThreeByThree" />
+        <activity android:name=".ScoreBoard.LeaderBoardCurrentUser" />
+        <activity android:name=".ScoreBoard.LocalFiveByFive" />
+        <activity android:name=".ScoreBoard.LocalThreeByThree" />
         <activity android:name=".SettingsActivity" />
         <activity android:name=".FirstActivity" />
         <activity android:name=".GameChoiceActivity" />
         <activity android:name=".SequencerSettingsActivity" />
         <activity android:name=".SequencerStartingActivity" />
         <activity android:name=".SequencerGameActivity" />
+        <activity android:name=".TicTacToe.TicTacGameActivity" />
+        <activity android:name=".TicTacToe.TicTacMainActivity" />
 
     </application>
 
