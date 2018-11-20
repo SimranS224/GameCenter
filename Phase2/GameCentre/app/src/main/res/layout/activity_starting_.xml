@@ -57,19 +57,26 @@
         android:text="@string/save_game" />
 
 
-    <RelativeLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
-
+    <FrameLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".DriverMapActivity" >
 
         <Button
-            android:id="@+id/LogoutButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/log_out" />
+            android:id="@+id/LogoutButton"
+            android:text="Log out"/>
 
-
-    </RelativeLayout>
+        <Button
+            android:layout_gravity="end"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/MainMenu"
+            android:text="Main Menu"/>
+    </FrameLayout>
 
     <TextView
         android:id="@+id/welcomeText"

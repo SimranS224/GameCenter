@@ -8,11 +8,17 @@ import android.util.Log;
 import android.view.ViewTreeObserver;
 import android.widget.Button;
 import android.widget.Toast;
+
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
 import fall2018.csc2017.GameCentre.R;
 
 import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
+import java.util.Objects;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -23,6 +29,11 @@ public class TicTacGameActivity extends AppCompatActivity implements Observer {
      * The board manager.
      */
     private TicTacBoardManager boardManager;
+
+    /**
+     * Firebase Database reference pointing to the current user
+     */
+    private DatabaseReference mUserDatabase;
 
     /**
      * The buttons to display.
@@ -128,6 +139,8 @@ public class TicTacGameActivity extends AppCompatActivity implements Observer {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
+        getUserDatabaseReference();
         super.onCreate(savedInstanceState);
         Bundle b = getIntent().getExtras();
         int gametype = -1; // or other values
@@ -183,4 +196,19 @@ public class TicTacGameActivity extends AppCompatActivity implements Observer {
                     }
                 });
     }
+
+
+    /**
+     * Get database reference from the Firebase Database pointing to the current user
+     */
+    private void getUserDatabaseReference() {
+
+        // Firebase User Authorisation
+        FirebaseAuth mAuth = FirebaseAuth.getInstance();
+        String userID = Objects.requireNonNull(mAuth.getCurrentUser()).getUid();
+        mUserDatabase = FirebaseDatabase.getInstance().getReference().child("Users").child("userId").child(userID).child("tic_tac_toe");
+    }
+
 }
+
+
