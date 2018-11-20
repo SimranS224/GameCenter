@@ -1,6 +1,7 @@
 package fall2018.csc2017.GameCentre;
 
 import android.content.Intent;
+import android.provider.ContactsContract;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -124,6 +125,10 @@ public class GameChoiceActivity extends AppCompatActivity {
         FirebaseAuth mAuth = FirebaseAuth.getInstance();
         userID = Objects.requireNonNull(mAuth.getCurrentUser()).getUid();
         mUserDatabase= FirebaseDatabase.getInstance().getReference().child("Users").child("userId").child(userID);
+
+        //User ->Games
+        DatabaseReference mGamesDatabase= FirebaseDatabase.getInstance().getReference().child("Users").child("Games");
+        mGamesDatabase.setValue(true);
     }
 
     /**

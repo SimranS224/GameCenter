@@ -193,7 +193,7 @@ public class SequencerGameActivity extends AppCompatActivity implements Observer
                 score.setText(String.valueOf(boardManager.getScore()));
             }
         });
-        addUndoButtonListener();
+        //addUndoButtonListener();
         saveUserInformationOnDatabase();
         Speak();
     }
@@ -203,28 +203,28 @@ public class SequencerGameActivity extends AppCompatActivity implements Observer
      * If an undo can be made (At least one undo is left or the board is not in the beginning configuration)
      * then the previous move is removed from the move stack and then played.
      */
-    private void addUndoButtonListener() {
-        Button startButton = findViewById(R.id.UndoButton);
-        startButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(getApplicationContext(), "UNDO BUTTON PRESSED", Toast.LENGTH_SHORT).show();
-                SequencerBoard board = boardManager.getBoard();
-                if (boardManager.stack.canUndo()) {
-                    Integer[] lastMoves = boardManager.stack.remove();
-                    board.swapTiles(lastMoves[0], lastMoves[1], lastMoves[2], lastMoves[3]);
-                    TextView textView = findViewById(R.id.UndoCounter);
-
-                    textView.setText(boardManager.stack.getUndos());
-                    boardManager.setScore(boardManager.getScore() + 1);
-
-                }
-                saveUserInformationOnDatabase();
-
-
-            }
-        });
-    }
+//    private void addUndoButtonListener() {
+//        Button startButton = findViewById(R.id.UndoButton);
+//        startButton.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Toast.makeText(getApplicationContext(), "UNDO BUTTON PRESSED", Toast.LENGTH_SHORT).show();
+//                SequencerBoard board = boardManager.getBoard();
+//                if (boardManager.stack.canUndo()) {
+//                    Integer[] lastMoves = boardManager.stack.remove();
+//                    board.swapTiles(lastMoves[0], lastMoves[1], lastMoves[2], lastMoves[3]);
+//                    TextView textView = findViewById(R.id.UndoCounter);
+//
+//                    textView.setText(boardManager.stack.getUndos());
+//                    boardManager.setScore(boardManager.getScore() + 1);
+//
+//                }
+//                saveUserInformationOnDatabase();
+//
+//
+//            }
+//        });
+//    }
 
     /**
      * Create the buttons for displaying the tiles.
@@ -325,7 +325,7 @@ public class SequencerGameActivity extends AppCompatActivity implements Observer
         // Firebase User Authorisation
         FirebaseAuth mAuth = FirebaseAuth.getInstance();
         String userID = Objects.requireNonNull(mAuth.getCurrentUser()).getUid();
-        mUserDatabase = FirebaseDatabase.getInstance().getReference().child("Users").child("userId").child(userID);
+        mUserDatabase = FirebaseDatabase.getInstance().getReference().child("Users").child("userId").child(userID).child("sequencer");
     }
 
     /**

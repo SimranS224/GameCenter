@@ -83,8 +83,8 @@ public class SequencerStartingActivity extends AppCompatActivity {
         getUserDatabaseReference();
 
         //every user has a different save file
-        SAVE_FILENAME = userID + "save_file.ser";
-        TEMP_SAVE_FILENAME= userID + "save_file_tmp.ser";
+        SAVE_FILENAME = "sequencer" +userID + "save_file.ser";
+        TEMP_SAVE_FILENAME= "sequencer" +userID + "save_file_tmp.ser";
 
         getUserInfoFromDatabase();
         boardManager = new SequencerBoardManager();
@@ -337,41 +337,41 @@ public class SequencerStartingActivity extends AppCompatActivity {
                                 break;
                         }
                     }
-                    if (map.get("last_saved_undo_count")!=null) {
-                        String lastSavedUndoCount = map.get("last_saved_undo_count").toString();
-                        switch (lastSavedUndoCount) {
-                            case "Undo uses left: 0":
-                                MoveStack.setNumUndos(0);
-                                break;
-                            case "Undo uses left: 1":
-                                MoveStack.setNumUndos(1);
-                                break;
-                            case "Undo uses left: 2":
-                                MoveStack.setNumUndos(2);
-                                break;
-                            case "Undo uses left: 3":
-                                MoveStack.setNumUndos(3);
-                                break;
-                            case "Unlimited":
-                                MoveStack.setNumUndos(-1);
-                                break;
-                        }
+//                    if (map.get("last_saved_undo_count")!=null) {
+//                        String lastSavedUndoCount = map.get("last_saved_undo_count").toString();
+//                        switch (lastSavedUndoCount) {
+//                            case "Undo uses left: 0":
+//                                MoveStack.setNumUndos(0);
+//                                break;
+//                            case "Undo uses left: 1":
+//                                MoveStack.setNumUndos(1);
+//                                break;
+//                            case "Undo uses left: 2":
+//                                MoveStack.setNumUndos(2);
+//                                break;
+//                            case "Undo uses left: 3":
+//                                MoveStack.setNumUndos(3);
+//                                break;
+//                            case "Unlimited":
+//                                MoveStack.setNumUndos(-1);
+//                                break;
+//                        }
 
-                    }
-                    if (map.get("last_Saved_Score")!=null) {
-                        int lastSavedScore = Integer.parseInt(map.get("last_Saved_Score").toString());
-                        boardManager.setScore(lastSavedScore);
-                    }
-
-                    if(map.get("Board_Type")!= null) {
-                        String lastSavedBoardType = map.get("Board_Type").toString();
-                        SequencerBoard.setType(lastSavedBoardType);
-
-                    }
-                    if(map.get("requested_image")!= null) {
-                        String lastSavedBoardImage = map.get("requested_image").toString();
-                        SequencerBoard.setIMAGE(lastSavedBoardImage);
-                    }
+//                    }
+//                    if (map.get("last_Saved_Score")!=null) {
+//                        int lastSavedScore = Integer.parseInt(map.get("last_Saved_Score").toString());
+//                        boardManager.setScore(lastSavedScore);
+//                    }
+//
+//                    if(map.get("Board_Type")!= null) {
+//                        String lastSavedBoardType = map.get("Board_Type").toString();
+//                        SequencerBoard.setType(lastSavedBoardType);
+//
+//                    }
+//                    if(map.get("requested_image")!= null) {
+//                        String lastSavedBoardImage = map.get("requested_image").toString();
+//                        SequencerBoard.setIMAGE(lastSavedBoardImage);
+//                    }
 
 
                 }
@@ -391,7 +391,7 @@ public class SequencerStartingActivity extends AppCompatActivity {
 
         FirebaseAuth mAuth = FirebaseAuth.getInstance();
         userID = Objects.requireNonNull(mAuth.getCurrentUser()).getUid();
-        mUserDatabase= FirebaseDatabase.getInstance().getReference().child("Users").child("userId").child(userID);
+        mUserDatabase= FirebaseDatabase.getInstance().getReference().child("Users").child("userId").child(userID).child("sequencer");
     }
 
 //    private String downloadUserBoard(String fileName) {

@@ -391,7 +391,7 @@ public class StartingActivity extends AppCompatActivity {
 
         FirebaseAuth mAuth = FirebaseAuth.getInstance();
         userID = Objects.requireNonNull(mAuth.getCurrentUser()).getUid();
-        mUserDatabase= FirebaseDatabase.getInstance().getReference().child("Users").child("userId").child(userID);
+        mUserDatabase= FirebaseDatabase.getInstance().getReference().child("Users").child("userId").child(userID).child("sliding_tiles");
     }
 
 //    private String downloadUserBoard(String fileName) {

@@ -365,7 +365,7 @@ public class SequencerSettingsActivity extends AppCompatActivity {
 
         FirebaseAuth mAuth = FirebaseAuth.getInstance();
         String userID = Objects.requireNonNull(mAuth.getCurrentUser()).getUid();
-        mUserDatabase= FirebaseDatabase.getInstance().getReference().child("Users").child("userId").child(userID);
+        mUserDatabase= FirebaseDatabase.getInstance().getReference().child("Users").child("userId").child(userID).child("sequencer");
     }
 
 

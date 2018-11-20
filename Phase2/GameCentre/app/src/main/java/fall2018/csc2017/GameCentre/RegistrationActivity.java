@@ -136,6 +136,7 @@ public class RegistrationActivity extends AppCompatActivity {
                                 String user_id = Objects.requireNonNull(mAuth.getCurrentUser()).getUid();
                                 DatabaseReference current_user_db = FirebaseDatabase.getInstance().getReference().child("Users").child("userId").child(user_id).child("Name");
                                 current_user_db.setValue(name);
+
                             }
                         }
                     });
