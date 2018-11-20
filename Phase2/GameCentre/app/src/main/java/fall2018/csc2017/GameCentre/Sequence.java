@@ -2,12 +2,15 @@ package fall2018.csc2017.GameCentre;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Observable;
 import java.util.Random;
 
-public class Sequence implements Serializable {
+public class Sequence extends Observable implements Serializable {
     private ArrayList<Integer> sequence;
     private Random sequencNumber;
-    int position = 0;
+    int speakPos = 0;
+    int listenPos = 0;
+    int round = 3;
 
     public Sequence() {
         sequence = new ArrayList<>();
@@ -16,14 +19,19 @@ public class Sequence implements Serializable {
             sequence.add(sequencNumber.nextInt(SequencerBoard.NUM_COLS * SequencerBoard.NUM_ROWS));
         }
     }
-    public int get(){
-        position += 1;
-        System.out.println("---------------  " + position + "  ----------------------");
+    public int speakGet(){
+        speakPos += 1;
+        System.out.println("---------------  Speak Position: " + speakPos + "  ----------------------");
 
-        return sequence.get(position - 1);
+        return sequence.get(speakPos - 1);
+    }
+    public int listenGet(){
+        listenPos += 1;
+        System.out.println("---------------  Talk Position: " + listenPos + "  ----------------------");
+        return sequence.get(listenPos - 1);
     }
     public void resetPos() {
-        position = 0;
-        System.out.println("---------------  " + position + "  ----------------------");
+        speakPos = 0;
+        listenPos = 0;
     }
 }

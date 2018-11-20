@@ -138,6 +138,12 @@ public class SequencerGameActivity extends AppCompatActivity implements Observer
         //autosave
         saveToFile(SequencerStartingActivity.SAVE_FILENAME);
         saveToFile(SequencerStartingActivity.TEMP_SAVE_FILENAME);
+        if (boardManager.sequence.listenPos == boardManager.sequence.round) {
+            boardManager.sequence.round += 1;
+            boardManager.sequence.resetPos();
+            Speak();
+        }
+
     }
 
     @Override
@@ -157,7 +163,7 @@ public class SequencerGameActivity extends AppCompatActivity implements Observer
         gridView.setNumColumns(SequencerBoard.NUM_COLS);
         gridView.setBoardManager(boardManager);
         boardManager.getBoard().addObserver(this);
-
+        boardManager.sequence.addObserver(this);
         // Observer sets up desired dimensions as well as calls our display function
         gridView.getViewTreeObserver().addOnGlobalLayoutListener(
                 new ViewTreeObserver.OnGlobalLayoutListener() {
@@ -189,7 +195,7 @@ public class SequencerGameActivity extends AppCompatActivity implements Observer
         });
         addUndoButtonListener();
         saveUserInformationOnDatabase();
-        Speak(3);
+        Speak();
     }
 
     /**
@@ -507,11 +513,12 @@ public class SequencerGameActivity extends AppCompatActivity implements Observer
         anim.setDuration(1000); //You can manage the blinking time with this parameter
         anim.setRepeatCount(1);
         anim.setRepeatMode(Animation.REVERSE);
-        Button b = tileButtons.get(boardManager.sequence.get());
+        Button b = tileButtons.get(boardManager.sequence.speakGet());
         b.startAnimation(anim);
 
     }
-    private void Speak(int round) {
+    private void Speak() {
+        int round = boardManager.sequence.round;
         Handler handler = new Handler();
         for (int i = 0; i < round; i++) {
             handler.postDelayed(new Runnable() {

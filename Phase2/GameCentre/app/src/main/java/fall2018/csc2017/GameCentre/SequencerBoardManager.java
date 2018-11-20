@@ -107,7 +107,7 @@ class SequencerBoardManager implements Serializable {
      * @return whether the tile at position is surrounded by a blank tile
      */
     boolean isValidTap(int position) {
-        return position == sequence.get();
+        return position == sequence.listenGet();
     }
 
     /**
