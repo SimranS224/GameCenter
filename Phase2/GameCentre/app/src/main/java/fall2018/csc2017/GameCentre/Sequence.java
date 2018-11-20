@@ -10,7 +10,7 @@ public class Sequence extends Observable implements Serializable {
     private Random sequencNumber;
     int speakPos = 0;
     int listenPos = 0;
-    int round = 3;
+    int round = 1;
 
     public Sequence() {
         sequence = new ArrayList<>();

@@ -52,7 +52,7 @@ class SequencerBoardManager implements Serializable {
         tiles.add(new Tile(24));
         Collections.shuffle(tiles);
         this.board = new SequencerBoard(tiles);
-        this.score = 0;
+        this.score = 1;
         stack = new MoveStack();
         this.sequence = new Sequence();
     }
@@ -72,6 +72,7 @@ class SequencerBoardManager implements Serializable {
     public void setScore(int s) {
         score = s;
     }
+    public void increaseScore(){ score += 1; }
 
     /**
      * Return whether the tiles are in row-major order.

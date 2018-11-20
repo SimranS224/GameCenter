@@ -18,6 +18,7 @@ class SequencerMovementController {
 
         if (boardManager.isValidTap(position)) {
             Toast.makeText(context, "Correct!", Toast.LENGTH_SHORT).show();
+            boardManager.increaseScore();
 
         } else {
             Toast.makeText(context, "Incorrect", Toast.LENGTH_SHORT).show();

@@ -137,6 +137,7 @@ public class SequencerGameActivity extends AppCompatActivity implements Observer
         //autosave
         saveToFile(SequencerStartingActivity.SAVE_FILENAME);
         saveToFile(SequencerStartingActivity.TEMP_SAVE_FILENAME);
+        score.setText(String.valueOf(boardManager.getScore()));
         if (boardManager.sequence.listenPos == boardManager.sequence.round) {
             System.out.println("ROUND CHANGEEEEEE");
             boardManager.sequence.round += 1;
@@ -180,8 +181,6 @@ public class SequencerGameActivity extends AppCompatActivity implements Observer
                         display();
                     }
                 });
-        textView = findViewById(R.id.UndoCounter);
-        textView.setText(boardManager.stack.getUndos());
         // Reads the score by id
         score = findViewById(R.id.score);
         score.setText(String.valueOf(boardManager.getScore()));
@@ -359,10 +358,7 @@ public class SequencerGameActivity extends AppCompatActivity implements Observer
         }
 
         String lastSavedScore = score.getText().toString();
-        String lastSavedUndoCount = textView.getText().toString();
-
         userInfo.put("last_Saved_Score", lastSavedScore);
-        userInfo.put("last_saved_undo_count", lastSavedUndoCount);
 
         mUserDatabase.updateChildren(userInfo);
     }
