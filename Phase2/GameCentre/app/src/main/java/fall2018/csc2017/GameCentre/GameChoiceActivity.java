@@ -125,6 +125,8 @@ public class GameChoiceActivity extends AppCompatActivity {
         FirebaseAuth mAuth = FirebaseAuth.getInstance();
         userID = Objects.requireNonNull(mAuth.getCurrentUser()).getUid();
         mUserDatabase= FirebaseDatabase.getInstance().getReference().child("Users").child("userId").child(userID);
+
+        //User ->Games
         DatabaseReference mGamesDatabase= FirebaseDatabase.getInstance().getReference().child("Users").child("Games");
         mGamesDatabase.setValue(true);
     }
