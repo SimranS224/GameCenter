@@ -30,6 +30,7 @@ import java.util.Objects;
 import java.util.Random;
 
 import fall2018.csc2017.GameCentre.ScoreBoard.LeaderBoardMain;
+import fall2018.csc2017.GameCentre.TicTacToe.TicTacMainActivity;
 
 /**
  * The initial activity for the sliding puzzle tile game.
@@ -81,6 +82,7 @@ public class StartingActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
         getUserDatabaseReference();
+        getUserNameFromDatabase();
 
         //every user has a different save file
         SAVE_FILENAME = userID + "save_file.ser";
@@ -99,6 +101,7 @@ public class StartingActivity extends AppCompatActivity {
         addStartButtonListener();
         addLoadButtonListener();
         addSaveButtonListener();
+        addMainMenuButtonListener();
         switchToLeaderBoard();
 
 
@@ -129,6 +132,23 @@ public class StartingActivity extends AppCompatActivity {
             }
         });
     }
+
+    /**
+     * Activate Main Menu Button
+     */
+    private void addMainMenuButtonListener() {
+
+        Button mMainMenuButton = findViewById(R.id.MainMenu);
+        mMainMenuButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(StartingActivity.this,GameChoiceActivity.class);
+                startActivity(intent);
+                finish();
+            }
+        });
+    }
+
     /**
      * Activate the start button.
      */
@@ -374,6 +394,36 @@ public class StartingActivity extends AppCompatActivity {
                     }
 
 
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
+
+
+    }
+
+
+    /**
+     * Get Current User's Saved Name from the database to the application
+     */
+    private void getUserNameFromDatabase() {
+
+        getUserDatabaseReference();
+        mUserDatabase.getParent().addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if(dataSnapshot.exists() && dataSnapshot.getChildrenCount() >0) {
+                    Map<String, Object> map = (Map<String,Object>) dataSnapshot.getValue();
+                    assert map != null;
+                    if (map.get("Name")!=null) {
+                        String name = map.get("Name").toString();
+                        mWelcomeText.setText("Welcome Back "+name);
+                    }
                 }
             }
 

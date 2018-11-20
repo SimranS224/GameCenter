@@ -81,6 +81,7 @@ public class SequencerStartingActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
         getUserDatabaseReference();
+        getUserNameFromDatabase();
 
         //every user has a different save file
         SAVE_FILENAME = "sequencer" +userID + "save_file.ser";
@@ -392,6 +393,32 @@ public class SequencerStartingActivity extends AppCompatActivity {
         FirebaseAuth mAuth = FirebaseAuth.getInstance();
         userID = Objects.requireNonNull(mAuth.getCurrentUser()).getUid();
         mUserDatabase= FirebaseDatabase.getInstance().getReference().child("Users").child("userId").child(userID).child("sequencer");
+    }
+
+    /**
+     * Get Current User's Saved Name from the database to the application
+     */
+    private void getUserNameFromDatabase() {
+
+        getUserDatabaseReference();
+        mUserDatabase.getParent().addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if(dataSnapshot.exists() && dataSnapshot.getChildrenCount() >0) {
+                    Map<String, Object> map = (Map<String,Object>) dataSnapshot.getValue();
+                    assert map != null;
+                    if (map.get("Name")!=null) {
+                        String name = map.get("Name").toString();
+                        mWelcomeText.setText("Welcome Back "+name);
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
     }
 
 //    private String downloadUserBoard(String fileName) {
