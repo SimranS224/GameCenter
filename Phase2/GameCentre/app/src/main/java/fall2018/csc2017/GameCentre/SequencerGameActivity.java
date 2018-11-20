@@ -133,14 +133,14 @@ public class SequencerGameActivity extends AppCompatActivity implements Observer
     public void display() {
         updateTileButtons();
         gridView.setAdapter(new CustomAdapter(tileButtons, columnWidth, columnHeight));
-        System.out.println("Display function run");
 
         //autosave
         saveToFile(SequencerStartingActivity.SAVE_FILENAME);
         saveToFile(SequencerStartingActivity.TEMP_SAVE_FILENAME);
         if (boardManager.sequence.listenPos == boardManager.sequence.round) {
+            System.out.println("ROUND CHANGEEEEEE");
             boardManager.sequence.round += 1;
-            boardManager.sequence.resetPos();
+            boardManager.sequence.resetSpeak();
             Speak();
         }
 
@@ -529,7 +529,7 @@ public class SequencerGameActivity extends AppCompatActivity implements Observer
         }
         handler.postDelayed(new Runnable() {
             public void run() {
-                boardManager.sequence.resetPos();
+                boardManager.sequence.resetListen();
             }
         }, 2000 * round);
     }

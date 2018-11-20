@@ -22,16 +22,20 @@ public class Sequence extends Observable implements Serializable {
     public int speakGet(){
         speakPos += 1;
         System.out.println("---------------  Speak Position: " + speakPos + "  ----------------------");
-
         return sequence.get(speakPos - 1);
     }
     public int listenGet(){
         listenPos += 1;
-        System.out.println("---------------  Talk Position: " + listenPos + "  ----------------------");
+        System.out.println("---------------  Listen Position: " + listenPos + "  ----------------------");
+        setChanged();
+        notifyObservers();
         return sequence.get(listenPos - 1);
     }
-    public void resetPos() {
+    public void resetSpeak() {
         speakPos = 0;
+    }
+    public void resetListen() {
         listenPos = 0;
     }
+
 }
