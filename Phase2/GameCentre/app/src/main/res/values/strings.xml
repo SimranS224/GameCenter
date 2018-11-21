@@ -55,4 +55,5 @@
     <string name="login_">Login</string>
     <string name="logo">logo</string>
     <string name="message_here">message_here</string>
+    <string name="welcome_to_sequencer_the_game_where_you_have_to_copy_the_sequence_get_it_right_and_the_sequence_s_size_increases_by_1">Welcome to Sequencer. The game where you have to copy the sequence. Get it right and the sequence\'s size increases by 1</string>
 </resources>

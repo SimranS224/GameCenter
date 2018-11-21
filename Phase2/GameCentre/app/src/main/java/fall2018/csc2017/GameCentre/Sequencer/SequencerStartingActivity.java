@@ -1,4 +1,4 @@
-package fall2018.csc2017.GameCentre;
+package fall2018.csc2017.GameCentre.Sequencer;
 
 import android.content.Intent;
 import android.graphics.Color;
@@ -29,6 +29,8 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.Random;
 
+import fall2018.csc2017.GameCentre.FirstActivity;
+import fall2018.csc2017.GameCentre.R;
 import fall2018.csc2017.GameCentre.ScoreBoard.LeaderBoardMain;
 
 /**
@@ -90,8 +92,7 @@ public class SequencerStartingActivity extends AppCompatActivity {
         getUserInfoFromDatabase();
         boardManager = new SequencerBoardManager();
         getUserInfoFromDatabase();
-        String type1 = SequencerBoard.getType();
-        System.out.println(type1);
+
 
 
         saveToFile(TEMP_SAVE_FILENAME);
@@ -320,61 +321,6 @@ public class SequencerStartingActivity extends AppCompatActivity {
                             String name = map.get("Name").toString();
                             mWelcomeText.setText("Welcome Back "+name);
                     }
-                    if (map.get("SequencerBoard Size")!=null) {
-                        String boardSize = map.get("SequencerBoard Size").toString();
-                        switch (boardSize) {
-                            case "3x3":
-                                oldBoardSize = 3;
-                                SequencerBoard.setBoardSize(oldBoardSize);
-                                break;
-                            case "4x4":
-                                oldBoardSize = 4;
-                                SequencerBoard.setBoardSize(oldBoardSize);
-
-                                break;
-                            case "5x5":
-                                oldBoardSize = 5;
-                                SequencerBoard.setBoardSize(oldBoardSize);
-                                break;
-                        }
-                    }
-//                    if (map.get("last_saved_undo_count")!=null) {
-//                        String lastSavedUndoCount = map.get("last_saved_undo_count").toString();
-//                        switch (lastSavedUndoCount) {
-//                            case "Undo uses left: 0":
-//                                MoveStack.setNumUndos(0);
-//                                break;
-//                            case "Undo uses left: 1":
-//                                MoveStack.setNumUndos(1);
-//                                break;
-//                            case "Undo uses left: 2":
-//                                MoveStack.setNumUndos(2);
-//                                break;
-//                            case "Undo uses left: 3":
-//                                MoveStack.setNumUndos(3);
-//                                break;
-//                            case "Unlimited":
-//                                MoveStack.setNumUndos(-1);
-//                                break;
-//                        }
-
-//                    }
-//                    if (map.get("last_Saved_Score")!=null) {
-//                        int lastSavedScore = Integer.parseInt(map.get("last_Saved_Score").toString());
-//                        boardManager.setScore(lastSavedScore);
-//                    }
-//
-//                    if(map.get("Board_Type")!= null) {
-//                        String lastSavedBoardType = map.get("Board_Type").toString();
-//                        SequencerBoard.setType(lastSavedBoardType);
-//
-//                    }
-//                    if(map.get("requested_image")!= null) {
-//                        String lastSavedBoardImage = map.get("requested_image").toString();
-//                        SequencerBoard.setIMAGE(lastSavedBoardImage);
-//                    }
-
-
                 }
             }
 

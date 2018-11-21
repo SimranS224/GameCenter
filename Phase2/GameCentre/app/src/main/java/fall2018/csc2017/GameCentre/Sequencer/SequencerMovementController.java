@@ -1,4 +1,4 @@
-package fall2018.csc2017.GameCentre;
+package fall2018.csc2017.GameCentre.Sequencer;
 
 import android.content.Context;
 import android.widget.Toast;
@@ -22,6 +22,7 @@ class SequencerMovementController {
 
         } else {
             Toast.makeText(context, "Incorrect", Toast.LENGTH_SHORT).show();
+            boardManager.setGameOver();
         }
     }
 }

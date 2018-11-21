@@ -179,7 +179,7 @@ public class TicTacGameActivity extends AppCompatActivity implements Observer {
         gridView.setNumColumns(TicTacBoard.NUM_COLS);
         boardManager.getBoard().addObserver(this);
 
-        // Observer sets up desired dimensions as well as calls our display function
+        // Observer sets up desired dimensions as well as calls our update function
         gridView.getViewTreeObserver().addOnGlobalLayoutListener(
                 new ViewTreeObserver.OnGlobalLayoutListener() {
                     @Override
