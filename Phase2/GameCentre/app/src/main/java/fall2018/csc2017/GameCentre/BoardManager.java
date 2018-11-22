@@ -94,7 +94,7 @@ class BoardManager implements Serializable {
             // If the grid width is even, and the blank is on an odd row counting from the bottom
             // (first, third-last etc), then the number of inversions in a solvable situation
             // is odd
-            //check row position of blank tile
+            // check row position of blank tile
             int position = 0;
             for (int i = 0; i < tiles.size(); i++){
                 if (tiles.get(i).getId() == 0) {
@@ -102,6 +102,7 @@ class BoardManager implements Serializable {
                     break;
                 }
             }
+            position += 1;
             // get row position
             int row_pos = position / this.getBoard().getNumCols();
             solvable = ((row_pos % 2 != 0) && (inversions % 2 == 0)) ||

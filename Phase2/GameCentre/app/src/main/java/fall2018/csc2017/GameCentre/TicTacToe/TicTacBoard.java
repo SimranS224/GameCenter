@@ -264,6 +264,7 @@ public class TicTacBoard extends Observable implements Serializable, Iterable<Ti
         return NUM_ROWS;
     }
 
+
     /**
      * Swap the ticTacMarkers at (row1, col1) and (row2, col2)
      *
@@ -277,17 +278,13 @@ public class TicTacBoard extends Observable implements Serializable, Iterable<Ti
         ticTacMarkers[row1][col1] = ticTacMarkers[row2][col2];
         ticTacMarkers[row2][col2] = temp;
 
-
         setChanged();
         notifyObservers();
     }
 
     // set background
-    void setBackground(int row, int col, int background) {
-        ticTacMarkers[row][col].setBackground(background); //to store original TicTacMarker
-
-
-
+    void setBackground(int row, int col, int backgroundid) {
+        ticTacMarkers[row][col].setBackground(backgroundid); //to store original TicTacMarker
         setChanged();
         notifyObservers();
     }

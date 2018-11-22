@@ -112,6 +112,12 @@ public class TicTacMinimaxStrategy extends TicTacStrategy {
 
     }
 
+    /**
+     * return if the game is winning
+     * @param board
+     * @param current_player
+     * @return true if one of the player wins, false otherwise
+     */
     private boolean winning(TicTacBoard board, int current_player) {
         int background_id = 0;
         // after turn, check board to see if anyone has one
