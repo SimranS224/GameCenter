@@ -72,7 +72,7 @@ public class GameActivity extends AppCompatActivity implements Observer {
     private BoardManager boardManager;
 
     /**
-     * The buttons to display.
+     * The buttons to update.
      */
     private ArrayList<Button> tileButtons;
 
@@ -154,7 +154,7 @@ public class GameActivity extends AppCompatActivity implements Observer {
         gridView.setBoardManager(boardManager);
         boardManager.getBoard().addObserver(this);
 
-        // Observer sets up desired dimensions as well as calls our display function
+        // Observer sets up desired dimensions as well as calls our update function
         gridView.getViewTreeObserver().addOnGlobalLayoutListener(
                 new ViewTreeObserver.OnGlobalLayoutListener() {
                     @Override
@@ -199,7 +199,7 @@ public class GameActivity extends AppCompatActivity implements Observer {
         // Firebase User Authorisation
         FirebaseAuth mAuth = FirebaseAuth.getInstance();
         String userID = Objects.requireNonNull(mAuth.getCurrentUser()).getUid();
-        mUserDatabase = FirebaseDatabase.getInstance().getReference().child("Users").child("userId").child(userID);
+        mUserDatabase = FirebaseDatabase.getInstance().getReference().child("Users").child("userId").child(userID).child("sliding_tiles");
     }
 
     /**

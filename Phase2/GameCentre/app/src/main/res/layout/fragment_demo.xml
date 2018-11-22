@@ -1,17 +1,59 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context="fall2018.csc2017.GameCentre.ScoreBoard.DemoFragment">
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/Leaderboard"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/special_gradient">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
-        android:id="@+id/txt_display"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/message_here"
-        />
+        <ListView
+            android:id="@+id/listLead"
+            android:layout_width="match_parent"
+            android:layout_height="535dp"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginStart="0dp"
+            android:layout_marginBottom="12dp"
+            android:background="@android:color/white"
+            android:cacheColorHint="#FFFFFF"
+            android:clipToPadding="false"
+            android:dividerHeight="1dp"
+            android:paddingBottom="56dp" />
+
+        <TextView
+            android:id="@+id/LeaderBoardtext"
+            android:layout_width="172dp"
+            android:layout_height="42dp"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="4dp"
+            android:text="@string/leaderboard"
+            android:textAlignment="center"
+            android:textColor="@android:color/white"
+            android:textSize="30sp" />
+
+        <TextView
+            android:id="@+id/GlobalRanktext"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginStart="21dp"
+            android:layout_marginTop="45dp"
+            android:textAlignment="viewStart"
+            android:textColor="@android:color/white"
+            android:textSize="24sp" />
+
+        <TextView
+            android:id="@+id/globalRanktext"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginStart="151dp"
+            android:layout_marginTop="69dp"
+            android:textAlignment="viewStart"
+            android:textColor="@android:color/white"
+            android:textSize="24sp" />
 
 
 
-</FrameLayout>
+    </RelativeLayout>

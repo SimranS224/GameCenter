@@ -6,16 +6,20 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import fall2018.csc2017.GameCentre.R;
 
 /**
- * A simple {@link Fragment} subclass.
+ * This is an individual page in a sense. Every time a new page is swiped to, a new
+ * DemoFragement is created.
  */
 public class DemoFragment extends Fragment {
 
-    private TextView textView;
+    private TextView textView1;
+    private TextView textView2;
+    private ListView listView;
     public DemoFragment() {
         // Required empty public constructor
     }
@@ -24,12 +28,20 @@ public class DemoFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
 
         View view = inflater.inflate(R.layout.fragment_demo, container, false);
-        //textView = textView.findViewById(R.id.txt_display);
-        //String message = getArguments().getString("message");
-        //textView.setText(message);
+        textView1 = view.findViewById(R.id.GlobalRanktext);
+        textView2 = view.findViewById(R.id.globalRanktext);
+
+        String type = getArguments().getString("type");
+        String size = getArguments().getString("size");
+
+        //TODO Get your list/array lists back from the bundle.
+
+        textView1.setText(type);
+        textView2.setText(size);
+
+        //TODO "Set" the listview to be that list you got back from the bundle.
         return view;
     }
 

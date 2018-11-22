@@ -18,6 +18,7 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.Map;
 import java.util.Objects;
 
+import fall2018.csc2017.GameCentre.Sequencer.SequencerStartingActivity;
 import fall2018.csc2017.GameCentre.TicTacToe.TicTacMainActivity;
 
 /**
@@ -124,6 +125,10 @@ public class GameChoiceActivity extends AppCompatActivity {
         FirebaseAuth mAuth = FirebaseAuth.getInstance();
         userID = Objects.requireNonNull(mAuth.getCurrentUser()).getUid();
         mUserDatabase= FirebaseDatabase.getInstance().getReference().child("Users").child("userId").child(userID);
+
+        //User ->Games
+        DatabaseReference mGamesDatabase= FirebaseDatabase.getInstance().getReference().child("Users").child("Games");
+        mGamesDatabase.setValue(true);
     }
 
     /**

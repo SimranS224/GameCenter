@@ -20,7 +20,7 @@ import java.util.Map;
 import fall2018.csc2017.GameCentre.R;
 
 /**
- * Used to display and store the Five by Five global scores.
+ * Used to update and store the Five by Five global scores.
  */
 public class GlobalFiveByFive extends AppCompatActivity {
 

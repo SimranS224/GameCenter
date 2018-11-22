@@ -20,7 +20,7 @@ import java.util.Map;
 import fall2018.csc2017.GameCentre.R;
 
 /**
- * Used to display and store the Three by Three global scores.
+ * Used to update and store the Three by Three global scores.
  */
 public class GlobalThreeByThree extends AppCompatActivity {
 

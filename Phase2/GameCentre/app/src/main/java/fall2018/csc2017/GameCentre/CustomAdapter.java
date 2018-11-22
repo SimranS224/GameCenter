@@ -20,7 +20,7 @@ public class CustomAdapter extends BaseAdapter {
     private ArrayList<Button> mButtons;
     private int mColumnWidth, mColumnHeight;
 
-    CustomAdapter(ArrayList<Button> buttons, int columnWidth, int columnHeight) {
+    public CustomAdapter(ArrayList<Button> buttons, int columnWidth, int columnHeight) {
         mButtons = buttons;
         mColumnWidth = columnWidth;
         mColumnHeight = columnHeight;

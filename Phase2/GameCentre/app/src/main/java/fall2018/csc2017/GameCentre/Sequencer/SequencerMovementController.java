@@ -1,4 +1,4 @@
-package fall2018.csc2017.GameCentre;
+package fall2018.csc2017.GameCentre.Sequencer;
 
 import android.content.Context;
 import android.widget.Toast;
@@ -15,13 +15,14 @@ class SequencerMovementController {
         this.boardManager = boardManager;
     }
     void processTapMovement(Context context, int position) {
+
         if (boardManager.isValidTap(position)) {
-            boardManager.touchMove(position);
-            if (boardManager.puzzleSolved()) {
-                Toast.makeText(context, "YOU WIN!", Toast.LENGTH_SHORT).show();
-            }
+            Toast.makeText(context, "Correct!", Toast.LENGTH_SHORT).show();
+            boardManager.increaseScore();
+
         } else {
-            Toast.makeText(context, "Invalid Tap", Toast.LENGTH_SHORT).show();
+            Toast.makeText(context, "Incorrect", Toast.LENGTH_SHORT).show();
+            boardManager.setGameOver();
         }
     }
 }
