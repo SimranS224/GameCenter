@@ -87,7 +87,7 @@ public class TicTacMinimaxStrategy extends TicTacStrategy {
         Move bestMove = new Move();
         //choose move with highest score
         if (current_player == board.getPlayer2()) {
-            int bestScore = -10000;
+            int bestScore = -10000 ;
             for (int i = 0; i < moves.size(); i++ ) {
                 if (moves.get(i).score > bestScore) {
                     bestScore = moves.get(i).score;
@@ -104,7 +104,7 @@ public class TicTacMinimaxStrategy extends TicTacStrategy {
                     bestMove.id = moves.get(i).id;
                 }
             }
-            bestMove.score = bestScore;
+            bestMove.score = (-1) * bestScore;
         }
 
         // return the chosen move from the moves arraylist

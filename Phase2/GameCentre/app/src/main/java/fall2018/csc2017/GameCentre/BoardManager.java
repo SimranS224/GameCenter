@@ -78,7 +78,7 @@ class BoardManager implements Serializable {
             for(int j = i + 1; j < tiles.size(); j++) {
                 //check whether the ith iteration from tiles list is
                 // greater than jth iteration from tiles list
-                if (tiles.get(i).getId() > tiles.get(j).getId())
+                if ((tiles.get(i).getId() > tiles.get(j).getId()) && (tiles.get(j).getId() != 0))
                     inversions += 1;
             }
         }
@@ -102,11 +102,11 @@ class BoardManager implements Serializable {
                     break;
                 }
             }
-            position += 1;
+
             // get row position
             int row_pos = position / this.getBoard().getNumCols();
-            solvable = ((row_pos % 2 != 0) && (inversions % 2 == 0)) ||
-                    ((row_pos % 2 == 0) && (inversions % 2 != 0));
+            solvable = ((row_pos % 2 == 0) && (inversions % 2 != 0)) ||
+                    ((row_pos % 2 != 0) && (inversions % 2 == 0));
         }
         return solvable;
     }

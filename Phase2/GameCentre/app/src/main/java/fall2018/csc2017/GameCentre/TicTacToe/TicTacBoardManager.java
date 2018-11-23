@@ -105,8 +105,9 @@ class TicTacBoardManager implements Serializable {
         if (board.getGameOver()) {
             return true;
         }
-        while (count != (board.getCols()* board.getRows())) {
-            if (board.iterator().next().getBackgroundId() != 0) {
+        Iterator<TicTacMarker> iter = board.iterator();
+        while (iter.hasNext()) {
+            if (iter.next().getBackgroundId() != 0) {
                 count++;
             }
         }
@@ -205,28 +206,15 @@ class TicTacBoardManager implements Serializable {
         if (isValidTap(position)) {
             //check whos turn it is and drop the marker accordingly
             //get row and column of blank tile
-            if (board.getCurrentPlayer() == 0) {
-                board.getMarker(row, col).setBackground(board.getP1Background());
-            } else if ((board.getCurrentPlayer() == 1)) {
-                board.getMarker(row, col).setBackground(board.getP2_background());
+            if (board.getCurrentPlayer() == board.getPlayer1()) {
+                board.setBackground(row, col, board.getP1Background());
+            } else if ((board.getCurrentPlayer() == board.getPlayer2())) {
+                board.setBackground(row, col, board.getP2Background());
             }
             // change player turns after tap
             board.changeTurns();
-
- /*           int blankPos = 0;
-            Iterator<TicTacMarker> iter = board.iterator();
-            while (iter.next().getId() != blankId) {
-                blankPos++;
-            }
-            int blankRow = blankPos / TicTacBoard.NUM_COLS;
-            int blankCol = blankPos % TicTacBoard.NUM_COLS;
-
-            //swap them
-            board.swapMarkers(row, col, blankRow, blankCol);
-            Integer[] c = {row, col, blankRow, blankCol};
-            stack.add(c);*/
             // just a test
-            board.swapMarkers(row, col, row, col);
+            //board.swapMarkers(row, col, row, col);
 
         }
         score++;

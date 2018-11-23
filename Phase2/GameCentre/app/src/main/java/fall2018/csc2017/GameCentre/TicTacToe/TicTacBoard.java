@@ -136,7 +136,7 @@ public class TicTacBoard extends Observable implements Serializable, Iterable<Ti
     /**
      * Return p2 background
      */
-    public int getP2_background() {
+    public int getP2Background() {
         return this.p2_background;
     }
 
