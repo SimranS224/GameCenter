@@ -29,11 +29,7 @@ import java.io.InputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Collections;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Observable;
@@ -53,18 +49,7 @@ public class GameActivity extends AppCompatActivity implements Observer {
      * The TextView representing number of Undos left in the current game
      */
     TextView textView;
-    /**
-     * The current users top 3 scores for the 4x4 board size.
-     */
-    private ArrayList<Long> allScoresFour = new ArrayList<>();
-    /**
-     * The current users top 3 scores for the 3x3 board size.
-     */
-    private ArrayList<Long> allScoresThree = new ArrayList<>();
-    /**
-     * The current users top 3 scores for the 5x5 board size.
-     */
-    private ArrayList<Long> allScoresFive = new ArrayList<>();
+
 
     /**
      * The board manager.
@@ -72,7 +57,11 @@ public class GameActivity extends AppCompatActivity implements Observer {
     private BoardManager boardManager;
 
     /**
-     * The buttons to update.
+     * The LeaderBoard for this Game.
+     */
+    private LeaderBoardFrontEnd leaderBoardFrontEnd;
+    /**
+     * The buttons to display.
      */
     private ArrayList<Button> tileButtons;
 
@@ -91,10 +80,23 @@ public class GameActivity extends AppCompatActivity implements Observer {
      */
     private DatabaseReference mUserDatabase;
 
+//    /**
+//     * Name of curr user // TODO Abudllah need your help
+//     */
+//    private String
+
     /**
      * ArrayList where the parts of the image are going to be stored.
      */
     ArrayList<Bitmap> chunckedImages;
+
+    //    public ArrayList<Object> leaderBoard;
+    private DatabaseReference mGamesDatabase;
+
+    /**
+     * Checks if data has been changed
+     */
+    private boolean dataChange;
 
     /**
      * Checks the type the Board class is set as.
@@ -154,7 +156,7 @@ public class GameActivity extends AppCompatActivity implements Observer {
         gridView.setBoardManager(boardManager);
         boardManager.getBoard().addObserver(this);
 
-        // Observer sets up desired dimensions as well as calls our update function
+        // Observer sets up desired dimensions as well as calls our display function
         gridView.getViewTreeObserver().addOnGlobalLayoutListener(
                 new ViewTreeObserver.OnGlobalLayoutListener() {
                     @Override
@@ -185,11 +187,36 @@ public class GameActivity extends AppCompatActivity implements Observer {
         });
         addUndoButtonListener();
         // saves score on database
+        leaderBoardFrontEnd = new LeaderBoardFrontEnd();
+        this.dataChange = false;
+
         saveUserInformationOnDatabase();
+        saveScoreCountOnDataBase();
+        mGamesDatabase.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+//                if (boardManager.puzzleSolved()) {
+
+                if (boardManager.puzzleSolved() && !dataChange) {
+                    leaderBoardFrontEnd.empty();
+                    leaderBoardFrontEnd.saveScoreToLeaderBoard(dataSnapshot, boardManager); // move to leaderboard front endTODO
+                    dataChange = true;
+//                    saveScoreCountOnDataBase(0);
+                }
+//                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
     }
     /*
     Scoreboard code which reads scores as the game when the game ends
      */
+
 
     /**
      * Get database reference from the Firebase Database pointing to the current user
@@ -200,157 +227,37 @@ public class GameActivity extends AppCompatActivity implements Observer {
         FirebaseAuth mAuth = FirebaseAuth.getInstance();
         String userID = Objects.requireNonNull(mAuth.getCurrentUser()).getUid();
         mUserDatabase = FirebaseDatabase.getInstance().getReference().child("Users").child("userId").child(userID).child("sliding_tiles");
+        mGamesDatabase = FirebaseDatabase.getInstance().getReference().child("Users").child("Games");
+//        mUserDatabase=FirebaseDatabase.getInstance().getReference().child("Users").child("userId").child(userID).child("sliding_tiles");
+
     }
 
     /**
      * Saves the Current User's settings to the database
      */
     private void saveUserInformationOnDatabase() {
-        Long winningScore = null;
 
-        Map<String, Object> userInfo = new HashMap<>();
-
-        String boardSize = Board.NUM_ROWS + "x" + Board.NUM_ROWS;
-        //read the current users best scores into a list for sorting and displaying
-        readUserScores();
-
-        if (boardManager.puzzleSolved()) {
-            winningScore = Long.parseLong(score.getText().toString());
-        }
-        // Depending on the board size add the winning score to the correct class.
-        organizeWinningScore(winningScore, userInfo, boardSize);
 
         String lastSavedScore = score.getText().toString();
         String lastSavedUndoCount = textView.getText().toString();
+        Map<String, Object> userInfo = new HashMap<>();
 
         userInfo.put("last_Saved_Score", lastSavedScore);
         userInfo.put("last_saved_undo_count", lastSavedUndoCount);
 
         mUserDatabase.updateChildren(userInfo);
+
     }
 
-    /**
-     * Chooses one of the lists to add the winning score to
-     *
-     * @param winningScore the score that the player won the game with
-     * @param userInfo     the mapping used to access the database
-     * @param boardSize    the size of the board currently being played on
-     */
-    private void organizeWinningScore(Long winningScore, Map<String, Object> userInfo, String boardSize) {
-        switch (boardSize) {
-            case "3x3":
-                addWinningScore(winningScore, allScoresThree, userInfo, "Three");
-                break;
-            case "4x4":
-                addWinningScore(winningScore, allScoresFour, userInfo, "Four");
-                break;
-            case "5x5":
-                addWinningScore(winningScore, allScoresFive, userInfo, "Five");
-                break;
-        }
+    private void saveScoreCountOnDataBase() {
+
+        String lastSavedScore = score.getText().toString();
+        // String lastSavedUndoCount = textView.getText().toString();
+        Map<String, Object> newMap = new HashMap<>();
+        newMap.put("last_Saved_Score", lastSavedScore);
+        mGamesDatabase.updateChildren(newMap);
     }
 
-    /**
-     * Adds winning score to the current list
-     *
-     * @param winningScore Winning score
-     * @param lst          The current user score list
-     * @param userInfo     information about the user (map) from Firebase
-     * @param boardSize    Size of the board.
-     */
-    private void addWinningScore(Long winningScore, ArrayList<Long> lst, Map<String, Object> userInfo, String boardSize) {
-
-        if (winningScore != null && (!lst.contains(winningScore))) {
-//            Log.d("SlidingTiles", "3x3=============== " + userInfo.get("SlidingTilesThree"));
-//
-//            Log.d("thecurrnetlist", "3x3=============== " + lst);
-//            Log.d("SlidingTiles", "4x4=============== " + userInfo.get("SlidingTilesFour"));
-
-            Long worstCur = null;
-            if (lst.size() > 0) {
-                worstCur = (Long) lst.get(lst.size() - 1);
-            } else {
-                worstCur = 100000L;
-            }
-            if ((worstCur > winningScore) || (lst.size() < 5)) {
-                lst.add(winningScore);
-                Collections.sort(lst);
-                if (lst.size() > 5) {
-                    lst.remove(lst.size() - 1);
-                }
-                userInfo.put("SlidingTiles" + boardSize, lst);
-//                Log.d("SlidingTiles", "3x3=============== " + userInfo.get("SlidingTilesThree"));
-//                Log.d("SlidingTiles", "4x4=============== " + userInfo.get("SlidingTilesFour"));
-
-            }
-        }
-    }
-
-
-    /**
-     * Reads the user scores from Firebase databse and updates the arraylists representing board size
-     * accordingly.
-     */
-    public void readUserScores() {
-
-        mUserDatabase.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                if (dataSnapshot.exists() && dataSnapshot.getChildrenCount() > 0) {
-                    Map<String, ArrayList<Integer>> map = (Map<String, ArrayList<Integer>>) dataSnapshot.getValue();
-                    assert map != null;
-                    // Reads preexisting values from the database to be stored for
-                    // later use.
-                    List<String> sizes = Arrays.asList("Three", "Four", "Five");
-                    for (String s : sizes) {
-                        if (map.get("SlidingTiles" + s) != null) {
-                            ArrayList<Long> theCurrentList = returnBoardToRead(s);
-                            ArrayList theStoredList = map.get("SlidingTiles" + s);
-//                            Log.d("checking list", "thestoredlist=============== " + theStoredList);
-//                            Log.d("checking listtype", "oneelement=============== " + theStoredList.get(0));
-
-                            for (int i = 0; i < theStoredList.size(); i++) {
-//                                Log.d("for loop conversion runnint", "iteration=============== " + i);
-                                if (i <= 4) {
-                                    Long scoreToAdd = (Long) theStoredList.get(i);
-                                    if (!theCurrentList.contains(scoreToAdd)) {
-                                        theCurrentList.add((Long) theStoredList.get(i));
-
-                                    }
-                                }
-                            }
-//                            Log.d("three list", "threelist======," + allScoresThree);
-//                            Log.d("four list", "fourlist======," + allScoresFour);
-                        }
-                    }
-
-                }
-            }
-
-            //
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-        });
-    }
-
-    /**
-     * Returns the arraylist which corresponds to the board size.
-     *
-     * @param theBoard A string represeting the size of the board
-     * @return the arraylist that corresponds to each size
-     */
-    private ArrayList<Long> returnBoardToRead(String theBoard) {
-        switch (theBoard) {
-            case "Three":
-                return allScoresThree;
-            case "Five":
-                return allScoresFive;
-            default:
-                return allScoresFour;
-        }
-    }
 
 
     /*
@@ -364,6 +271,7 @@ public class GameActivity extends AppCompatActivity implements Observer {
     protected void onPause() {
         super.onPause();
         saveToFile(StartingActivity.TEMP_SAVE_FILENAME);
+//        saveScoreToLeaderBoard(boardManager);
     }
 
     /**
@@ -406,11 +314,15 @@ public class GameActivity extends AppCompatActivity implements Observer {
             Log.e("Exception", "File write failed: " + e.toString());
         }
         //uploadUserBoard(fileName);
+//        saveScoreToLeaderBoard(boardManager);
     }
 
     @Override
     public void update(Observable o, Object arg) {
         display();
+//        saveScoreToLeaderBoard(boardManager);
+        saveScoreCountOnDataBase();
+        saveUserInformationOnDatabase();
     }
 
     /*
@@ -438,7 +350,7 @@ public class GameActivity extends AppCompatActivity implements Observer {
                     boardManager.setScore(boardManager.getScore() + 1);
 
                 }
-                saveUserInformationOnDatabase();
+//                saveScoreToLeaderBoard(boardManager);
 
 
             }
@@ -487,7 +399,7 @@ public class GameActivity extends AppCompatActivity implements Observer {
         }
         final TextView score = findViewById(R.id.score);
         score.setText(String.valueOf(boardManager.getScore()));
-        saveUserInformationOnDatabase();
+//        saveScoreToLeaderBoard(boardManager);
     }
 
     /*

@@ -67,6 +67,13 @@ public class TicTacMarker implements Comparable<TicTacMarker>, Serializable {
     }
 
     /**
+     * set the tile id
+     */
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    /**
      * A Tile with id and background. The background may not have a corresponding image.
      *
      * @param id         the id
@@ -83,7 +90,7 @@ public class TicTacMarker implements Comparable<TicTacMarker>, Serializable {
      *
      * @param backgroundId The background id the Actual Id - 1.
      */
-    TicTacMarker(int row, int column, int backgroundId) {
+    public TicTacMarker(int row, int column, int backgroundId) {
         this.row = row;
         this.column = column;
         this.backgroundid = backgroundId;

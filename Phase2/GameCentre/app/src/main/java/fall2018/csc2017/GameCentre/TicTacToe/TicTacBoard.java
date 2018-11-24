@@ -3,6 +3,7 @@ package fall2018.csc2017.GameCentre.TicTacToe;
 import android.support.annotation.NonNull;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
@@ -39,12 +40,12 @@ public class TicTacBoard extends Observable implements Serializable, Iterable<Ti
     /**
      * p1 marker color
      */
-    private int p1_background = 1;
+    private static int p1_background = 1;
 
     /**
      * p2 marker color
      */
-    private int p2_background = 2;
+    private static int p2_background = 2;
 
     /**
      * The number of rows.
@@ -68,6 +69,9 @@ public class TicTacBoard extends Observable implements Serializable, Iterable<Ti
      * The ticTacMarkers on the board in row-major order.
      */
     private TicTacMarker[][] ticTacMarkers = new TicTacMarker[NUM_ROWS][NUM_COLS];
+
+
+
     /**
      * A new board of ticTacMarkers in row-major order.
      * Precondition: len(ticTacMarkers) == NUM_ROWS * NUM_COLS
@@ -88,6 +92,26 @@ public class TicTacBoard extends Observable implements Serializable, Iterable<Ti
         for (int row = 0; row < TicTacBoard.NUM_ROWS; row++) {
             for (int col = 0; col < TicTacBoard.NUM_COLS; col++) {
                 this.ticTacMarkers[row][col] = iter.next();
+            }
+        }
+    }
+
+    /**
+     * clone the board
+     * @param board
+     */
+    public TicTacBoard(TicTacBoard board) {
+        this.current_player = board.current_player;
+        this.p1_turn = board.p1_turn;
+        this.game_over = board.game_over;
+        this.current_player = board.current_player;
+
+
+        for (int row = 0; row < TicTacBoard.NUM_ROWS; row++) {
+            for (int col = 0; col < TicTacBoard.NUM_COLS; col++) {
+                this.ticTacMarkers[row][col] = new TicTacMarker(row, col, 0);
+                this.ticTacMarkers[row][col].setBackground(board.ticTacMarkers[row][col].getBackgroundId());
+                this.ticTacMarkers[row][col].setId(board.ticTacMarkers[row][col].getId());
             }
         }
     }
@@ -116,7 +140,7 @@ public class TicTacBoard extends Observable implements Serializable, Iterable<Ti
     /**
      * Return p2 background
      */
-    public int getP2_background() {
+    public int getP2Background() {
         return this.p2_background;
     }
 
@@ -125,6 +149,13 @@ public class TicTacBoard extends Observable implements Serializable, Iterable<Ti
      */
     public int getCurrentPlayer() {
         return this.current_player;
+    }
+
+    /**
+     * Return player1 id
+     */
+    public int getPlayer1() {
+        return this.P1_ID;
     }
 
     /**
@@ -144,13 +175,6 @@ public class TicTacBoard extends Observable implements Serializable, Iterable<Ti
         } else {
             return p2_background;
         }
-    }
-
-    /**
-     * Return current player
-     */
-    public boolean getP1Turn() {
-        return this.p1_turn;
     }
 
     /**
@@ -198,22 +222,6 @@ public class TicTacBoard extends Observable implements Serializable, Iterable<Ti
     }
 
     /**
-     * Set image of the board.
-     * @param image Image to be set
-     */
-    static void setIMAGE(String image) {
-        IMAGE = image;
-    }
-
-    /**
-     * Gets the image of this board.
-     * @return the image of this board.
-     */
-    static String getIMAGE() {
-        return IMAGE;
-    }
-
-    /**
      * Sets the type of the board.
      * @param type type of the board
      */
@@ -237,30 +245,9 @@ public class TicTacBoard extends Observable implements Serializable, Iterable<Ti
         return NUM_ROWS;
     }
 
-    /**
-     * Swap the ticTacMarkers at (row1, col1) and (row2, col2)
-     *
-     * @param row1 the first TicTacMarker row
-     * @param col1 the first TicTacMarker col
-     * @param row2 the second TicTacMarker row
-     * @param col2 the second TicTacMarker col
-     */
-    void swapMarkers(int row1, int col1, int row2, int col2) {
-        TicTacMarker temp = ticTacMarkers[row1][col1]; //to store original TicTacMarker
-        ticTacMarkers[row1][col1] = ticTacMarkers[row2][col2];
-        ticTacMarkers[row2][col2] = temp;
-
-
-        setChanged();
-        notifyObservers();
-    }
-
     // set background
-    void setBackground(int row, int col, int background) {
-        ticTacMarkers[row][col].setBackground(background); //to store original TicTacMarker
-
-
-
+    void setBackground(int row, int col, int backgroundid) {
+        ticTacMarkers[row][col].setBackground(backgroundid); //to store original TicTacMarker
         setChanged();
         notifyObservers();
     }
@@ -271,6 +258,35 @@ public class TicTacBoard extends Observable implements Serializable, Iterable<Ti
                 "ticTacMarkers=" + Arrays.toString(ticTacMarkers) +
                 '}';
     }
+
+    /**
+     * Return whether the blank tile is used.
+     *
+     * @param position the tile to check
+     * @return whether the tile at position is blank tile
+     */
+    boolean isValidTap(int position) {
+
+        int row = position / this.NUM_COLS;
+        int col = position % this.NUM_COLS;
+        return (this.getMarker(row,col).getBackgroundId() == 0);
+    }
+
+    /**
+     * returns the list of valid moves left on the board
+     * @return the list of valid moves on the board
+     */
+    public ArrayList<Integer> getValidMoves() {
+        ArrayList<Integer> validMoves = new ArrayList<Integer>();
+        for (int position = 0; position < this.getRows() * this.getCols(); position++) {
+            if (isValidTap(position)) {
+                Integer IntPos = new Integer(position);
+                validMoves.add(IntPos);
+            }
+        }
+        return validMoves;
+    }
+
 
     //implementing the iterator
     @NonNull

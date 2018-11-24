@@ -14,7 +14,7 @@ class BoardManager implements Serializable {
     /**
      * score
      */
-    private Integer score;
+    private Long score;
 
     /**
      * The board being managed.
@@ -29,7 +29,7 @@ class BoardManager implements Serializable {
      */
     BoardManager(Board board) {
         this.board = board;
-        this.score = 0;
+        this.score = 0L;
         this.stack = new MoveStack();
     }
 
@@ -45,7 +45,7 @@ class BoardManager implements Serializable {
      */
     BoardManager() {
         List<Tile> tiles = new ArrayList<>();
-        final int numTiles = Board.NUM_ROWS * Board.NUM_COLS;
+        final int numTiles = this.getBoard().getNumCols() * this.getBoard().getNumRows();
         for (int tileNum = 0; tileNum != (numTiles-1); tileNum++) {
             tiles.add(new Tile(tileNum));
         }
@@ -60,8 +60,22 @@ class BoardManager implements Serializable {
         }
 
         this.board = new Board(tiles);
-        this.score = 0;
+        this.score = 0L;
         stack = new MoveStack();
+    }
+
+    /**
+     * Return the name corresponding to the size.
+     * @return the name corresponding to the size
+     */
+    public String getSpecificName(){
+        if (board.getBoardSize() == 3){
+            return "SlidingTilesThree";
+        }else if (board.getBoardSize() == 4) {
+            return "SlidingTilesFour";
+        }else {
+            return "SlidingTilesFive";
+        }
     }
 
     /**
@@ -78,7 +92,7 @@ class BoardManager implements Serializable {
             for(int j = i + 1; j < tiles.size(); j++) {
                 //check whether the ith iteration from tiles list is
                 // greater than jth iteration from tiles list
-                if (tiles.get(i).getId() > tiles.get(j).getId())
+                if ((tiles.get(i).getId() > tiles.get(j).getId()) && (tiles.get(j).getId() != 25))
                     inversions += 1;
             }
         }
@@ -94,7 +108,7 @@ class BoardManager implements Serializable {
             // If the grid width is even, and the blank is on an odd row counting from the bottom
             // (first, third-last etc), then the number of inversions in a solvable situation
             // is odd
-            //check row position of blank tile
+            // check row position of blank tile
             int position = 0;
             for (int i = 0; i < tiles.size(); i++){
                 if (tiles.get(i).getId() == 0) {
@@ -102,10 +116,11 @@ class BoardManager implements Serializable {
                     break;
                 }
             }
+
             // get row position
             int row_pos = position / this.getBoard().getNumCols();
-            solvable = ((row_pos % 2 != 0) && (inversions % 2 == 0)) ||
-                    ((row_pos % 2 == 0) && (inversions % 2 != 0));
+            solvable = ((row_pos % 2 == 0) && (inversions % 2 != 0)) ||
+                    ((row_pos % 2 != 0) && (inversions % 2 == 0));
         }
         return solvable;
     }
@@ -114,7 +129,7 @@ class BoardManager implements Serializable {
      * A getter for the score
      * @return the score
      */
-    public int getScore() {
+    public Long getScore() {
         return this.score;
     }
 
@@ -122,7 +137,7 @@ class BoardManager implements Serializable {
      * A setter for the score.
      * @param s The score to be set.
      */
-    public void setScore(int s) {
+    public void setScore(Long s) {
         score = s;
     }
 

@@ -46,6 +46,27 @@ public class SequencerGameActivity extends AppCompatActivity implements Observer
      */
     private static int columnWidth, columnHeight;
 
+
+    /**
+     * The Score of the User's Current Game
+     */
+    private TextView score;
+
+
+//    /**
+//     * The current users top 3 scores for the 4x4 board size.
+//     */
+//    private ScoresFourByFour allScoresFourByFour = new ScoresFourByFour();
+//    /**
+//     * The current users top 3 scores for the 3x3 board size.
+//     */
+//    private ScoresThreeByThree allScoresThreeByThree = new ScoresThreeByThree();
+//    /**
+//     * The current users top 3 scores for the 5x5 board size.
+//     */
+//    private ScoresFiveByFive allScoresFiveByFive = new ScoresFiveByFive();
+
+
     /**
      * Updates the game by checking whether the game is over, whether the round is over,
      * and updating the score.

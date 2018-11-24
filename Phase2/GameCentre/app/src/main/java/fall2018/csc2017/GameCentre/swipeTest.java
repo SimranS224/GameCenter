@@ -1,10 +1,8 @@
-package fall2018.csc2017.GameCentre.ScoreBoard;
+package fall2018.csc2017.GameCentre;
 
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
-import fall2018.csc2017.GameCentre.R;
-
 
 
 /**

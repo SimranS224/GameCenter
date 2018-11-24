@@ -29,9 +29,6 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.Random;
 
-import fall2018.csc2017.GameCentre.ScoreBoard.LeaderBoardMain;
-import fall2018.csc2017.GameCentre.TicTacToe.TicTacMainActivity;
-
 /**
  * The initial activity for the sliding puzzle tile game.
  */
@@ -127,7 +124,7 @@ public class StartingActivity extends AppCompatActivity {
         mLeaderBoard.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(StartingActivity.this,LeaderBoardMain.class);
+                Intent intent = new Intent(StartingActivity.this,StartingActivity.class);
                 startActivity(intent);
             }
         });
@@ -379,7 +376,7 @@ public class StartingActivity extends AppCompatActivity {
 
                     }
                     if (map.get("last_Saved_Score")!=null) {
-                        int lastSavedScore = Integer.parseInt(map.get("last_Saved_Score").toString());
+                        Long lastSavedScore = Long.parseLong(map.get("last_Saved_Score").toString());
                         boardManager.setScore(lastSavedScore);
                     }
 

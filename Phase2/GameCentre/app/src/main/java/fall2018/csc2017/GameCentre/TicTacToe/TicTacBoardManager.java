@@ -11,7 +11,6 @@ import java.util.List;
  */
 class TicTacBoardManager implements Serializable {
 
-
     /**
      * movement controller
      */
@@ -35,10 +34,10 @@ class TicTacBoardManager implements Serializable {
 
     /**
      * Manage a board that has been pre-populated.
-     *
+     * THIS NEEDS TO BE KEPT AND IS USED WHEN CALLING THE AI STRATEGIES
      * @param board the board
      */
-    TicTacBoardManager(TicTacBoard board) {
+    public TicTacBoardManager(TicTacBoard board) {
         this.board = board;
         this.score = 0;
         this.stack = new TicTacMoveStack();
@@ -57,6 +56,7 @@ class TicTacBoardManager implements Serializable {
     public TicTacStrategy getStrategy() {
         return this.strategy;
     }
+
     /**
      * Manage a new board.
      */
@@ -65,7 +65,6 @@ class TicTacBoardManager implements Serializable {
         mController = new TicTacMovementController();
 
         List<TicTacMarker> ticTacMarkers = new ArrayList<>();
-        final int numMarkers = TicTacBoard.NUM_ROWS * TicTacBoard.NUM_COLS;
         for (int row = 0; row < TicTacBoard.NUM_ROWS; row++) {
             for (int col = 0; col < TicTacBoard.NUM_COLS; col++) {
                 ticTacMarkers.add(new TicTacMarker(row, col, 0));
@@ -105,8 +104,9 @@ class TicTacBoardManager implements Serializable {
         if (board.getGameOver()) {
             return true;
         }
-        while (count != (board.getCols()* board.getRows())) {
-            if (board.iterator().next().getBackgroundId() != 0) {
+        Iterator<TicTacMarker> iter = board.iterator();
+        while (iter.hasNext()) {
+            if (iter.next().getBackgroundId() != 0) {
                 count++;
             }
         }
@@ -184,21 +184,11 @@ class TicTacBoardManager implements Serializable {
      * @return whether the tile at position is blank tile
      */
     boolean isValidTap(int position) {
-
-        int row = position / TicTacBoard.NUM_COLS;
-        int col = position % TicTacBoard.NUM_COLS;
-        return (board.getMarker(row,col).getBackgroundId() == 0);
+        return board.isValidTap(position);
     }
 
     public ArrayList<Integer> getValidMoves() {
-        ArrayList<Integer> validMoves = new ArrayList<Integer>();
-        for (int position = 0; position < board.getRows() * board.getCols(); position++) {
-            if (isValidTap(position)) {
-                Integer IntPos = new Integer(position);
-                validMoves.add(IntPos);
-            }
-        }
-        return validMoves;
+        return board.getValidMoves();
     }
 
     /**
@@ -215,28 +205,15 @@ class TicTacBoardManager implements Serializable {
         if (isValidTap(position)) {
             //check whos turn it is and drop the marker accordingly
             //get row and column of blank tile
-            if (board.getCurrentPlayer() == 0) {
-                board.getMarker(row, col).setBackground(board.getP1Background());
-            } else if ((board.getCurrentPlayer() == 1)) {
-                board.getMarker(row, col).setBackground(board.getP2_background());
+            if (board.getCurrentPlayer() == board.getPlayer1()) {
+                board.setBackground(row, col, board.getP1Background());
+            } else if ((board.getCurrentPlayer() == board.getPlayer2())) {
+                board.setBackground(row, col, board.getP2Background());
             }
             // change player turns after tap
             board.changeTurns();
-
- /*           int blankPos = 0;
-            Iterator<TicTacMarker> iter = board.iterator();
-            while (iter.next().getId() != blankId) {
-                blankPos++;
-            }
-            int blankRow = blankPos / TicTacBoard.NUM_COLS;
-            int blankCol = blankPos % TicTacBoard.NUM_COLS;
-
-            //swap them
-            board.swapMarkers(row, col, blankRow, blankCol);
-            Integer[] c = {row, col, blankRow, blankCol};
-            stack.add(c);*/
             // just a test
-            board.swapMarkers(row, col, row, col);
+            //board.swapMarkers(row, col, row, col);
 
         }
         score++;
