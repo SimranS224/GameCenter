@@ -1,12 +1,7 @@
 package fall2018.csc2017.GameCentre.Sequencer;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
 import java.util.Observable;
-
-import fall2018.csc2017.GameCentre.Tile;
 
 /**
  * Manage a board, including swapping tiles, checking for a win, and managing taps.
@@ -22,7 +17,7 @@ class SequencerBoardManager extends Observable implements Serializable {
      */
     static int NUM_COLS = 4;
     /**
-     * score
+     * Score of the game (number of correct taps)
      */
     private Integer score;
     /**
@@ -35,22 +30,9 @@ class SequencerBoardManager extends Observable implements Serializable {
     private boolean gameOver = false;
 
     /**
-     * Manage a board that has been pre-populated.
-     *
-     * @param board the board
-     */
-
-    /**
-     * Manage a new shuffled board.
+     * Constructor
      */
     SequencerBoardManager() {
-        List<Tile> tiles = new ArrayList<>();
-        final int numTiles = NUM_ROWS * NUM_COLS;
-//        for (int tileNum = 0; tileNum != (numTiles-1); tileNum++) {
-//            tiles.add(new Tile(tileNum));
-//        }
-        //tiles.add(new Tile(24));
-        Collections.shuffle(tiles);
         this.score = 1;
         this.sequence = new Sequence();
     }
@@ -70,53 +52,39 @@ class SequencerBoardManager extends Observable implements Serializable {
     public void setScore(int s) {
         score = s;
     }
+
+    /**
+     * Increases the score by 1 and notifies the observers (so that the counter can get updated).
+     */
     void increaseScore(){
         score += 1;
         setChanged();
         notifyObservers();
     }
 
-    /**
-     * Return whether the tiles are in row-major order.
-     *
-     * @return True if the tiles are in row major order, false if otherwise.
-     */
-//    boolean puzzleSolved() {
-//        Iterator<Tile> TileIterator = this.board.iterator();
-//        Tile past = TileIterator.next();
-//        boolean solved = true;
-//        while (true) {
-//            if (TileIterator.hasNext()) {
-//                Tile current = TileIterator.next();
-//                if (past.getId() > current.getId()) {
-//                    solved = false;
-//                    break;
-//                }
-//                else {
-//                    past = current;
-//                }
-//            }
-//            else {
-//                break;
-//            }
-//        }
-//        return solved;
-//    }
 
     /**
-     * Return whether any of the four surrounding tiles is the blank tile.
-     *
-     * @param position the tile to check
-     * @return whether the tile at position is surrounded by a blank tile
+     * Checks whether the tile that was just pressed corresponds with where in the sequence you are.
+     * @param position Position where was tapped
+     * @return Whether or not it was a correct tap. By calling get(), it also gets ready for the next call.
      */
     boolean isValidTap(int position) {
-        return position == sequence.listenGet();
+        return position == sequence.get();
     }
+
+    /**
+     * Sets that this game is over and announces it to the observers.
+     */
     void setGameOver() {
         gameOver = true;
         setChanged();
         notifyObservers();
     }
+
+    /**
+     * Checks whether the game is over
+     * @return Whether the game is over
+     */
     boolean isOver() {
         return gameOver;
     }
