@@ -34,7 +34,7 @@ class TicTacBoardManager implements Serializable {
 
     /**
      * Manage a board that has been pre-populated.
-     *
+     * THIS NEEDS TO BE KEPT AND IS USED WHEN CALLING THE AI STRATEGIES
      * @param board the board
      */
     public TicTacBoardManager(TicTacBoard board) {
