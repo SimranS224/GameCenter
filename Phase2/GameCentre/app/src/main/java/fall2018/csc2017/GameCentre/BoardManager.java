@@ -14,7 +14,7 @@ class BoardManager implements Serializable {
     /**
      * score
      */
-    private Integer score;
+    private Long score;
 
     /**
      * The board being managed.
@@ -29,7 +29,7 @@ class BoardManager implements Serializable {
      */
     BoardManager(Board board) {
         this.board = board;
-        this.score = 0;
+        this.score = 0L;
         this.stack = new MoveStack();
     }
 
@@ -60,8 +60,22 @@ class BoardManager implements Serializable {
         }
 
         this.board = new Board(tiles);
-        this.score = 0;
+        this.score = 0L;
         stack = new MoveStack();
+    }
+
+    /**
+     * Return the name corresponding to the size.
+     * @return the name corresponding to the size
+     */
+    public String getSpecificName(){
+        if (board.getBoardSize() == 3){
+            return "SlidingTilesThree";
+        }else if (board.getBoardSize() == 4) {
+            return "SlidingTilesFour";
+        }else {
+            return "SlidingTilesFive";
+        }
     }
 
     /**
@@ -115,7 +129,7 @@ class BoardManager implements Serializable {
      * A getter for the score
      * @return the score
      */
-    public int getScore() {
+    public Long getScore() {
         return this.score;
     }
 
@@ -123,7 +137,7 @@ class BoardManager implements Serializable {
      * A setter for the score.
      * @param s The score to be set.
      */
-    public void setScore(int s) {
+    public void setScore(Long s) {
         score = s;
     }
 

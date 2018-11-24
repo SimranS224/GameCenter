@@ -1,4 +1,4 @@
-package fall2018.csc2017.GameCentre.ScoreBoard;
+package fall2018.csc2017.GameCentre;
 
 
 import android.os.Bundle;
@@ -40,6 +40,10 @@ public class DemoFragment extends Fragment {
 
         textView1.setText(type);
         textView2.setText(size);
+
+//        LeaderBoardCustomListAdapter adapter = new LeaderBoardCustomListAdapter(this, allUsers);
+//        listLead.setAdapter(adapter); - todo implemnt this here
+
 
         //TODO "Set" the listview to be that list you got back from the bundle.
         return view;

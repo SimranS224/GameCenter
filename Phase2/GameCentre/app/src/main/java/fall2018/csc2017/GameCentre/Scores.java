@@ -1,4 +1,4 @@
-package fall2018.csc2017.GameCentre.ScoreBoard;
+package fall2018.csc2017.GameCentre;
 
 import android.support.annotation.NonNull;
 
@@ -47,6 +47,14 @@ public class Scores implements Comparable<Scores> {
      */
     public String getName() {
         return name;
+    }
+
+    /**
+     * The integer value of the Scores object
+     * @return The integer value of the Scores object
+     */
+    public Integer getIntValue(){
+        return Integer.parseInt(this.getScore());
     }
 
     /**

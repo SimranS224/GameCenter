@@ -1,4 +1,4 @@
-package fall2018.csc2017.GameCentre.ScoreBoard;
+package fall2018.csc2017.GameCentre;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -8,6 +8,8 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import fall2018.csc2017.GameCentre.R;
+import fall2018.csc2017.GameCentre.Scores;
+import fall2018.csc2017.GameCentre.UserScores;
 
 
 /**

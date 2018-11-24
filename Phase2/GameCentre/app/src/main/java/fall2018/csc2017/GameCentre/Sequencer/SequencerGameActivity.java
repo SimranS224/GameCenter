@@ -2,12 +2,9 @@ package fall2018.csc2017.GameCentre.Sequencer;
 
 import fall2018.csc2017.GameCentre.CustomAdapter;
 import fall2018.csc2017.GameCentre.R;
-import fall2018.csc2017.GameCentre.ScoreBoard.ScoresFourByFour;
-import fall2018.csc2017.GameCentre.ScoreBoard.ScoresFiveByFive;
-import fall2018.csc2017.GameCentre.ScoreBoard.ScoresThreeByThree;
+
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.NonNull;
@@ -39,8 +36,6 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.Observable;
 import java.util.Observer;
-
-import fall2018.csc2017.GameCentre.ScoreBoard.ScoresForAllUserData;
 
 /**
  * The game activity.
@@ -78,18 +73,18 @@ public class SequencerGameActivity extends AppCompatActivity implements Observer
     private TextView score;
 
 
-    /**
-     * The current users top 3 scores for the 4x4 board size.
-     */
-    private ScoresFourByFour allScoresFourByFour = new ScoresFourByFour();
-    /**
-     * The current users top 3 scores for the 3x3 board size.
-     */
-    private ScoresThreeByThree allScoresThreeByThree = new ScoresThreeByThree();
-    /**
-     * The current users top 3 scores for the 5x5 board size.
-     */
-    private ScoresFiveByFive allScoresFiveByFive = new ScoresFiveByFive();
+//    /**
+//     * The current users top 3 scores for the 4x4 board size.
+//     */
+//    private ScoresFourByFour allScoresFourByFour = new ScoresFourByFour();
+//    /**
+//     * The current users top 3 scores for the 3x3 board size.
+//     */
+//    private ScoresThreeByThree allScoresThreeByThree = new ScoresThreeByThree();
+//    /**
+//     * The current users top 3 scores for the 5x5 board size.
+//     */
+//    private ScoresFiveByFive allScoresFiveByFive = new ScoresFiveByFive();
 
 
     /**
@@ -252,27 +247,27 @@ public class SequencerGameActivity extends AppCompatActivity implements Observer
      * Saves the Current User's settings to the database
      */
     private void saveUserInformationOnDatabase() {
-        String winningScore = null;
-
+//        String winningScore = null;
+//
         Map<String, Object> userInfo = new HashMap<>();
-
-        String boardSize = SequencerBoardManager.NUM_ROWS + "x" + SequencerBoardManager.NUM_ROWS;
-
-        //read the current users best scores into a list for sorting and displaying
-        readUserScores(boardSize);
-
-        // Depending on the board size add the winning score to the correct class.
-        switch (boardSize) {
-            case "3x3":
-                addWinningScore(winningScore, allScoresThreeByThree, userInfo, boardSize);
-                break;
-            case "4x4":
-                addWinningScore(winningScore, allScoresFourByFour, userInfo, boardSize);
-                break;
-            case "5x5":
-                addWinningScore(winningScore, allScoresFiveByFive, userInfo, boardSize);
-                break;
-        }
+//
+//        String boardSize = SequencerBoardManager.NUM_ROWS + "x" + SequencerBoardManager.NUM_ROWS;
+//
+//        //read the current users best scores into a list for sorting and displaying
+//        readUserScores(boardSize);
+//
+//        // Depending on the board size add the winning score to the correct class.
+//        switch (boardSize) {
+//            case "3x3":
+//                addWinningScore(winningScore, allScoresThreeByThree, userInfo, boardSize);
+//                break;
+//            case "4x4":
+//                addWinningScore(winningScore, allScoresFourByFour, userInfo, boardSize);
+//                break;
+//            case "5x5":
+//                addWinningScore(winningScore, allScoresFiveByFive, userInfo, boardSize);
+//                break;
+//        }
 
         String lastSavedScore = score.getText().toString();
         userInfo.put("last_Saved_Score", lastSavedScore);
@@ -280,101 +275,101 @@ public class SequencerGameActivity extends AppCompatActivity implements Observer
         mUserDatabase.updateChildren(userInfo);
     }
 
-    /**
-     * Adds winning score to the current list
-     *
-     * @param winningScore Winning score
-     * @param lst          The current user score list
-     * @param userInfo     information about the user (map) from Firebase
-     * @param boardSize    Size of the board.
-     */
-    private void addWinningScore(String winningScore, ScoresForAllUserData lst, Map<String, Object> userInfo, String boardSize) {
-        lst.removeDuplicates();
-
-        if (winningScore != null) {
-            Integer curGameWinScore = Integer.parseInt(winningScore);
-            Integer worstCur = Integer.parseInt(lst.getLowest());
-            if (lst.getSize() < 5 || worstCur > curGameWinScore) {
-                lst.add(winningScore);
-                putScoresIntoDatabase(userInfo, lst, boardSize);
-            }
-        }
-    }
-
-    /**
-     * Puts the newly updated scores into the database.
-     *
-     * @param uinfo     the hashmap used to access the database
-     * @param uScores   the class which contains the user scores for a particular board size.
-     * @param boardSize the size of the board currently.
-     */
-    public void putScoresIntoDatabase(Map<String, Object> uinfo, ScoresForAllUserData uScores, String boardSize) {
-        String theBoard = boardSize + "";
-        uScores.sortTheList();
-        // depending on the board size adds a key to the database which is mapped to a
-        // a vlaue in uScores.
-        if (uScores.getSize() == 1) {
-            uinfo.put("First_Best_Time" + theBoard, uScores.getAtIndex(0));
-        } else if (uScores.getSize() == 2) {
-            uinfo.put("First_Best_Time" + theBoard, uScores.getAtIndex(0));
-            uinfo.put("Second_Best_Time" + theBoard, uScores.getAtIndex(1));
-        } else if (uScores.getSize() == 3) {
-            uinfo.put("First_Best_Time" + theBoard, uScores.getAtIndex(0));
-            uinfo.put("Second_Best_Time" + theBoard, uScores.getAtIndex(1));
-            uinfo.put("Third_Best_Time" + theBoard, uScores.getAtIndex(2));
-        }
-    }
-
-    /**
-     * Reads the user scores from Firebase databse and updates allCurrentScores accordingly.
-     *
-     * @param x Size of the board
-     */
-    public void readUserScores(String x) {
-        final String theBoard = x + "";
-        mUserDatabase.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                if (dataSnapshot.exists() && dataSnapshot.getChildrenCount() > 0) {
-                    Map<String, Object> map = (Map<String, Object>) dataSnapshot.getValue();
-                    assert map != null;
-                    // Reads preexisting values from the database to be stored for
-                    // later use.
-                    ScoresForAllUserData toAddTo = getStorage();
-                    if (map.get("First_Best_Time" + theBoard) != null) {
-                        String score = map.get("First_Best_Time" + theBoard).toString();
-                        Log.d("adding more", "firstbesttimes " + score);
-
-                        toAddTo.add(score);
-                    }
-                    if (map.get("Second_Best_Time" + theBoard) != null) {
-                        String score = map.get("Second_Best_Time" + theBoard).toString();
-                        toAddTo.add(score);
-                    }
-                    if (map.get("Third_Best_Time" + theBoard) != null) {
-                        String score = map.get("Third_Best_Time" + theBoard).toString();
-                        toAddTo.add(score);
-                    }
-                }
-            }
-
-            private ScoresForAllUserData getStorage() {
-                switch (theBoard) {
-                    case "3":
-                        return allScoresThreeByThree;
-                    case "5":
-                        return allScoresFiveByFive;
-                    default:
-                        return allScoresFourByFour;
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-        });
-    }
+//    /**
+//     * Adds winning score to the current list
+//     *
+//     * @param winningScore Winning score
+//     * @param lst          The current user score list
+//     * @param userInfo     information about the user (map) from Firebase
+//     * @param boardSize    Size of the board.
+//     */
+//    private void addWinningScore(String winningScore, ScoresForAllUserData lst, Map<String, Object> userInfo, String boardSize) {
+//        lst.removeDuplicates();
+//
+//        if (winningScore != null) {
+//            Integer curGameWinScore = Integer.parseInt(winningScore);
+//            Integer worstCur = Integer.parseInt(lst.getLowest());
+//            if (lst.getSize() < 5 || worstCur > curGameWinScore) {
+//                lst.add(winningScore);
+//                putScoresIntoDatabase(userInfo, lst, boardSize);
+//            }
+//        }
+//    }
+//
+//    /**
+//     * Puts the newly updated scores into the database.
+//     *
+//     * @param uinfo     the hashmap used to access the database
+//     * @param uScores   the class which contains the user scores for a particular board size.
+//     * @param boardSize the size of the board currently.
+//     */
+//    public void putScoresIntoDatabase(Map<String, Object> uinfo, ScoresForAllUserData uScores, String boardSize) {
+//        String theBoard = boardSize + "";
+//        uScores.sortTheList();
+//        // depending on the board size adds a key to the database which is mapped to a
+//        // a vlaue in uScores.
+//        if (uScores.getSize() == 1) {
+//            uinfo.put("First_Best_Time" + theBoard, uScores.getAtIndex(0));
+//        } else if (uScores.getSize() == 2) {
+//            uinfo.put("First_Best_Time" + theBoard, uScores.getAtIndex(0));
+//            uinfo.put("Second_Best_Time" + theBoard, uScores.getAtIndex(1));
+//        } else if (uScores.getSize() == 3) {
+//            uinfo.put("First_Best_Time" + theBoard, uScores.getAtIndex(0));
+//            uinfo.put("Second_Best_Time" + theBoard, uScores.getAtIndex(1));
+//            uinfo.put("Third_Best_Time" + theBoard, uScores.getAtIndex(2));
+//        }
+//    }
+//
+//    /**
+//     * Reads the user scores from Firebase databse and updates allCurrentScores accordingly.
+//     *
+//     * @param x Size of the board
+//     */
+//    public void readUserScores(String x) {
+//        final String theBoard = x + "";
+//        mUserDatabase.addValueEventListener(new ValueEventListener() {
+//            @Override
+//            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+//                if (dataSnapshot.exists() && dataSnapshot.getChildrenCount() > 0) {
+//                    Map<String, Object> map = (Map<String, Object>) dataSnapshot.getValue();
+//                    assert map != null;
+//                    // Reads preexisting values from the database to be stored for
+//                    // later use.
+//                    ScoresForAllUserData toAddTo = getStorage();
+//                    if (map.get("First_Best_Time" + theBoard) != null) {
+//                        String score = map.get("First_Best_Time" + theBoard).toString();
+//                        Log.d("adding more", "firstbesttimes " + score);
+//
+//                        toAddTo.add(score);
+//                    }
+//                    if (map.get("Second_Best_Time" + theBoard) != null) {
+//                        String score = map.get("Second_Best_Time" + theBoard).toString();
+//                        toAddTo.add(score);
+//                    }
+//                    if (map.get("Third_Best_Time" + theBoard) != null) {
+//                        String score = map.get("Third_Best_Time" + theBoard).toString();
+//                        toAddTo.add(score);
+//                    }
+//                }
+//            }
+//
+//            private ScoresForAllUserData getStorage() {
+//                switch (theBoard) {
+//                    case "3":
+//                        return allScoresThreeByThree;
+//                    case "5":
+//                        return allScoresFiveByFive;
+//                    default:
+//                        return allScoresFourByFour;
+//                }
+//            }
+//
+//            @Override
+//            public void onCancelled(@NonNull DatabaseError databaseError) {
+//
+//            }
+//        });
+//    }
 
     private void lightUp() {
         Animation anim = new AlphaAnimation(1.0f, 0.0f);
