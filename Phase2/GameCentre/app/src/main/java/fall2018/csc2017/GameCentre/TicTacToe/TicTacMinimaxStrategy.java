@@ -19,7 +19,6 @@ public class TicTacMinimaxStrategy extends TicTacStrategy {
             this.id = id;
             this.score = score;
         }
-
     }
 
     TicTacMinimaxStrategy(int depth) {
