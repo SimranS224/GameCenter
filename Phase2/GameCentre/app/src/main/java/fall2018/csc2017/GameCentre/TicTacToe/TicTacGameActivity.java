@@ -51,20 +51,6 @@ public class TicTacGameActivity extends AppCompatActivity implements Observer {
     private TicTacGridView gridView;
 
     /**
-     * ArrayList where the parts of the image are going to be stored.
-     */
-    ArrayList<Bitmap> chunckedImages;
-
-    /**
-     * Checks the type the Board class is set as.
-     *
-     * @return whether the Board type is set to Image Tile
-     */
-    private boolean isImage() {
-        return TicTacBoard.getType().equals("Image tiles");
-    }
-
-    /**
      * Set up the background image for each button based on the master list
      * of positions, and then call the adapter to set the view.
      */
@@ -75,23 +61,6 @@ public class TicTacGameActivity extends AppCompatActivity implements Observer {
         /*//autosave
         saveToFile(StartingActivity.SAVE_FILENAME);
         saveToFile(StartingActivity.TEMP_SAVE_FILENAME);*/
-    }
-
-    /**
-     * Save the board manager to fileName.
-     *
-     * @param fileName the name of the file
-     */
-    public void saveToFile(String fileName) {
-        try {
-            ObjectOutputStream outputStream = new ObjectOutputStream(
-                    this.openFileOutput(fileName, MODE_PRIVATE));
-            outputStream.writeObject(boardManager);
-            outputStream.close();
-        } catch (IOException e) {
-            Log.e("Exception", "File write failed: " + e.toString());
-        }
-        //uploadUserBoard(fileName);
     }
 
     //@Override

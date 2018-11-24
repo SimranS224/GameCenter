@@ -90,7 +90,7 @@ public class TicTacMarker implements Comparable<TicTacMarker>, Serializable {
      *
      * @param backgroundId The background id the Actual Id - 1.
      */
-    TicTacMarker(int row, int column, int backgroundId) {
+    public TicTacMarker(int row, int column, int backgroundId) {
         this.row = row;
         this.column = column;
         this.backgroundid = backgroundId;
