@@ -64,24 +64,4 @@ public class TicTacMoveStack implements Serializable {
         return contents.size() > 0 && (NUM_UNDOS == -1|| NUM_UNDOS > 0);
     }
 
-    /**
-     * Returns a string representation of the number of undos remaining.
-     * @return The string representation.
-     */
-    String getUndos() {
-
-        if (NUM_UNDOS == -1) {
-            return "Unlimited";
-        }
-        return "Undo uses left: " + Integer.toString(NUM_UNDOS);
-    }
-
-    /**
-     * A setter for the number of undos.
-     * @param undos The number of undos to be set.
-     */
-    static void setNumUndos(int undos){
-        NUM_UNDOS=undos;
-    }
-
 }

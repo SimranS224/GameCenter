@@ -60,17 +60,11 @@ public class TicTacBoard extends Observable implements Serializable, Iterable<Ti
      * Type of the board, number or image.
      */
     private static String TYPE = "number";
-    /**
-     * The image to be used if it is an image board.
-     */
-    private static String IMAGE = "Flower";
 
     /**
      * The ticTacMarkers on the board in row-major order.
      */
     private TicTacMarker[][] ticTacMarkers = new TicTacMarker[NUM_ROWS][NUM_COLS];
-
-
 
     /**
      * A new board of ticTacMarkers in row-major order.
@@ -164,7 +158,6 @@ public class TicTacBoard extends Observable implements Serializable, Iterable<Ti
     public int getPlayer2() {
         return this.P2_ID;
     }
-
 
     /**
      * Return background
@@ -287,7 +280,6 @@ public class TicTacBoard extends Observable implements Serializable, Iterable<Ti
         return validMoves;
     }
 
-
     //implementing the iterator
     @NonNull
     @Override
@@ -350,6 +342,5 @@ public class TicTacBoard extends Observable implements Serializable, Iterable<Ti
             }
             return null;
         }
-
     }
 }

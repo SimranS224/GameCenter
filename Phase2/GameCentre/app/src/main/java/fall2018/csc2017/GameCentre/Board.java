@@ -17,12 +17,12 @@ public class Board extends Observable implements Serializable, Iterable<Tile> {
     /**
      * The number of rows.
      */
-    static int NUM_ROWS = 4;
+    public static int NUM_ROWS = 4;
 
     /**
      * The number of rows.
      */
-    static int NUM_COLS = 4;
+    public static int NUM_COLS = 4;
     /**
      * Type of the board, number or image.
      */
@@ -36,6 +36,7 @@ public class Board extends Observable implements Serializable, Iterable<Tile> {
      * The tiles on the board in row-major order.
      */
     private Tile[][] tiles = new Tile[NUM_ROWS][NUM_COLS];
+
     /**
      * A new board of tiles in row-major order.
      * Precondition: len(tiles) == NUM_ROWS * NUM_COLS
