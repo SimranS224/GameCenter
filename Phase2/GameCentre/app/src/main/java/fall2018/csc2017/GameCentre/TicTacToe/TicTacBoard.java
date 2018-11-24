@@ -96,6 +96,10 @@ public class TicTacBoard extends Observable implements Serializable, Iterable<Ti
         }
     }
 
+    /**
+     * clone the board
+     * @param board
+     */
     public TicTacBoard(TicTacBoard board) {
         this.current_player = board.current_player;
         this.p1_turn = board.p1_turn;
@@ -174,13 +178,6 @@ public class TicTacBoard extends Observable implements Serializable, Iterable<Ti
     }
 
     /**
-     * Return current player
-     */
-    public boolean getP1Turn() {
-        return this.p1_turn;
-    }
-
-    /**
      * change turns
      */
     public void changeTurns() {
@@ -225,22 +222,6 @@ public class TicTacBoard extends Observable implements Serializable, Iterable<Ti
     }
 
     /**
-     * Set image of the board.
-     * @param image Image to be set
-     */
-    static void setIMAGE(String image) {
-        IMAGE = image;
-    }
-
-    /**
-     * Gets the image of this board.
-     * @return the image of this board.
-     */
-    static String getIMAGE() {
-        return IMAGE;
-    }
-
-    /**
      * Sets the type of the board.
      * @param type type of the board
      */
@@ -262,24 +243,6 @@ public class TicTacBoard extends Observable implements Serializable, Iterable<Ti
      */
     public int getBoardSize() {
         return NUM_ROWS;
-    }
-
-
-    /**
-     * Swap the ticTacMarkers at (row1, col1) and (row2, col2)
-     *
-     * @param row1 the first TicTacMarker row
-     * @param col1 the first TicTacMarker col
-     * @param row2 the second TicTacMarker row
-     * @param col2 the second TicTacMarker col
-     */
-    void swapMarkers(int row1, int col1, int row2, int col2) {
-        TicTacMarker temp = ticTacMarkers[row1][col1]; //to store original TicTacMarker
-        ticTacMarkers[row1][col1] = ticTacMarkers[row2][col2];
-        ticTacMarkers[row2][col2] = temp;
-
-        setChanged();
-        notifyObservers();
     }
 
     // set background
@@ -308,8 +271,6 @@ public class TicTacBoard extends Observable implements Serializable, Iterable<Ti
         int col = position % this.NUM_COLS;
         return (this.getMarker(row,col).getBackgroundId() == 0);
     }
-
-
 
     /**
      * returns the list of valid moves left on the board

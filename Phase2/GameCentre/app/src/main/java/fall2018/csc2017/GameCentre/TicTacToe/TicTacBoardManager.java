@@ -11,7 +11,6 @@ import java.util.List;
  */
 class TicTacBoardManager implements Serializable {
 
-
     /**
      * movement controller
      */
@@ -38,7 +37,7 @@ class TicTacBoardManager implements Serializable {
      *
      * @param board the board
      */
-    TicTacBoardManager(TicTacBoard board) {
+    public TicTacBoardManager(TicTacBoard board) {
         this.board = board;
         this.score = 0;
         this.stack = new TicTacMoveStack();
@@ -57,6 +56,7 @@ class TicTacBoardManager implements Serializable {
     public TicTacStrategy getStrategy() {
         return this.strategy;
     }
+
     /**
      * Manage a new board.
      */
@@ -65,7 +65,6 @@ class TicTacBoardManager implements Serializable {
         mController = new TicTacMovementController();
 
         List<TicTacMarker> ticTacMarkers = new ArrayList<>();
-        final int numMarkers = TicTacBoard.NUM_ROWS * TicTacBoard.NUM_COLS;
         for (int row = 0; row < TicTacBoard.NUM_ROWS; row++) {
             for (int col = 0; col < TicTacBoard.NUM_COLS; col++) {
                 ticTacMarkers.add(new TicTacMarker(row, col, 0));

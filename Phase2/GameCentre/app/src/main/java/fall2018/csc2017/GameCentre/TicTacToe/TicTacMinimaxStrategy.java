@@ -28,7 +28,7 @@ public class TicTacMinimaxStrategy extends TicTacStrategy {
 
     //return the next position for movement
     public int getNextMovement(TicTacBoardManager boardmanager, int depth) {
-        Move move = miniMax(boardmanager.getBoard(), boardmanager.getBoard().getCurrentPlayer());
+        Move move = miniMax(boardmanager.getBoard(), boardmanager.getBoard().getCurrentPlayer(), 0);
         return move.id;
 
         /*ArrayList<Integer> availableMoves = boardmanager.getValidMoves();
@@ -37,7 +37,7 @@ public class TicTacMinimaxStrategy extends TicTacStrategy {
         return availableMoves.get(n);*/
     }
 
-    public Move miniMax(TicTacBoard originboard, int current_player) {
+    public Move miniMax(TicTacBoard originboard, int current_player, int depth) {
 
         TicTacBoard board = new TicTacBoard(originboard);
         ArrayList<Integer> validMoves = board.getValidMoves();
@@ -46,10 +46,10 @@ public class TicTacMinimaxStrategy extends TicTacStrategy {
 
         if (current_player == board.getPlayer1()  &&  (winning(board, current_player))) {
             //human wins so return -10
-            return new Move(-1, -10);
+            return new Move(-1, -10 + depth);
         } else if (current_player == board.getPlayer2()  &&  (winning(board, current_player))) {
             //AI wins so return -10
-            return new Move(-1, 10);
+            return new Move(-1, 10 - depth);
         } else if (validMoves.size() == 0) {
             //no more room on board for moves
             return new Move(-1, 0);
@@ -73,10 +73,10 @@ public class TicTacMinimaxStrategy extends TicTacStrategy {
             //collect the score resulting from calling minimax on the opponent of the current player
             Move newMove;
             if (current_player == board.getPlayer1()) {
-                newMove = miniMax(board, board.getPlayer2());
+                newMove = miniMax(board, board.getPlayer2(), depth+ 1);
                 move.score = newMove.score;
             } else {
-                newMove = miniMax(board, board.getPlayer1());
+                newMove = miniMax(board, board.getPlayer1(), depth + 1);
                 move.score = newMove.score;
             }
 
