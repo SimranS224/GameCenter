@@ -128,7 +128,7 @@ public class GameChoiceActivity extends AppCompatActivity {
 
         //User ->Games
         DatabaseReference mGamesDatabase= FirebaseDatabase.getInstance().getReference().child("Users").child("Games");
-        mGamesDatabase.setValue(true);
+//        mGamesDatabase.setValue(true);
     }
 
     /**
