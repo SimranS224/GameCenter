@@ -20,7 +20,10 @@ class SequencerMovementController {
           whether it is a correct by calling sequence.get(), which automatically gets ready for the
           next call by increasing the position within the sequence.
          */
-        if (boardManager.isValidTap(position)) {
+        if (boardManager.talking) {
+            Toast.makeText(context, "Wait until the sequence finishes showing", Toast.LENGTH_SHORT).show();
+        }
+        else if (boardManager.isValidTap(position)) {
             Toast.makeText(context, "Correct!", Toast.LENGTH_SHORT).show();
             boardManager.increaseScore();
 

@@ -28,6 +28,11 @@ class SequencerBoardManager extends Observable implements Serializable {
      * Whether this game is over
      */
     private boolean gameOver = false;
+    /**
+     * Whether this board is currently talking (showing the sequence) or listening (waiting for the
+     * user to repeat the sequence in the board), in which case the variable would be set to false.
+     */
+    boolean talking = true;
 
     /**
      * Constructor
