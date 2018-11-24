@@ -15,7 +15,11 @@ class SequencerMovementController {
         this.boardManager = boardManager;
     }
     void processTapMovement(Context context, int position) {
-
+        /*
+          If the tap is correct, increase the score. Notice that the isValidTap method checks
+          whether it is a correct by calling sequence.get(), which automatically gets ready for the
+          next call by increasing the position within the sequence.
+         */
         if (boardManager.isValidTap(position)) {
             Toast.makeText(context, "Correct!", Toast.LENGTH_SHORT).show();
             boardManager.increaseScore();

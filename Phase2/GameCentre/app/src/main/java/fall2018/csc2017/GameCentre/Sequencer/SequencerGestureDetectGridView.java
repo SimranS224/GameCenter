@@ -7,9 +7,8 @@ https://github.com/DaveNOTDavid/sample-puzzle/blob/master/app/src/main/java/com/
 This extension of GridView contains built in logic for handling swipes between buttons
  */
 
-import android.annotation.TargetApi;
+import android.annotation.SuppressLint;
 import android.content.Context;
-import android.os.Build;
 import android.util.AttributeSet;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
@@ -17,14 +16,11 @@ import android.widget.GridView;
 
 public class SequencerGestureDetectGridView extends GridView {
     public static final int SWIPE_MIN_DISTANCE = 100;
-    public static final int SWIPE_MAX_OFF_PATH = 100;
-    public static final int SWIPE_THRESHOLD_VELOCITY = 100;
     private GestureDetector gDetector;
     private SequencerMovementController mController;
     private boolean mFlingConfirmed = false;
     private float mTouchX;
     private float mTouchY;
-    private SequencerBoardManager boardManager;
 
     public SequencerGestureDetectGridView(Context context) {
         super(context);
@@ -38,13 +34,6 @@ public class SequencerGestureDetectGridView extends GridView {
 
     public SequencerGestureDetectGridView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-        init(context);
-    }
-
-    @TargetApi(Build.VERSION_CODES.LOLLIPOP) // API 21
-    public SequencerGestureDetectGridView(Context context, AttributeSet attrs, int defStyleAttr,
-                                          int defStyleRes) {
-        super(context, attrs, defStyleAttr, defStyleRes);
         init(context);
     }
 
@@ -96,6 +85,7 @@ public class SequencerGestureDetectGridView extends GridView {
         return super.onInterceptTouchEvent(ev);
     }
 
+    @SuppressLint("ClickableViewAccessibility")
     @Override
     public boolean onTouchEvent(MotionEvent ev) {
         return gDetector.onTouchEvent(ev);
@@ -103,7 +93,6 @@ public class SequencerGestureDetectGridView extends GridView {
 
 
     public void setBoardManager(SequencerBoardManager boardManager) {
-        this.boardManager = boardManager;
         mController.setBoardManager(boardManager);
     }
 }
