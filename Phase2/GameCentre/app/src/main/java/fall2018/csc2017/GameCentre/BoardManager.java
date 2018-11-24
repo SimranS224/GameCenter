@@ -86,13 +86,15 @@ class BoardManager implements Serializable {
         // calculate number of inversions
         int inversions = 0;
         boolean solvable = false;
-        for (int i = 0; i < tiles.size(); i++){
+        for (int i = 0; i != tiles.size() - 1; i++){
             //get the ith iteration of the from the tiles list
             //use it as a reference
-            for(int j = i + 1; j < tiles.size(); j++) {
+
+            for(int j = i + 1; j < tiles.size() ; j++) {
                 //check whether the ith iteration from tiles list is
                 // greater than jth iteration from tiles list
-                if ((tiles.get(i).getId() > tiles.get(j).getId()) && (tiles.get(j).getId() != 25))
+                if ((tiles.get(i).getId() > tiles.get(j).getId()) && (tiles.get(j).getId() != 25)
+                        && (tiles.get(i).getId() != 25))
                     inversions += 1;
             }
         }
@@ -111,7 +113,7 @@ class BoardManager implements Serializable {
             // check row position of blank tile
             int position = 0;
             for (int i = 0; i < tiles.size(); i++){
-                if (tiles.get(i).getId() == 0) {
+                if (tiles.get(i).getId() == 25) {
                     position = i;
                     break;
                 }
