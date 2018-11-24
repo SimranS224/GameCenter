@@ -21,15 +21,10 @@
             </intent-filter>
         </activity>
         <activity android:name=".GameActivity" />
+        <activity android:name=".swipeTest"/>
         <activity android:name=".StartingActivity" />
-        <activity android:name=".ScoreBoard.LeaderBoardMain" />
-        <activity android:name=".ScoreBoard.GlobalThreeByThree" />
-        <activity android:name=".ScoreBoard.GlobalFiveByFive" />
         <activity android:name=".LoginActivityMain" />
         <activity android:name=".RegistrationActivity" />
-        <activity android:name=".ScoreBoard.LeaderBoardCurrentUser" />
-        <activity android:name=".ScoreBoard.LocalFiveByFive" />
-        <activity android:name=".ScoreBoard.LocalThreeByThree" />
         <activity android:name=".SettingsActivity" />
         <activity android:name=".FirstActivity" />
         <activity android:name=".GameChoiceActivity" />
