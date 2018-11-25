@@ -4,11 +4,11 @@ import android.content.Context;
 import android.widget.Toast;
 
 
-class MovementController {
+class SlidingMovementController {
 
     private BoardManager boardManager = null;
 
-    MovementController() {
+    SlidingMovementController() {
     }
 
     void setBoardManager(BoardManager boardManager) {
@@ -18,7 +18,7 @@ class MovementController {
     void processTapMovement(Context context, int position) {
         if (boardManager.isValidTap(position)) {
             boardManager.touchMove(position);
-            if (boardManager.puzzleSolved()) {
+            if (boardManager.isOver()) {
                 Toast.makeText(context, "YOU WIN!", Toast.LENGTH_SHORT).show();
             }
         } else {

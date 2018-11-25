@@ -3,10 +3,14 @@ package fall2018.csc2017.GameCentre.Sequencer;
 import java.io.Serializable;
 import java.util.Observable;
 
+import fall2018.csc2017.GameCentre.Manager;
+
+import static android.icu.lang.UCharacter.GraphemeClusterBreak.L;
+
 /**
  * Manage a board, including swapping tiles, checking for a win, and managing taps.
  */
-class SequencerBoardManager extends Observable implements Serializable {
+class SequencerBoardManager extends Observable implements Serializable, Manager {
     /**
      * The number of rows.
      */
@@ -19,7 +23,7 @@ class SequencerBoardManager extends Observable implements Serializable {
     /**
      * Score of the game (number of correct taps)
      */
-    private Integer score;
+    private Long score;
     /**
      * The Sequence to be used for this game.
      */
@@ -38,7 +42,7 @@ class SequencerBoardManager extends Observable implements Serializable {
      * Constructor
      */
     SequencerBoardManager() {
-        this.score = 1;
+        this.score = 1L;
         this.sequence = new Sequence();
     }
 
@@ -46,7 +50,8 @@ class SequencerBoardManager extends Observable implements Serializable {
      * A getter for the score
      * @return the score
      */
-    public int getScore() {
+    @Override
+    public Long getScore() {
         return this.score;
     }
 
@@ -54,7 +59,7 @@ class SequencerBoardManager extends Observable implements Serializable {
      * A setter for the score.
      * @param s The score to be set.
      */
-    public void setScore(int s) {
+    public void setScore(Long s) {
         score = s;
     }
 
@@ -90,8 +95,14 @@ class SequencerBoardManager extends Observable implements Serializable {
      * Checks whether the game is over
      * @return Whether the game is over
      */
-    boolean isOver() {
+    @Override
+    public boolean isOver() {
         return gameOver;
+    }
+
+    @Override
+    public String getSpecificName() {
+        return "Sequencer";
     }
 
 }
