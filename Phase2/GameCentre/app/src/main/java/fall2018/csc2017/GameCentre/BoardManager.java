@@ -171,10 +171,6 @@ class BoardManager implements Serializable, Manager {
             }
         }
         return solved || score == 4;
-<<<<<<< HEAD
-
-=======
->>>>>>> bd6a381d9d84ee1b1edc08f32b81c7522d079fb0
     }
 
     /**
