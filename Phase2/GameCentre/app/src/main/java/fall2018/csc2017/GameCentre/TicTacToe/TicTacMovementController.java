@@ -24,28 +24,25 @@ class TicTacMovementController {
             // check if game is solved
             // Toast.makeText(context, "Add code to check puzzleSolved()", Toast.LENGTH_SHORT).show();
             if (boardManager.puzzleSolved(position)) {
-                if(current_player == 0) {
-                    Toast.makeText(context, "P1 WIN!", Toast.LENGTH_SHORT).show();
-                } else {
-                    Toast.makeText(context, "P2 WIN!", Toast.LENGTH_SHORT).show();
-                }
-            } else if (boardManager.getStrategy().isValid()) {
-                // strategy is valid so it is AI turn now
-                if (boardManager.getBoard().getCurrentPlayer() == boardManager.getBoard().getPlayer2()) {
-                    position = boardManager.getStrategy().getNextMovement(boardManager, 0);
-                    current_player = boardManager.touchMove(position);
-                    if (boardManager.puzzleSolved(position)) {
-                        if (current_player == 0) {
-                            Toast.makeText(context, "P1 WIN!", Toast.LENGTH_SHORT).show();
-                        } else {
+                Toast.makeText(context, "P1 WIN!", Toast.LENGTH_SHORT).show();
+
+            }  else if (boardManager.getValidMoves().size() == 0) {
+                Toast.makeText(context, "Tie!", Toast.LENGTH_SHORT).show();
+            } else {
+                if (boardManager.getStrategy().isValid()) {
+                    // strategy is valid so it is AI turn now
+                    if (boardManager.getBoard().getCurrentPlayer() == boardManager.getBoard().getPlayer2()) {
+                        position = boardManager.getStrategy().getNextMovement(boardManager, 0);
+                        current_player = boardManager.touchMove(position);
+                        if (boardManager.puzzleSolved(position)) {
                             Toast.makeText(context, "P2 WIN!", Toast.LENGTH_SHORT).show();
+
                         }
                     }
                 }
+
             }
-        } else if (boardManager.isOver()) {
-            Toast.makeText(context, "TIE", Toast.LENGTH_SHORT).show();
-        } else {
+        }  else {
             Toast.makeText(context, "Invalid Tap: position:" + position , Toast.LENGTH_SHORT).show();
         }
     }
