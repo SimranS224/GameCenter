@@ -10,7 +10,7 @@ import static android.icu.lang.UCharacter.GraphemeClusterBreak.L;
 /**
  * Manage a board, including swapping tiles, checking for a win, and managing taps.
  */
-class SequencerBoardManager extends Observable implements Serializable, Manager {
+public class SequencerBoardManager extends Observable implements Serializable, Manager {
     /**
      * The number of rows.
      */
@@ -41,7 +41,7 @@ class SequencerBoardManager extends Observable implements Serializable, Manager 
     /**
      * Constructor
      */
-    SequencerBoardManager() {
+    public SequencerBoardManager() {
         this.score = 1L;
         this.sequence = new Sequence();
     }
@@ -56,17 +56,9 @@ class SequencerBoardManager extends Observable implements Serializable, Manager 
     }
 
     /**
-     * A setter for the score.
-     * @param s The score to be set.
-     */
-    public void setScore(Long s) {
-        score = s;
-    }
-
-    /**
      * Increases the score by 1 and notifies the observers (so that the counter can get updated).
      */
-    void increaseScore(){
+    public void increaseScore(){
         score += 1;
         setChanged();
         notifyObservers();
@@ -78,14 +70,14 @@ class SequencerBoardManager extends Observable implements Serializable, Manager 
      * @param position Position where was tapped
      * @return Whether or not it was a correct tap. By calling get(), it also gets ready for the next call.
      */
-    boolean isValidTap(int position) {
+    public boolean isValidTap(int position) {
         return position == sequence.get();
     }
 
     /**
      * Sets that this game is over and announces it to the observers.
      */
-    void setGameOver() {
+    public void setGameOver() {
         gameOver = true;
         setChanged();
         notifyObservers();

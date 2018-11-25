@@ -46,8 +46,6 @@ public class SequencerGameActivity extends AppCompatActivity implements Observer
      */
     private static int columnWidth, columnHeight;
 
-
-
     /**
      * Updates the game by checking whether the game is over, whether the round is over,
      * and updating the score.
