@@ -76,6 +76,7 @@ public class TicTacMainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 startGame(PLAYER_TO_RANDOM, 0);
+
             }
         });
 

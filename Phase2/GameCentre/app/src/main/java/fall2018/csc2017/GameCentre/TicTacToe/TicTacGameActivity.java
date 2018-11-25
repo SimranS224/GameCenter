@@ -2,11 +2,13 @@ package fall2018.csc2017.GameCentre.TicTacToe;
 
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.os.CountDownTimer;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.ViewTreeObserver;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -18,13 +20,23 @@ import fall2018.csc2017.GameCentre.R;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
+import java.util.Locale;
 import java.util.Objects;
 import java.util.Observable;
 import java.util.Observer;
 
 public class TicTacGameActivity extends AppCompatActivity implements Observer {
 
+    /**
+     * the start time in millis
+     */
+    private static final long START_TIME_IN_MILLIS = 100000;
 
+    private TextView mTextViewCountDown;
+    private CountDownTimer mCountDownTimer;
+    private boolean mTimerRunning;
+
+    private long mTimeLeftInMillis = START_TIME_IN_MILLIS;
     /**
      * The board manager.
      */
@@ -122,9 +134,11 @@ public class TicTacGameActivity extends AppCompatActivity implements Observer {
         } else if (gametype == TicTacMainActivity.PLAYER_TO_PLAYER) {
             //PLAYER TO PLAYER CASE
             boardManager = new TicTacBoardManager(new TicTacEmptyStrategy(depth));
+
         } else if (gametype == TicTacMainActivity.PLAYER_TO_RANDOM) {
             //PLAYER TO RANDOM AI CASE
             boardManager = new TicTacBoardManager(new TicTacRandomStrategy(depth));
+            mTextViewCountDown = findViewById(R.id.text_view_countdown);
         } else if (gametype == TicTacMainActivity.PLAYER_TO_AI) {
             //PLAYER TO MINIMAX AI CASE
             boardManager = new TicTacBoardManager(new TicTacMinimaxStrategy(depth));
@@ -164,7 +178,39 @@ public class TicTacGameActivity extends AppCompatActivity implements Observer {
                 });
     }
 
+    private void startTimer() {
+        mCountDownTimer = new CountDownTimer(mTimeLeftInMillis, 1000) {
+            @Override
+            public void onTick(long millisUntilFinished) {
+                mTimeLeftInMillis = millisUntilFinished;
+                updateCountDownText();
+            }
 
+            @Override
+            public void onFinish() {
+                mTimerRunning = false;
+            }
+        }.start();
+        mTimerRunning = true;
+    }
+
+    private void pauseTimer() {
+        mCountDownTimer.cancel();
+        mTimerRunning = false;
+    }
+
+    private void resetTimer(){
+        mTimeLeftInMillis = START_TIME_IN_MILLIS;
+        updateCountDownText();
+    }
+
+    private void updateCountDownText() {
+        int minutes = (int) (mTimeLeftInMillis / 1000) / 60;
+        int seconds = (int) (mTimeLeftInMillis / 1000) % 60;
+
+        String timeLeftFormatted = String.format(Locale.getDefault(), "%02d:%02d", minutes, seconds);
+        mTextViewCountDown.setText(timeLeftFormatted);
+    }
     /**
      * Get database reference from the Firebase Database pointing to the current user
      */
