@@ -51,6 +51,8 @@ public class DemoFragment extends Fragment {
         ListView listLead = view.findViewById(R.id.listLead);
         String type = getArguments().getString("type");
         String size = getArguments().getString("size");
+        String curUser = getArguments().getString("currentUser");
+        String scoreType = (String) getArguments().getString("publicorglobal");
         Integer index = getArguments().getInt("index");
 
         //TODO Get your list/array lists back from the bundle.
@@ -69,20 +71,21 @@ public class DemoFragment extends Fragment {
 //        UserIndexes.addAll(indexes)
 
             LeaderBoardCustomListAdapter adapter;
-            ArrayList<Integer> UserIndexes = new ArrayList<>(Arrays.asList(3,4, 5, 7, 9));
-
-            if (UserIndexes.contains(index)){
-                if (theCurrentView.size() != 0) {
-                    UserScores onlyOne = new UserScores();
-                    Scores bestOne = theCurrentView.get(0);
-                    onlyOne.add(bestOne);
-                    adapter = new LeaderBoardCustomListAdapter(theContext, onlyOne);;
-                }else{
-                    adapter = new LeaderBoardCustomListAdapter(theContext, theCurrentView);
-                }
-            }else{
+            //ArrayList<Integer> UserIndexes = new ArrayList<>(Arrays.asList(3,4, 5, 7, 9));
+//            ("SlidingTilesThree","SlidingTilesFour", "SlidingTilesFive", "Sequncer", "TicTacToe"));
+            if (scoreType.equalsIgnoreCase("p")) {
+//                if (theCurrentView.size() != 0) {
+                UserScores onlyOne = new UserScores();
+                Scores bestOne = theCurrentView.getUser(curUser);
+                onlyOne.add(bestOne);
+                adapter = new LeaderBoardCustomListAdapter(theContext, onlyOne);
+            }
+            else{
                 adapter = new LeaderBoardCustomListAdapter(theContext, theCurrentView);
             }
+//            }else{
+//                adapter = new LeaderBoardCustomListAdapter(theContext, theCurrentView);
+//            }
 
 
 //        LeaderBoardCustomListAdapter adapter = new LeaderBoardCustomListAdapter(theContext, theCurrentView);

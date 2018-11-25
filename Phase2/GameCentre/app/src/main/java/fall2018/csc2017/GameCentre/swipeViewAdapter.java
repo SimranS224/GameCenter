@@ -15,23 +15,32 @@ import java.util.List;
  * a bundle is used to store the information, which is then taken out in DemoFragment.
  */
 public class swipeViewAdapter extends FragmentStatePagerAdapter{
-    String[] type = new String[2];
-    String[] size = new String[3];
+    String[] type = new String[6];
+    String[] size = new String[4];
+    String[] scoreType = new String[2];
     public ArrayList<UserScores> allScores; // TODO make it size 6 and index in the fragments part
     private Context mContext;
+    private String curUserName;
 
     swipeViewAdapter(FragmentManager fragmentManager) {
         super(fragmentManager);
-        type[0] = "Now Displaying Global Rankings";
-        type[1] = "Now Displaying Your Best Scores";
+        type[0] = "Now Displaying Global Rankings For Sliding Tiles";
+        type[1] = "Now Displaying Your Best Score For Sliding Tiles";
+        type[2] = "Now Displaying Your Global Rankings For Sequencer";
+        type[3] = "Now Displaying Your Best Score For Sequencer";
+        type[4] = "Now Displaying Your Global Rankings For TicTacToe";
+        type[5] = "Now Your Best Score For Sequencer For TicTacToe";
         size[0] = "For 3x3:";
         size[1] = "For 4x4:";
         size[2] = "For 5x5:";
+        size[3] = ""; // for games where size doesnt matter.
+        scoreType[0] = "p";
+        scoreType[1] = "g";
 
     }
 
     public int getCount() {
-        return 6;
+        return 10;
 
     }
     @Override
@@ -46,12 +55,16 @@ public class swipeViewAdapter extends FragmentStatePagerAdapter{
         position = position+1;
         String curr_type;
         String curr_size;
+        String scoreViewType;
         Integer current;
         // List curlist //todo
+
         if (position == 1) {
             curr_type = type[0];
             curr_size = size[0];
             current = 0;
+            scoreViewType = scoreType[1];
+
             //curr_list = list.get(0)//list x  todo set this to be the list that u want to show in each fragment
             //list // slidingtiles floblal 3x3
 
@@ -60,34 +73,66 @@ public class swipeViewAdapter extends FragmentStatePagerAdapter{
             curr_type = type[0];
             curr_size = size[1];
             current = 1;
-
+            scoreViewType = scoreType[1];
         }
         else if (position == 3) {
             curr_type = type[0];
             curr_size = size[2];
             current = 2;
-
+            scoreViewType = scoreType[1];
         }
         else if (position == 4) {
             curr_type = type[1];
             curr_size = size[0];
-            current = 3;
+            current = 0;
+            scoreViewType = scoreType[0];
 
         }
         else if (position == 5) {
             curr_type = type[1];
             curr_size = size[1];
+            current = 1;
+            scoreViewType = scoreType[0];
+        }
+        else if (position == 6){ // all the sliding tiles ones first
+            curr_type = type[1];
+            curr_size = size[2];
+            current = 2;
+            scoreViewType = scoreType[0];
+
+        }
+        else if (position == 7) {
+            curr_type = type[2];
+            curr_size = size[3];
+            current = 3;
+            scoreViewType = scoreType[1];
+
+        }
+        else if (position == 8) {
+            curr_type = type[3];
+            curr_size = size[3];
+            current = 3;
+            scoreViewType = scoreType[0];
+
+        }
+        else if (position == 9) {
+            curr_type = type[4];
+            curr_size = size[3];
             current = 4;
+            scoreViewType = scoreType[1];
 
         }
         else {
-            curr_type = type[1];
-            curr_size = size[2];
-            current = 5;
+            curr_type = type[5];
+            curr_size = size[3];
+            current = 4;
+            scoreViewType = scoreType[0];
 
         }
 //        bundle.putParcelableArrayList();
+        bundle.putString("currentUser",curUserName);
         bundle.putInt("index", current);
+        bundle.putString("publicorglobal", scoreViewType);
         bundle.putString("type", curr_type);
         bundle.putString("size", curr_size);
         //TODO This is where you add your arraylists/lists to the bundle,
@@ -101,16 +146,21 @@ public class swipeViewAdapter extends FragmentStatePagerAdapter{
 
     public void addToGameScoresList(ArrayList<UserScores> contents) {
         allScores = new ArrayList<>();
-        if (contents!=null) {
-
-            for (int i = 0; i < contents.size(); i++) {
-                allScores.add(contents.get(i));
-            }
-            //allScores.addAll(contents);
+        for (int i= 0; i< contents.size();i++){
+            allScores.add(contents.get(i));
         }
+        //allScores.addAll(contents);
     }
 
     public void setContext(Context swipeTest) {
         this.mContext = swipeTest;
+    }
+
+    public void setName(String name) {
+        this.curUserName = name;
+    }
+
+    public String getName() {
+        return curUserName;
     }
 }

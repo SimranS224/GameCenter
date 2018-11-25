@@ -6,6 +6,7 @@ import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -13,8 +14,10 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 
 /**
@@ -30,8 +33,10 @@ public class swipeTest extends FragmentActivity {
 
     Integer theCounter = 0;
 
-    LeaderBoardReader tempStorage = new LeaderBoardReader();
+    LeaderBoardReader tempStorage;
     private DatabaseReference mGamesDatabase;
+    private DatabaseReference mUserDatabase;
+    private String currentUserName;
 
 
     @Override
@@ -44,10 +49,10 @@ public class swipeTest extends FragmentActivity {
         mPager.setAdapter(mAdapter);
         mAdapter.setContext(this);
         getDataBaseReference();
-        theCounter++;
+        tempStorage = new LeaderBoardReader();
+        getCurrUserName();
+        mAdapter.setName(currentUserName);
 
-
-        saveCountOnDataBase();
 
         mGamesDatabase.addValueEventListener(new ValueEventListener() {
             @Override
@@ -56,89 +61,62 @@ public class swipeTest extends FragmentActivity {
                 if (dataSnapshot.exists() && dataSnapshot.getChildrenCount() > 0) {
                     Map<String, ArrayList> map = (Map<String, ArrayList>) dataSnapshot.getValue();
                     assert map != null;
+                    ArrayList<String> listGames = new ArrayList<>(Arrays.asList("SlidingTilesThree","SlidingTilesFour", "SlidingTilesFive", "Sequncer", "TicTacToe"));
+                    for (int i=0;i<listGames.size();i++){
+                        String toCheck = listGames.get(i);
+                        if (map.get(toCheck) != null) {
+                            ArrayList theCurrentList = (map.get(toCheck));
 
-                    if (map.get("SlidingTilesThree") != null && !addedAlready.contains("SlidingTilesThree")) {
-                        ArrayList theCurrentList = (map.get("SlidingTilesThree"));
+                            tempStorage.addAllToContents(theCurrentList);
+                            System.out.println(tempStorage);
+//                            addedAlready.add(toCheck);
 
-                        tempStorage.addAllToContents(theCurrentList);
-                        addedAlready.add("SlidingTilesThree");
-
+                        }else{
+                            UserScores emptyOne = new UserScores();
+                            tempStorage.add(emptyOne);
+                        }
                     }
-                    if (map.get("SlidingTilesFour") != null && !addedAlready.contains("SlidingTilesFour")) {
-                        ArrayList theCurrentList = (map.get("SlidingTilesFour"));
-                        tempStorage.addAllToContents(theCurrentList);
-                        addedAlready.add("SlidingTilesFour");
-
-                    }
-                    if (map.get("SlidingTilesFive") != null && !addedAlready.contains("SlidingTilesFive")) {
-                        ArrayList theCurrentList = (map.get("SlidingTilesFive"));
-                        tempStorage.addAllToContents(theCurrentList);
-                        addedAlready.add("SlidingTilesFive");
-
-                    }
-                    if (map.get("Sequncer") != null && !addedAlready.contains("Sequncer")) {
-                        ArrayList theCurrentList = (map.get("Sequncer"));
-                        tempStorage.addAllToContents(theCurrentList);
-                        addedAlready.add("Sequncer");
-
-                    }
-                    if (map.get("TicTacToe") != null && !addedAlready.contains("TicTacToe")) {
-                        ArrayList theCurrentList = (map.get("TicTacToe"));
-                        tempStorage.addAllToContents(theCurrentList);
-                        addedAlready.add("TicTacToe");
-                    }
-                    while (tempStorage.getSize() < 6) {
-                        UserScores emptyOne = new UserScores();
-                        tempStorage.add(emptyOne);
-                    }
+//
+//
+//                    if (map.get("SlidingTilesThree") != null && !addedAlready.contains("SlidingTilesThree")) {
+//                        ArrayList theCurrentList = (map.get("SlidingTilesThree"));
+//
+//                        tempStorage.addAllToContents(theCurrentList);
+//                        System.out.println(tempStorage);
+//                        addedAlready.add("SlidingTilesThree");
+//
+//                    }
+//                    if (map.get("SlidingTilesFour") != null && !addedAlready.contains("SlidingTilesFour")) {
+//                        ArrayList theCurrentList = (map.get("SlidingTilesFour"));
+//                        tempStorage.addAllToContents(theCurrentList);
+//                        addedAlready.add("SlidingTilesFour");
+//
+//                    }
+//                    if (map.get("SlidingTilesFive") != null && !addedAlready.contains("SlidingTilesFive")) {
+//                        ArrayList theCurrentList = (map.get("SlidingTilesFive"));
+//                        tempStorage.addAllToContents(theCurrentList);
+//                        addedAlready.add("SlidingTilesFive");
+//
+//                    }
+//                    if (map.get("Sequncer") != null && !addedAlready.contains("Sequncer")) {
+//                        ArrayList theCurrentList = (map.get("Sequncer"));
+//                        tempStorage.addAllToContents(theCurrentList);
+//                        addedAlready.add("Sequncer");
+//
+//                    }
+//                    if (map.get("TicTacToe") != null && !addedAlready.contains("TicTacToe")) {
+//                        ArrayList theCurrentList = (map.get("TicTacToe"));
+//                        tempStorage.addAllToContents(theCurrentList);
+//                        addedAlready.add("TicTacToe");
+//                    }
+//                    while (tempStorage.getSize() < 6) {
+//                        UserScores emptyOne = new UserScores();
+//                        tempStorage.add(emptyOne);
+//                    }
                     mAdapter.addToGameScoresList(tempStorage.getContents());
 
                 }
             }
-//                for (DataSnapshot d : dataSnapshot.getChildren()) {
-//                    if (d.exists() && d.getChildrenCount() > 0) {
-//                        Map<String, ArrayList> map = (Map<String, ArrayList>) d.getValue();
-//                        assert map != null;
-//                        LeaderBoardReader tempStorage = new LeaderBoardReader();
-//                        if (map.get("SlidingTilesThree") != null && !addedAlready.contains("SlidingTilesThree")){
-//                            ArrayList theCurrentList = (map.get("SlidingTilesThree"));
-//                            tempStorage.addAllToContents(theCurrentList);
-//                            addedAlready.add("SlidingTilesThree");
-//
-//                        }else if (map.get("SlidingTilesFour") != null && !addedAlready.contains("SlidingTilesFour")){
-//                            ArrayList theCurrentList = (map.get("SlidingTilesFour"));
-//                            tempStorage.addAllToContents(theCurrentList);
-//                            addedAlready.add("SlidingTilesFour");
-//
-//                        }else if (map.get("SlidingTilesFive") != null && !addedAlready.contains("SlidingTilesFive")){
-//                            ArrayList theCurrentList = (map.get("SlidingTilesFive"));
-//                            tempStorage.addAllToContents(theCurrentList);
-//                            addedAlready.add("SlidingTilesFive");
-//
-//                        }else if (map.get("Sequncer") != null && !addedAlready.contains("Sequncer")){
-//                            ArrayList theCurrentList = (map.get("Sequncer"));
-//                            tempStorage.addAllToContents(theCurrentList);
-//                            addedAlready.add("Sequncer");
-//
-//                        }else if (map.get("TicTacToe") != null && !addedAlready.contains("TicTacToe")){
-//                            ArrayList theCurrentList = (map.get("TicTacToe"));
-//                            tempStorage.addAllToContents(theCurrentList);
-//                            addedAlready.add("TicTacToe");
-//                        }
-//                        mAdapter.addToGameScoresList(tempStorage.getContents());
-
-
-//                        if (map.get("Name") != null) {
-//                            String name = map.get("Name").toString();
-//                            String score = returnWinningScore(map);
-//                            Scores userScore = new Scores();
-//                            userScore.setName(name);
-//
-//                            userScore.setScore(score);
-//                            if (!userScore.getScore().equals("NA")) {
-//                                allUsers.add(userScore);
-//                            }
-//                        }
 
 
             @Override
@@ -146,6 +124,8 @@ public class swipeTest extends FragmentActivity {
 
             }
         });
+
+
         ArrayList<UserScores> testList = new ArrayList<>();
         UserScores x = new UserScores();
         Scores y = new Scores();
@@ -163,17 +143,54 @@ public class swipeTest extends FragmentActivity {
 //        mAdapter.addToGameScoresList(testList);
 
     }
-    private void saveCountOnDataBase() {
-        Integer counter = theCounter;
 
-        // String lastSavedUndoCount = textView.getText().toString();
-        Map<String, Object> newMap = new HashMap<>();
-        newMap.put("last_Saved_Score", counter);
-        mGamesDatabase.updateChildren(newMap);
+
+    /**
+     * Get Current User's Saved Information from the database to the application
+     */
+    private void getCurrUserName() {
+
+        getDataBaseReference();
+        mUserDatabase.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if(dataSnapshot.exists() && dataSnapshot.getChildrenCount() >0) {
+                    Map<String, Object> map = (Map<String,Object>) dataSnapshot.getValue();
+                    assert map != null;
+                    if (map.get("Name")!=null) {
+//                        String name = map.get("Name").toString();
+                        currentUserName = map.get("Name").toString();
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
     }
 
+//    @Override
+//    protected void onStart() {
+//        super.onStart();
+//        tempStorage = new LeaderBoardReader();
+//    }
 
-    public void getDataBaseReference(){
+//    private void saveCountOnDataBase() {
+//        Integer counter = theCounter;
+//
+//        // String lastSavedUndoCount = textView.getText().toString();
+//        Map<String, Object> newMap = new HashMap<>();
+//        newMap.put("last_Saved_Score", counter);
+//        mGamesDatabase.updateChildren(newMap);
+//    }
+
+
+    public void getDataBaseReference() {
+        FirebaseAuth mAuth = FirebaseAuth.getInstance();
+        String userID = Objects.requireNonNull(mAuth.getCurrentUser()).getUid();
+        mUserDatabase = FirebaseDatabase.getInstance().getReference().child("Users").child("userId").child(userID);
         mGamesDatabase = FirebaseDatabase.getInstance().getReference().child("Users").child("Games");
     }
 

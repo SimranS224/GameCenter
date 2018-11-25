@@ -149,4 +149,21 @@ public class UserScores {
     public void empty() {
         this.array.clear();
     }
+
+    /**
+     * Return user with name name.
+     * @param name the name of the user to search for
+     * @return the user with this name if they exist
+     */
+    public Scores getUser(String name){
+        Scores emptyOne = new Scores();
+        emptyOne.setName("");
+        emptyOne.setScore("0");
+        for(int i=0; i< array.size();i++){
+            if (array.get(i).getName().equals(name)){
+                return array.get(i);
+            }
+        }
+        return emptyOne;
+    }
 }
