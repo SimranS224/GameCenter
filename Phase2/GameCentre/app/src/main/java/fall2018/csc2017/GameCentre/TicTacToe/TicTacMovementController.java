@@ -20,7 +20,6 @@ class TicTacMovementController {
             // Toast.makeText(context, "Add code to check puzzleSolved()", Toast.LENGTH_SHORT).show();
             if (boardManager.puzzleSolved(position)) {
                 Toast.makeText(context, "P1 WIN!", Toast.LENGTH_SHORT).show();
-
             }  else if (boardManager.getValidMoves().size() == 0) {
                 Toast.makeText(context, "Tie!", Toast.LENGTH_SHORT).show();
             } else {
