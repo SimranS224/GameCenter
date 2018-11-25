@@ -6,7 +6,7 @@ import android.widget.Toast;
 
 class SequencerMovementController {
 
-    private SequencerBoardManager boardManager = null;
+    private SequencerBoardManager boardManager;
 
     SequencerMovementController() {
     }

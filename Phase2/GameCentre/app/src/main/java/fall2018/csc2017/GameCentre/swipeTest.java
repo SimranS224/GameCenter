@@ -160,7 +160,7 @@ public class swipeTest extends FragmentActivity {
 //        testList.add(x);
 
 
-        mAdapter.addToGameScoresList(testList);
+//        mAdapter.addToGameScoresList(testList);
 
     }
     private void saveCountOnDataBase() {
@@ -168,7 +168,7 @@ public class swipeTest extends FragmentActivity {
 
         // String lastSavedUndoCount = textView.getText().toString();
         Map<String, Object> newMap = new HashMap<>();
-        newMap.put("counter", counter);
+        newMap.put("last_Saved_Score", counter);
         mGamesDatabase.updateChildren(newMap);
     }
 

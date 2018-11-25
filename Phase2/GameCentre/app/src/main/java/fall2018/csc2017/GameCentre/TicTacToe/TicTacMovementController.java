@@ -3,20 +3,15 @@ package fall2018.csc2017.GameCentre.TicTacToe;
 import android.content.Context;
 import android.widget.Toast;
 
-
 class TicTacMovementController {
-
-    private TicTacBoardManager boardManager = null;
-
+    private TicTacBoardManager boardManager;
     TicTacMovementController() {
     }
 
-    void setBoardManager(TicTacBoardManager boardManager) {
-        this.boardManager = boardManager;
-    }
+    public void setBoardManager(TicTacBoardManager boardManager) { this.boardManager = boardManager;}
 
     void processTapMovement(Context context, int position) {
-        if (boardManager.getBoard().getGameOver() == true) {
+        if (boardManager.getBoard().getGameOver()) {
             return;
         }
         if (boardManager.isValidTap(position)) {
