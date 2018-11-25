@@ -96,46 +96,4 @@ public class BoardAndTileTest {
         assertEquals(true, boardManager.isValidTap(14));
         assertEquals(false, boardManager.isValidTap(10));
     }
-
-    /**
-     * Test whether all the elements of the sequence are between the correct bounds (0 and  15)
-     */
-    @Test
-    public void testSequenceBound() {
-        Sequence s = new Sequence();
-        boolean allBounded = true;
-        for (int i = 0; i < 100; i++) {
-            int num = s.get();
-            System.out.println(num);
-            if (num < 0 || num > 15) {
-                allBounded = false;
-            }
-        }
-        assertEquals(true, allBounded);
-    }
-    /**
-     * Test whether get() changes the listen position
-     */
-    @Test
-    public void testSpeakAffectsListen() {
-        Sequence s = new Sequence();
-        s.get();
-        s.get();
-        s.get();
-        assertEquals(s.position, 3);
-    }
-    /**
-     * Tests reset()
-     */
-    @Test
-    public void testSpeakReset(){
-        Sequence s = new Sequence();
-        s.get();
-        s.get();
-        s.get();
-        s.reset();
-        assertEquals(s.position, 0);
-    }
-
-
 }

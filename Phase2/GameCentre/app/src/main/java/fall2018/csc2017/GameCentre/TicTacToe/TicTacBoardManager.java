@@ -127,26 +127,34 @@ class TicTacBoardManager implements Serializable, Manager {
     }
 
     /**
-     * Return whether the tiles are in row-major order.
+     * Return whether the tiles are in row-major order. Uses the fact that a win can only come
+     * from the last tap.
      * @param position of the current player
      * @return True if the tiles are in row major order, false if otherwise.
      */
     boolean puzzleSolved(int position) {
-
+        // Setup
         int row = position / TicTacBoard.NUM_COLS;
         int col = position % TicTacBoard.NUM_COLS;
+        // The id of the recently tapped marker (The ID for the current player)
         int id = board.getMarker(row, col).getBackgroundId();
 
+        //Checks the row for tapped marker
         if (board.getMarker(row, 0).getBackgroundId() == id &&
                 board.getMarker(row, 1).getBackgroundId() == id &&
                 board.getMarker(row, 2).getBackgroundId() == id) {
             return true;
         }
+
+        // Checks the column for tapped marker.
         else if (board.getMarker(0, col).getBackgroundId() == id &&
                 board.getMarker(1, col).getBackgroundId() == id &&
                 board.getMarker(2, col).getBackgroundId() == id) {
             return true;
         }
+        // Checks the diagonals.
+        // Uses the fact that markers in a diagonal have coordinates that add up to 2
+        // and the coordinates are the same for the other diagonal
         int d1 = 0;
         int d2 = 0;
         for (int r = 0; r < 3; r++) {
