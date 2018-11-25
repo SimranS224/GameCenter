@@ -23,11 +23,12 @@ class TicTacMovementController {
             // check if game is solved
             // Toast.makeText(context, "Add code to check puzzleSolved()", Toast.LENGTH_SHORT).show();
             if (boardManager.puzzleSolved(position)) {
-
+                boardManager.getBoard().setGameOver(true);
                 Toast.makeText(context, "P1 WIN!", Toast.LENGTH_SHORT).show();
                 TicTacGameActivity.pauseTimer();
 
             }  else if (boardManager.getValidMoves().size() == 0) {
+                boardManager.getBoard().setGameOver(true);
                 Toast.makeText(context, "Tie!", Toast.LENGTH_SHORT).show();
                 TicTacGameActivity.pauseTimer();
             } else {
@@ -37,6 +38,7 @@ class TicTacMovementController {
                         position = boardManager.getStrategy().getNextMovement(boardManager, 0);
                         current_player = boardManager.touchMove(position);
                         if (boardManager.puzzleSolved(position)) {
+                            boardManager.getBoard().setGameOver(true);
                             Toast.makeText(context, "P2 WIN!", Toast.LENGTH_SHORT).show();
                             TicTacGameActivity.pauseTimer();
                         }

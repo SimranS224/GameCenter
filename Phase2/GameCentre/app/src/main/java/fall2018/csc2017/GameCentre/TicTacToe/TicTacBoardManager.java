@@ -12,6 +12,10 @@ import java.util.List;
  */
 class TicTacBoardManager implements Serializable, Manager {
 
+    /**
+     * global variable position
+     */
+    private int game_position = -1;
 
     /**
      * movement controller
@@ -43,6 +47,7 @@ class TicTacBoardManager implements Serializable, Manager {
         this.board = board;
         this.score = 0L;
         this.stack = new TicTacMoveStack();
+        this.game_position = -1;
     }
 
     /**
@@ -51,6 +56,10 @@ class TicTacBoardManager implements Serializable, Manager {
     TicTacBoard getBoard() {
         return board;
     }
+
+    /**
+     *
+     */
 
     /**
      * Return the strategy
@@ -95,6 +104,9 @@ class TicTacBoardManager implements Serializable, Manager {
         score = s;
     }
 
+    public int getGamePosition() {
+        return this.game_position;
+    }
 
     /**
      * Checks if all the markers have been filled
@@ -195,7 +207,9 @@ class TicTacBoardManager implements Serializable, Manager {
         int row = position / TicTacBoard.NUM_COLS;
         int col = position % TicTacBoard.NUM_COLS;
         int current_player = board.getCurrentPlayer();
+        this.game_position = -1;
         if (isValidTap(position)) {
+            this.game_position = position;
             //check whos turn it is and drop the marker accordingly
             //get row and column of blank tile
             if (board.getCurrentPlayer() == board.getPlayer1()) {
