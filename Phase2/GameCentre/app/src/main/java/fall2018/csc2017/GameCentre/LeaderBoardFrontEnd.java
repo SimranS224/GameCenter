@@ -21,10 +21,20 @@ import java.util.Objects;
 
 public class LeaderBoardFrontEnd {
 
+//    /**
+//     * Reference to the name of the current user
+//     */
+//    private DatabaseReference mCurrentUserNameReference;
+
+
+
+
     /**
      * The Name of the Current user
      */
-    private String mNameCurrentUser;
+    private String mNameCurrentUser="";
+
+
     /**
      * The path to the Games branch of the firebase database.
      */
@@ -66,8 +76,13 @@ public class LeaderBoardFrontEnd {
         //leaderBoard = leaderBoardFactory.getType(leaderBoardType);
         //leaderBoard = new SlidingTilesLeaderBoard(); // temp for the controller.
         getUserDatabaseReference();
-        leaderBoard.setPlayerName(mNameCurrentUser);
+//        leaderBoard.setPlayerName(mNameCurrentUser);
         tempStorage = new ArrayList<>();
+    }
+
+    public void setmNameCurrentUser(String mNameCurrentUser) {
+        this.mNameCurrentUser = mNameCurrentUser;
+        leaderBoard.setPlayerName(mNameCurrentUser);
     }
 
     /**
@@ -86,6 +101,10 @@ public class LeaderBoardFrontEnd {
 
         //writeDataToDataBase();
     }
+
+//    public static void setmNameCurrentUser(String mNameCurrentUser) {
+//        LeaderBoardFrontEnd.mNameCurrentUser = mNameCurrentUser;
+//    }
 
     /**
      * Updates the boardManger and checks if any change i.e someone beating a highscore
@@ -114,7 +133,8 @@ public class LeaderBoardFrontEnd {
     public void getUserDatabaseReference() {
         FirebaseAuth mAuth = FirebaseAuth.getInstance();
         String userID = Objects.requireNonNull(mAuth.getCurrentUser()).getUid();
-        mNameCurrentUser = FirebaseDatabase.getInstance().getReference().child("Users").child("userId").child(userID).child("Name").toString();
+//        mCurrentUserNameReference = FirebaseDatabase.getInstance().getReference().child("Users").child("userId").child(userID).child("Name");
+//        mNameCurrentUser = FirebaseDatabase.getInstance().getReference().child("Users").child("userId").child(userID).child("Name").toString();
         mGamesDatabase= FirebaseDatabase.getInstance().getReference().child("Users").child("Games");
         mUserDatabase = FirebaseDatabase.getInstance().getReference().child("Users").child("userId");
     }
@@ -139,6 +159,8 @@ public class LeaderBoardFrontEnd {
 
                 tempStorage.addAll(theCurrentList);
             }
+
+
         }
         ArrayList emptyOne = new ArrayList();
         if (tempStorage.size() == 0) {
@@ -147,6 +169,27 @@ public class LeaderBoardFrontEnd {
             this.saveBoard(boardManager, tempStorage);
         }
     }
+
+//    public void saveCurrentUserName() {
+//        mCurrentUserNameReference.addListenerForSingleValueEvent(new ValueEventListener() {
+//            @Override
+//            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+//                if (dataSnapshot.exists() && dataSnapshot.getChildrenCount() > 0) {
+//                    Map<String, Object> map = (Map<String, Object>) dataSnapshot.getValue();
+//                    assert map != null;
+//                    if (map.get("Name") != null) {
+//                        String name = map.get("Name").toString();
+//                        mNameCurrentUser = name;
+//                    }
+//                }
+//            }
+//
+//            @Override
+//            public void onCancelled(@NonNull DatabaseError databaseError) {
+//
+//            }
+//        });
+//    }
 
 
     /**

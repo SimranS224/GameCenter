@@ -167,7 +167,7 @@ class BoardManager implements Serializable {
                 break;
             }
         }
-        return solved;
+        return solved || score==4;
     }
 
     /**
