@@ -124,7 +124,7 @@ public class StartingActivity extends AppCompatActivity {
         mLeaderBoard.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(StartingActivity.this,StartingActivity.class);
+                Intent intent = new Intent(StartingActivity.this,swipeTest.class);
                 startActivity(intent);
             }
         });
