@@ -99,6 +99,12 @@ public class GameActivity extends AppCompatActivity implements Observer {
     private boolean dataChange;
 
     /**
+     * Name of the current user
+     */
+    private String currentUserName;
+
+
+    /**
      * Checks the type the Board class is set as.
      *
      * @return whether the Board type is set to Image Tile
@@ -141,6 +147,8 @@ public class GameActivity extends AppCompatActivity implements Observer {
         super.onCreate(savedInstanceState);
 
         getUserDatabaseReference();
+
+
 
         loadFromFile(StartingActivity.TEMP_SAVE_FILENAME);
         int unn = MoveStack.NUM_UNDOS;
@@ -187,8 +195,14 @@ public class GameActivity extends AppCompatActivity implements Observer {
         });
         addUndoButtonListener();
         // saves score on database
-        leaderBoardFrontEnd = new LeaderBoardFrontEnd();
-        this.dataChange = false;
+
+
+            leaderBoardFrontEnd = new LeaderBoardFrontEnd();
+            updateLeaderBoard();
+            System.out.println(currentUserName);
+            this.dataChange = false;
+
+
 
         saveUserInformationOnDatabase();
         saveScoreCountOnDataBase();
@@ -199,7 +213,10 @@ public class GameActivity extends AppCompatActivity implements Observer {
 
                 if (boardManager.puzzleSolved() && !dataChange) {
                     leaderBoardFrontEnd.empty();
+                    System.out.println(currentUserName);
+                    leaderBoardFrontEnd.setmNameCurrentUser(currentUserName);
                     leaderBoardFrontEnd.saveScoreToLeaderBoard(dataSnapshot, boardManager); // move to leaderboard front endTODO
+
                     dataChange = true;
 //                    saveScoreCountOnDataBase(0);
                 }
@@ -230,6 +247,33 @@ public class GameActivity extends AppCompatActivity implements Observer {
         mGamesDatabase = FirebaseDatabase.getInstance().getReference().child("Users").child("Games");
 //        mUserDatabase=FirebaseDatabase.getInstance().getReference().child("Users").child("userId").child(userID).child("sliding_tiles");
 
+    }
+
+
+    /**
+     * Get Current User's Saved Information from the database to the application
+     */
+    private void updateLeaderBoard() {
+
+        getUserDatabaseReference();
+        mUserDatabase.getParent().addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if(dataSnapshot.exists() && dataSnapshot.getChildrenCount() >0) {
+                    Map<String, Object> map = (Map<String,Object>) dataSnapshot.getValue();
+                    assert map != null;
+                    if (map.get("Name")!=null) {
+                        String name = map.get("Name").toString();
+                        currentUserName = name;
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
     }
 
     /**
