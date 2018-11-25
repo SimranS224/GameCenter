@@ -80,10 +80,6 @@ public class GameActivity extends AppCompatActivity implements Observer {
      */
     private DatabaseReference mUserDatabase;
 
-//    /**
-//     * Name of curr user // TODO Abudllah need your help
-//     */
-//    private String
 
     /**
      * ArrayList where the parts of the image are going to be stored.
@@ -263,8 +259,8 @@ public class GameActivity extends AppCompatActivity implements Observer {
                     Map<String, Object> map = (Map<String,Object>) dataSnapshot.getValue();
                     assert map != null;
                     if (map.get("Name")!=null) {
-                        String name = map.get("Name").toString();
-                        currentUserName = name;
+//                        String name = map.get("Name").toString();
+                        currentUserName = map.get("Name").toString();
                     }
                 }
             }
