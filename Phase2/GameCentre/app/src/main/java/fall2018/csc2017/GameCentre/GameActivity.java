@@ -209,9 +209,9 @@ public class GameActivity extends AppCompatActivity implements Observer {
         mGamesDatabase.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-//                if (boardManager.puzzleSolved()) {
+//                if (boardManager.isOver()) {
 
-                if (boardManager.puzzleSolved() && !dataChange) {
+                if (boardManager.isOver() && !dataChange) {
                     leaderBoardFrontEnd.empty();
                     System.out.println(currentUserName);
                     leaderBoardFrontEnd.setmNameCurrentUser(currentUserName);

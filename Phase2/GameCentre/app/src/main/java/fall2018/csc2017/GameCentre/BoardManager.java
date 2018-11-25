@@ -9,7 +9,7 @@ import java.util.List;
 /**
  * Manage a board, including swapping tiles, checking for a win, and managing taps.
  */
-class BoardManager implements Serializable {
+class BoardManager implements Serializable, Manager {
 
     /**
      * score
@@ -68,6 +68,7 @@ class BoardManager implements Serializable {
      * Return the name corresponding to the size.
      * @return the name corresponding to the size
      */
+    @Override
     public String getSpecificName(){
         if (board.getBoardSize() == 3){
             return "SlidingTilesThree";
@@ -131,6 +132,7 @@ class BoardManager implements Serializable {
      * A getter for the score
      * @return the score
      */
+    @Override
     public Long getScore() {
         return this.score;
     }
@@ -148,7 +150,8 @@ class BoardManager implements Serializable {
      *
      * @return True if the tiles are in row major order, false if otherwise.
      */
-    boolean puzzleSolved() {
+    @Override
+    public boolean isOver() {
         Iterator<Tile> TileIterator = this.board.iterator();
         Tile past = TileIterator.next();
         boolean solved = true;
@@ -168,7 +171,10 @@ class BoardManager implements Serializable {
             }
         }
         return solved || score == 4;
+<<<<<<< HEAD
 
+=======
+>>>>>>> bd6a381d9d84ee1b1edc08f32b81c7522d079fb0
     }
 
     /**
