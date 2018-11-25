@@ -1,11 +1,13 @@
 package fall2018.csc2017.GameCentre.TicTacToe;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.CountDownTimer;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.view.ViewTreeObserver;
 import android.widget.Button;
 import android.widget.TextView;
@@ -15,7 +17,9 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import fall2018.csc2017.GameCentre.GameChoiceActivity;
 import fall2018.csc2017.GameCentre.R;
+import fall2018.csc2017.GameCentre.StartingActivity;
 
 import java.io.IOException;
 import java.io.ObjectOutputStream;
@@ -32,11 +36,11 @@ public class TicTacGameActivity extends AppCompatActivity implements Observer {
      */
     private static final long START_TIME_IN_MILLIS = 100000;
 
-    private TextView mTextViewCountDown;
-    private CountDownTimer mCountDownTimer;
-    private boolean mTimerRunning;
+    private static TextView mTextViewCountDown;
+    private static CountDownTimer mCountDownTimer;
+    private static boolean mTimerRunning;
 
-    private long mTimeLeftInMillis = START_TIME_IN_MILLIS;
+    private static long mTimeLeftInMillis = START_TIME_IN_MILLIS;
     /**
      * The board manager.
      */
@@ -122,6 +126,10 @@ public class TicTacGameActivity extends AppCompatActivity implements Observer {
         getUserDatabaseReference();
         super.onCreate(savedInstanceState);
         Bundle b = getIntent().getExtras();
+
+
+
+
         int gametype = -1; // or other values
         int depth = -1;
         if(b != null) {
@@ -138,7 +146,6 @@ public class TicTacGameActivity extends AppCompatActivity implements Observer {
         } else if (gametype == TicTacMainActivity.PLAYER_TO_RANDOM) {
             //PLAYER TO RANDOM AI CASE
             boardManager = new TicTacBoardManager(new TicTacRandomStrategy(depth));
-            mTextViewCountDown = findViewById(R.id.text_view_countdown);
         } else if (gametype == TicTacMainActivity.PLAYER_TO_AI) {
             //PLAYER TO MINIMAX AI CASE
             boardManager = new TicTacBoardManager(new TicTacMinimaxStrategy(depth));
@@ -155,6 +162,7 @@ public class TicTacGameActivity extends AppCompatActivity implements Observer {
         // set to tictac_game_activity
         setContentView(R.layout.tictac_game_activity);
         // Add View to activity
+        mTextViewCountDown = findViewById(R.id.text_count_Down);
         gridView = findViewById(R.id.gridView);
         gridView.setBoardManager(boardManager);
         gridView.setNumColumns(TicTacBoard.NUM_COLS);
@@ -174,11 +182,13 @@ public class TicTacGameActivity extends AppCompatActivity implements Observer {
                         columnHeight = displayHeight / TicTacBoard.NUM_ROWS;
 
                         display();
+                        resetTimer();
+                        startTimer();
                     }
                 });
     }
 
-    private void startTimer() {
+    public static void startTimer() {
         mCountDownTimer = new CountDownTimer(mTimeLeftInMillis, 1000) {
             @Override
             public void onTick(long millisUntilFinished) {
@@ -194,17 +204,17 @@ public class TicTacGameActivity extends AppCompatActivity implements Observer {
         mTimerRunning = true;
     }
 
-    private void pauseTimer() {
+    public static void pauseTimer() {
         mCountDownTimer.cancel();
         mTimerRunning = false;
     }
 
-    private void resetTimer(){
+    public static void resetTimer(){
         mTimeLeftInMillis = START_TIME_IN_MILLIS;
         updateCountDownText();
     }
 
-    private void updateCountDownText() {
+    public static void updateCountDownText() {
         int minutes = (int) (mTimeLeftInMillis / 1000) / 60;
         int seconds = (int) (mTimeLeftInMillis / 1000) % 60;
 
@@ -221,6 +231,19 @@ public class TicTacGameActivity extends AppCompatActivity implements Observer {
         String userID = Objects.requireNonNull(mAuth.getCurrentUser()).getUid();
         mUserDatabase = FirebaseDatabase.getInstance().getReference().child("Users").child("userId").child(userID).child("tic_tac_toe");
     }
+
+    /**
+     * Adopted from https://stackoverflow.com/questions/4778754/how-do-i-kill-an-activity-when-the-back-button-is-pressed
+     */
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        pauseTimer();
+        this.finish();
+
+    }
+
+
 
 }
 
