@@ -12,6 +12,7 @@ import java.util.List;
  */
 class TicTacBoardManager implements Serializable, Manager {
 
+
     /**
      * movement controller
      */
