@@ -1,5 +1,6 @@
 package fall2018.csc2017.GameCentre.TicTacToe;
 
+import fall2018.csc2017.GameCentre.Manager;
 import fall2018.csc2017.GameCentre.R;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -9,7 +10,7 @@ import java.util.List;
 /**
  * Manage a board, including swapping tiles, checking for a win, and managing taps.
  */
-class TicTacBoardManager implements Serializable {
+class TicTacBoardManager implements Serializable, Manager {
 
 
     /**
@@ -25,7 +26,7 @@ class TicTacBoardManager implements Serializable {
     /**
      * score
      */
-    private Integer score;
+    private Long score;
 
     /**
      * The board being managed.
@@ -40,7 +41,7 @@ class TicTacBoardManager implements Serializable {
      */
     public TicTacBoardManager(TicTacBoard board) {
         this.board = board;
-        this.score = 0;
+        this.score = 0L;
         this.stack = new TicTacMoveStack();
     }
 
@@ -74,7 +75,7 @@ class TicTacBoardManager implements Serializable {
         }
         // assume p1 always goes first
         this.board = new TicTacBoard(ticTacMarkers, true);
-        this.score = 0;
+        this.score = 0L;
         stack = new TicTacMoveStack();
     }
 
@@ -82,7 +83,7 @@ class TicTacBoardManager implements Serializable {
      * A getter for the score
      * @return the score
      */
-    public int getScore() {
+    public Long getScore() {
         return this.score;
     }
 
@@ -90,7 +91,7 @@ class TicTacBoardManager implements Serializable {
      * A setter for the score.
      * @param s The score to be set.
      */
-    public void setScore(int s) {
+    public void setScore(Long s) {
         score = s;
     }
 
@@ -99,7 +100,7 @@ class TicTacBoardManager implements Serializable {
      * Checks if all the markers have been filled
      * @return if the puzzle markers have been filled.
      */
-    boolean isOver() {
+    public boolean isOver() {
         int count = 0;
         //check if the game oover flag is set
         if (board.getGameOver()) {
@@ -118,6 +119,11 @@ class TicTacBoardManager implements Serializable {
         } else {
             return false;
         }
+    }
+
+    @Override
+    public String getSpecificName() {
+        return "TicTacToe";
     }
 
     /**

@@ -101,10 +101,13 @@ public class swipeViewAdapter extends FragmentStatePagerAdapter{
 
     public void addToGameScoresList(ArrayList<UserScores> contents) {
         allScores = new ArrayList<>();
-        for (int i= 0; i< contents.size();i++){
-            allScores.add(contents.get(i));
+        if (contents!=null) {
+
+            for (int i = 0; i < contents.size(); i++) {
+                allScores.add(contents.get(i));
+            }
+            //allScores.addAll(contents);
         }
-        //allScores.addAll(contents);
     }
 
     public void setContext(Context swipeTest) {
