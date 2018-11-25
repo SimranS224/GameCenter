@@ -23,7 +23,7 @@ class TicTacMovementController {
             int current_player =  boardManager.touchMove(position);
             // check if game is solved
             // Toast.makeText(context, "Add code to check puzzleSolved()", Toast.LENGTH_SHORT).show();
-            if (boardManager.puzzleSolved(current_player)) {
+            if (boardManager.puzzleSolved(position)) {
                 if(current_player == 0) {
                     Toast.makeText(context, "P1 WIN!", Toast.LENGTH_SHORT).show();
                 } else {
@@ -34,7 +34,7 @@ class TicTacMovementController {
                 if (boardManager.getBoard().getCurrentPlayer() == boardManager.getBoard().getPlayer2()) {
                     position = boardManager.getStrategy().getNextMovement(boardManager, 0);
                     current_player = boardManager.touchMove(position);
-                    if (boardManager.puzzleSolved(current_player)) {
+                    if (boardManager.puzzleSolved(position)) {
                         if (current_player == 0) {
                             Toast.makeText(context, "P1 WIN!", Toast.LENGTH_SHORT).show();
                         } else {

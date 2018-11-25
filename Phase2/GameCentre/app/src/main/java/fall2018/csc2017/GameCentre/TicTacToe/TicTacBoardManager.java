@@ -121,60 +121,38 @@ class TicTacBoardManager implements Serializable {
 
     /**
      * Return whether the tiles are in row-major order.
-     * @param current_player the current player
+     * @param position of the current player
      * @return True if the tiles are in row major order, false if otherwise.
      */
-    boolean puzzleSolved(int current_player) {
-        int background_id = 0;
-        // after turn, check board to see if anyone has one
-        if ((this.board.getMarker(0,0).getBackgroundId() ==
-                this.board.getMarker(0,1).getBackgroundId()) &&
-                ((this.board.getMarker(0,0).getBackgroundId() ==
-                this.board.getMarker(0,2).getBackgroundId()))) {
-            background_id = this.board.getMarker(0,1).getBackgroundId();
-        } else if ((this.board.getMarker(1,0).getBackgroundId() ==
-                this.board.getMarker(1,1).getBackgroundId()) &&
-                ((this.board.getMarker(1,0).getBackgroundId() ==
-                        this.board.getMarker(1,2).getBackgroundId()))) {
-            background_id = this.board.getMarker(1,0).getBackgroundId();
-        } else if ((this.board.getMarker(2,0).getBackgroundId() ==
-                this.board.getMarker(2,1).getBackgroundId()) &&
-                ((this.board.getMarker(2,0).getBackgroundId() ==
-                        this.board.getMarker(2,2).getBackgroundId()))) {
-            background_id = this.board.getMarker(2,0).getBackgroundId();
-        } else if ((this.board.getMarker(0,0).getBackgroundId() ==
-                this.board.getMarker(1,0).getBackgroundId()) &&
-                ((this.board.getMarker(2,0).getBackgroundId() ==
-                        this.board.getMarker(1,0).getBackgroundId()))) {
-            background_id = this.board.getMarker(0,0).getBackgroundId();
-        } else if ((this.board.getMarker(0,1).getBackgroundId() ==
-                this.board.getMarker(1,1).getBackgroundId()) &&
-                ((this.board.getMarker(2,1).getBackgroundId() ==
-                        this.board.getMarker(1,1).getBackgroundId()))) {
-            background_id = this.board.getMarker(1,1).getBackgroundId();
-        } else if ((this.board.getMarker(0,2).getBackgroundId() ==
-                this.board.getMarker(1,2).getBackgroundId()) &&
-                ((this.board.getMarker(2,2).getBackgroundId() ==
-                        this.board.getMarker(1,2).getBackgroundId()))) {
-            background_id = this.board.getMarker(2,2).getBackgroundId();
-        } else if ((this.board.getMarker(0,0).getBackgroundId() ==
-                this.board.getMarker(1,1).getBackgroundId()) &&
-                ((this.board.getMarker(2,2).getBackgroundId() ==
-                        this.board.getMarker(1,1).getBackgroundId()))) {
-            background_id = this.board.getMarker(1,1).getBackgroundId();
-        } else if ((this.board.getMarker(2,0).getBackgroundId() ==
-                this.board.getMarker(1,1).getBackgroundId()) &&
-                ((this.board.getMarker(0,2).getBackgroundId() ==
-                        this.board.getMarker(1,1).getBackgroundId()))) {
-            background_id = this.board.getMarker(1,1).getBackgroundId();
+    boolean puzzleSolved(int position) {
 
-        }
-        if (background_id == board.getPlayerBackground(current_player)) {
-            // current player wins and game is over
-            board.setGameOver(true);
+        int row = position / TicTacBoard.NUM_COLS;
+        int col = position % TicTacBoard.NUM_COLS;
+        int id = board.getMarker(row, col).getBackgroundId();
+
+        if (board.getMarker(row, 0).getBackgroundId() == id &&
+                board.getMarker(row, 1).getBackgroundId() == id &&
+                board.getMarker(row, 2).getBackgroundId() == id) {
             return true;
         }
-        return false;
+        else if (board.getMarker(0, col).getBackgroundId() == id &&
+                board.getMarker(1, col).getBackgroundId() == id &&
+                board.getMarker(2, col).getBackgroundId() == id) {
+            return true;
+        }
+        int d1 = 0;
+        int d2 = 0;
+        for (int r = 0; r < 3; r++) {
+            for (int c = 0; c < 3; c++) {
+                if (r + c == 2 && board.getMarker(r, c).getBackgroundId() == id) {
+                    d1++;
+                }
+                if (r == c && board.getMarker(r, c).getBackgroundId() == id) {
+                    d2++;
+                }
+            }
+        }
+        return d1 == 3 || d2 == 3;
     }
 
     /**
