@@ -85,7 +85,7 @@ public class UserScores {
      * @param score The Score to add to the array.
      */
     public void add(Object score) {
-        Log.d("Score Object","its value" + score + score.toString() + score.getClass());
+//        Log.d("Score Object","its value" + score + score.toString() + score.getClass());
         if (score instanceof Scores ) {
             Scores theScore = (Scores) score;
             array.add(theScore);

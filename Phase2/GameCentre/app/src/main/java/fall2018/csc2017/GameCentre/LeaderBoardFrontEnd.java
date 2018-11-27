@@ -198,8 +198,10 @@ public class LeaderBoardFrontEnd {
      */
     public void writeDataToDataBase() {
 //        Log.d("in wrtiedatatodatabase ", "listofarrays=============== " + leaderBoard.getWriteData());
-
-        ArrayList theContent = leaderBoard.getWriteData();
+        ArrayList theContent = new ArrayList();
+        if (!leaderBoard.isEmpty()){
+            theContent = leaderBoard.getWriteData();
+        }
         Map<String, Object> userInfo = new HashMap<>();
         userInfo.put(leaderBoard.getName(), theContent);
 

@@ -77,4 +77,9 @@ public class Scores implements Comparable<Scores> {
     public int compareTo(@NonNull Scores scoreToCompare) {
         return (Integer.parseInt(this.score) - Integer.parseInt(scoreToCompare.score));
     }
+
+    @Override
+    public String toString(){
+        return this.name + ", " + this.score;
+    }
 }

@@ -35,6 +35,10 @@ public class LeaderBoardController {
         this.currPlayerName = newPlayer;
     }
 
+    public String getPLayerName(){
+        return this.currPlayerName;
+    }
+
     /**
      * remove all the elemens from the listOfScores
      */
@@ -100,7 +104,7 @@ public class LeaderBoardController {
 //            Log.d("in addwinningscore is udated", "listofarrays=============== " + listOfScores.array);
 
         String theScore = score.toString();
-        String name = currPlayerName;
+        String name = this.getPLayerName();
         Scores userScore = new Scores();
         userScore.setName(name);
         userScore.setScore(theScore);
@@ -116,4 +120,7 @@ public class LeaderBoardController {
     }
 
 
+    public boolean isEmpty() {
+        return this.listOfScores.size() == 0;
+    }
 }
