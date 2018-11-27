@@ -84,8 +84,6 @@ public class SequencerStartingActivity extends AppCompatActivity {
         boardManager = new SequencerBoardManager();
         getUserInfoFromDatabase();
 
-
-
         saveToFile(TEMP_SAVE_FILENAME);
 
         setContentView(R.layout.activity_sequencer_starting);

@@ -76,7 +76,7 @@ public class TicTacBoard extends Observable implements Serializable, Iterable<Ti
         this.p1_turn = p1_turn;
         this.game_over = false;
         //set the players turn to player 1 or 2
-        if (this.p1_turn == true) {
+        if (this.p1_turn) {
             this.current_player = 0;
         } else {
             this.current_player = 1;
