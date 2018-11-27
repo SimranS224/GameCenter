@@ -25,7 +25,7 @@ public class TicTacBoardTest {
             }
         }
         // assume p1 always goes first
-        this.board = new TicTacBoard(ticTacMarkers, true);
+        this.board = new TicTacBoard(ticTacMarkers);
     }
 
     @After

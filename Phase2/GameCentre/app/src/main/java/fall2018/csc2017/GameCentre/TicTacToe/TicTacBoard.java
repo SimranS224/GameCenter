@@ -72,11 +72,11 @@ public class TicTacBoard extends Observable implements Serializable, Iterable<Ti
      *
      * @param ticTacMarkers the ticTacMarkers for the board
      */
-    TicTacBoard(List<TicTacMarker> ticTacMarkers, boolean p1_turn) {
-        this.p1_turn = p1_turn;
+    TicTacBoard(List<TicTacMarker> ticTacMarkers) {
+        this.p1_turn = true;
         this.game_over = false;
         //set the players turn to player 1 or 2
-        if (this.p1_turn == true) {
+        if (this.p1_turn) {
             this.current_player = 0;
         } else {
             this.current_player = 1;

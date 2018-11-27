@@ -1,10 +1,6 @@
 package fall2018.csc2017.GameCentre.TicTacToe;
 
 import android.content.Context;
-import android.content.DialogInterface;
-import android.content.Intent;
-import android.provider.Settings;
-import android.support.v7.app.AlertDialog;
 import android.widget.Toast;
 
 class TicTacMovementController {
@@ -18,16 +14,21 @@ class TicTacMovementController {
         if (boardManager.getBoard().getGameOver()) {
             return;
         }
+        if (!TicTacGameActivity.getmTimerRunning()) {
+            boardManager.getBoard().setGameOver(true);
+            Toast.makeText(context, "NO MORE TIME!", Toast.LENGTH_SHORT).show();
+        } else
         if (boardManager.isValidTap(position)) {
             int current_player =  boardManager.touchMove(position);
             // check if game is solved
-            // Toast.makeText(context, "Add code to check puzzleSolved()", Toast.LENGTH_SHORT).show();
-            if (boardManager.puzzleSolved(position)) {
-
+            // Toast.makeText(context, "Add code to check getWinner()", Toast.LENGTH_SHORT).show();
+            if (boardManager.getWinner(position)) {
+                boardManager.getBoard().setGameOver(true);
                 Toast.makeText(context, "P1 WIN!", Toast.LENGTH_SHORT).show();
                 TicTacGameActivity.pauseTimer();
 
             }  else if (boardManager.getValidMoves().size() == 0) {
+                boardManager.getBoard().setGameOver(true);
                 Toast.makeText(context, "Tie!", Toast.LENGTH_SHORT).show();
                 TicTacGameActivity.pauseTimer();
             } else {
@@ -36,7 +37,8 @@ class TicTacMovementController {
                     if (boardManager.getBoard().getCurrentPlayer() == boardManager.getBoard().getPlayer2()) {
                         position = boardManager.getStrategy().getNextMovement(boardManager, 0);
                         current_player = boardManager.touchMove(position);
-                        if (boardManager.puzzleSolved(position)) {
+                        if (boardManager.getWinner(position)) {
+                            boardManager.getBoard().setGameOver(true);
                             Toast.makeText(context, "P2 WIN!", Toast.LENGTH_SHORT).show();
                             TicTacGameActivity.pauseTimer();
                         }
