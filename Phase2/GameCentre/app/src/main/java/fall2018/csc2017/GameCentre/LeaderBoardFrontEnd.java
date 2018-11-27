@@ -89,7 +89,7 @@ public class LeaderBoardFrontEnd {
      * Set the boardManger and writes newly changed list to the data to the database.
      * @param boardManger the boardManger of the current game
      */
-    public void saveBoard(BoardManager boardManger, ArrayList leaderboard) {
+    public void saveBoard(Manager boardManger, ArrayList leaderboard) {
 //        Log.d("in saveboard ", "listofarrays=============== " + leaderBoard.getWriteData());
         if (!this.leaderBoard.getDataChange()){ // if nothing has been changed yet do this
             this.numCalls = 0;
@@ -111,7 +111,7 @@ public class LeaderBoardFrontEnd {
      * happens and then writes the data to the database
      * @param boardManager the boardManger of the current game
      */
-    public void update(BoardManager boardManager) {
+    public void update(Manager boardManager) {
 //        Log.d("in update ", "listofarrays=============== " + leaderBoard.getWriteData());
         if (this.numCalls < 1){
             numCalls++;
@@ -144,7 +144,7 @@ public class LeaderBoardFrontEnd {
     }
 
 
-    public void saveScoreToLeaderBoard(DataSnapshot dataSnapshot, BoardManager boardManager) {
+    public void saveScoreToLeaderBoard(DataSnapshot dataSnapshot, Manager boardManager) {
         tempStorage.clear();
         if (dataSnapshot.exists() && dataSnapshot.getChildrenCount() > 0) {
             Map<String, ArrayList> map = (Map<String, ArrayList>) dataSnapshot.getValue();

@@ -9,7 +9,7 @@ public class LeaderBoardController {
     /**
      * The board
      */
-    private BoardManager boardManager;
+    private Manager boardManager;
 
     /**
      * List of User/scores
@@ -88,7 +88,7 @@ public class LeaderBoardController {
      *
      * @param boardManger the current board manger
      */
-    public void setBoard(BoardManager boardManger) {
+    public void setBoard(Manager boardManger) {
         this.boardManager = boardManger;
     }
 
@@ -129,7 +129,7 @@ public class LeaderBoardController {
      *
      * @param boardManager of the current game
      */
-    public void updateScores(BoardManager boardManager) {
+    public void updateScores(Manager boardManager) {
         Long winningScore = boardManager.getScore();
         addWinningScore(winningScore);
 

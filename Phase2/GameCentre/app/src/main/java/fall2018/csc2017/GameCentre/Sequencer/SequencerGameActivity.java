@@ -1,11 +1,13 @@
 package fall2018.csc2017.GameCentre.Sequencer;
 
 import fall2018.csc2017.GameCentre.CustomAdapter;
+import fall2018.csc2017.GameCentre.LeaderBoardFrontEnd;
 import fall2018.csc2017.GameCentre.R;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.ViewTreeObserver;
@@ -13,12 +15,23 @@ import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
 import android.widget.Button;
 import android.widget.TextView;
+
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Objects;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -47,8 +60,35 @@ public class SequencerGameActivity extends AppCompatActivity implements Observer
     private static int columnWidth, columnHeight;
 
     /**
+     * Refererence to the list of games database.
+     */
+    private DatabaseReference mGamesDatabase;
+
+    /**
+     * Checks if data has been changed
+     */
+    private boolean dataChange;
+
+    /**
+     * Name of the current user
+     */
+    private String currentUserName;
+    /**
+     * The LeaderBoard for this Game.
+     */
+    private LeaderBoardFrontEnd leaderBoardFrontEnd;
+    /**
+     * Firebase Database reference pointing to the current user
+     */
+    private DatabaseReference mUserDatabase;
+    /**
+     * The Score of the User's Current Game
+     */
+    private TextView theScore;
+
+    /**
      * Updates the game by checking whether the game is over, whether the round is over,
-     * and updating the score.
+     * and updating the theScore.
      */
     public void update() {
         // Updates the score counter
@@ -61,7 +101,7 @@ public class SequencerGameActivity extends AppCompatActivity implements Observer
         saveToFile(SequencerStartingActivity.TEMP_SAVE_FILENAME);
         score.setText(String.valueOf(boardManager.getScore()));
 
-        // Checks whether tha game is over, if it is then it saves the score and terminates the game.
+        // Checks whether tha game is over, if it is then it saves the theScore and terminates the game.
         if (boardManager.isOver()) {
             Intent intent = new Intent(SequencerGameActivity.this,SequencerStartingActivity.class);
             startActivity(intent);
@@ -104,10 +144,109 @@ public class SequencerGameActivity extends AppCompatActivity implements Observer
                         update();
                     }
                 });
-        TextView score = findViewById(R.id.score);
-        score.setText(String.valueOf(boardManager.getScore()));
+        theScore = findViewById(R.id.score);
+        theScore.setText(String.valueOf(boardManager.getScore()));
         Speak();
+        saveUserInformationOnDatabase();
+        saveScoreCountOnDataBase();
+        databaseScoreSave();
     }
+
+     /*
+    Scoreboard code which reads scores as the game when the game ends
+     */
+
+    /**
+     * Save the theScore to the leaderboard when the game finishes.
+     */
+    private void databaseScoreSave() {
+        mGamesDatabase.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                if (boardManager.isOver() && !dataChange) {
+                    leaderBoardFrontEnd.empty();
+                    System.out.println(currentUserName);
+                    leaderBoardFrontEnd.setmNameCurrentUser(currentUserName);
+                    leaderBoardFrontEnd.saveScoreToLeaderBoard(dataSnapshot, boardManager); // move to leaderboard front endTODO
+
+                    dataChange = true;
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+    }
+    /**
+     * Get database reference from the Firebase Database pointing to the current user
+     */
+    private void getUserDatabaseReference() {
+
+        // Firebase User Authorisation
+        FirebaseAuth mAuth = FirebaseAuth.getInstance();
+        String userID = Objects.requireNonNull(mAuth.getCurrentUser()).getUid();
+        mUserDatabase = FirebaseDatabase.getInstance().getReference().child("Users").child("userId").child(userID).child("sliding_tiles");
+        mGamesDatabase = FirebaseDatabase.getInstance().getReference().child("Users").child("Games");
+
+    }
+
+
+    /**
+     * Get Current User's Saved Information from the database to the application
+     */
+    private void updateLeaderBoard() {
+
+        getUserDatabaseReference();
+        mUserDatabase.getParent().addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if (dataSnapshot.exists() && dataSnapshot.getChildrenCount() > 0) {
+                    Map<String, Object> map = (Map<String, Object>) dataSnapshot.getValue();
+                    assert map != null;
+                    if (map.get("Name") != null) {
+//                        String name = map.get("Name").toString();
+                        currentUserName = map.get("Name").toString();
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+    }
+
+    /**
+     * Saves the Current User's settings to the database
+     */
+    private void saveUserInformationOnDatabase() {
+
+
+        String lastSavedScore = theScore.getText().toString();
+        Map<String, Object> userInfo = new HashMap<>();
+
+        userInfo.put("last_Saved_Score", lastSavedScore);
+
+        mUserDatabase.updateChildren(userInfo);
+
+    }
+
+    /**
+     * Saves a counter variable to the database that firebase listens for theScore changing.
+     */
+    private void saveScoreCountOnDataBase() {
+
+        String lastSavedScore = theScore.getText().toString();
+        Map<String, Object> newMap = new HashMap<>();
+        newMap.put("last_Saved_Score", lastSavedScore);
+        mGamesDatabase.updateChildren(newMap);
+    }
+
+
 
 
     /**

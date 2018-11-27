@@ -56,10 +56,7 @@ public class GameActivity extends AppCompatActivity implements Observer {
      */
     private BoardManager boardManager;
 
-    /**
-     * The LeaderBoard for this Game.
-     */
-    private LeaderBoardFrontEnd leaderBoardFrontEnd;
+
     /**
      * The buttons to display.
      */
@@ -74,19 +71,14 @@ public class GameActivity extends AppCompatActivity implements Observer {
      * The calculated column width and Height Based on Device Size
      */
     private static int columnWidth, columnHeight;
-
-    /**
-     * Firebase Database reference pointing to the current user
-     */
-    private DatabaseReference mUserDatabase;
-
-
     /**
      * ArrayList where the parts of the image are going to be stored.
      */
     ArrayList<Bitmap> chunckedImages;
 
-    //    public ArrayList<Object> leaderBoard;
+    /**
+     * Refererence to the list of games database.
+     */
     private DatabaseReference mGamesDatabase;
 
     /**
@@ -98,6 +90,14 @@ public class GameActivity extends AppCompatActivity implements Observer {
      * Name of the current user
      */
     private String currentUserName;
+    /**
+     * The LeaderBoard for this Game.
+     */
+    private LeaderBoardFrontEnd leaderBoardFrontEnd;
+    /**
+     * Firebase Database reference pointing to the current user
+     */
+    private DatabaseReference mUserDatabase;
 
 
     /**
@@ -204,6 +204,11 @@ public class GameActivity extends AppCompatActivity implements Observer {
 
     }
 
+
+    /*
+    Scoreboard code which reads scores as the game when the game ends
+     */
+
     /**
      * Save the score to the leaderboard when the game finishes.
      */
@@ -228,11 +233,6 @@ public class GameActivity extends AppCompatActivity implements Observer {
             }
         });
     }
-    /*
-    Scoreboard code which reads scores as the game when the game ends
-     */
-
-
     /**
      * Get database reference from the Firebase Database pointing to the current user
      */
@@ -290,10 +290,12 @@ public class GameActivity extends AppCompatActivity implements Observer {
 
     }
 
+    /**
+     * Saves a counter variable to the database that firebase listens for score changing.
+     */
     private void saveScoreCountOnDataBase() {
 
         String lastSavedScore = score.getText().toString();
-        // String lastSavedUndoCount = textView.getText().toString();
         Map<String, Object> newMap = new HashMap<>();
         newMap.put("last_Saved_Score", lastSavedScore);
         mGamesDatabase.updateChildren(newMap);
