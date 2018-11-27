@@ -13,6 +13,11 @@ import java.util.List;
 class TicTacBoardManager implements Serializable, Manager {
 
     /**
+     * p1wins variable
+     */
+    private boolean p1Wins = false;
+
+    /**
      * global variable position
      */
     private int game_position = -1;
@@ -80,10 +85,9 @@ class TicTacBoardManager implements Serializable, Manager {
             for (int col = 0; col < TicTacBoard.NUM_COLS; col++) {
                 ticTacMarkers.add(new TicTacMarker(row, col, 0));
             }
-
         }
         // assume p1 always goes first
-        this.board = new TicTacBoard(ticTacMarkers, true);
+        this.board = new TicTacBoard(ticTacMarkers);
         this.score = 0L;
         stack = new TicTacMoveStack();
     }
@@ -108,13 +112,24 @@ class TicTacBoardManager implements Serializable, Manager {
         return this.game_position;
     }
 
+    public int getscore(long time) {
+        if (this.p1Wins) {
+            long longtime = TicTacGameActivity.getmTimeLeftInMillis();
+            double doubletime = (double) (longtime / 1000);
+            int inttime = (int) doubletime;
+            int score = 100 - inttime;
+            return score;
+        }
+        return -1;
+    }
+
     /**
      * Checks if all the markers have been filled
      * @return if the puzzle markers have been filled.
      */
     public boolean isOver() {
-        int count = 0;
-        //check if the game oover flag is set
+        /*int count = 0;
+        //check if the game over flag is set
         if (board.getGameOver()) {
             return true;
         }
@@ -130,7 +145,11 @@ class TicTacBoardManager implements Serializable, Manager {
             return true;
         } else {
             return false;
+        }*/
+        if (this.getBoard().getGameOver() && p1Wins) {
+            return true;
         }
+        return false;
     }
 
     @Override
@@ -144,7 +163,7 @@ class TicTacBoardManager implements Serializable, Manager {
      * @param position of the current player
      * @return True if the tiles are in row major order, false if otherwise.
      */
-    boolean puzzleSolved(int position) {
+    boolean getWinner(int position) {
         // Setup
         int row = position / TicTacBoard.NUM_COLS;
         int col = position % TicTacBoard.NUM_COLS;
@@ -155,6 +174,10 @@ class TicTacBoardManager implements Serializable, Manager {
         if (board.getMarker(row, 0).getBackgroundId() == id &&
                 board.getMarker(row, 1).getBackgroundId() == id &&
                 board.getMarker(row, 2).getBackgroundId() == id) {
+            if (this.getBoard().getCurrentPlayer() == this.getBoard().getPlayer1()) {
+                this.p1Wins = true;
+            }
+
             return true;
         }
 
@@ -162,6 +185,9 @@ class TicTacBoardManager implements Serializable, Manager {
         else if (board.getMarker(0, col).getBackgroundId() == id &&
                 board.getMarker(1, col).getBackgroundId() == id &&
                 board.getMarker(2, col).getBackgroundId() == id) {
+            if (this.getBoard().getCurrentPlayer() == this.getBoard().getPlayer1()) {
+                this.p1Wins = true;
+            }
             return true;
         }
         // Checks the diagonals.
@@ -178,6 +204,10 @@ class TicTacBoardManager implements Serializable, Manager {
                     d2++;
                 }
             }
+        }
+        if (this.getBoard().getCurrentPlayer() == this.getBoard().getPlayer1() &&
+                (d1 == 3 || d2 == 3)) {
+            this.p1Wins = true;
         }
         return d1 == 3 || d2 == 3;
     }
