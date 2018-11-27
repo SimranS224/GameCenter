@@ -40,7 +40,7 @@ public class TicTacGameActivity extends AppCompatActivity implements Observer {
     private static CountDownTimer mCountDownTimer;
     private static boolean mTimerRunning;
 
-    private static long mTimeLeftInMillis = START_TIME_IN_MILLIS;
+    public static long mTimeLeftInMillis = START_TIME_IN_MILLIS;
     /**
      * The board manager.
      */
@@ -221,6 +221,15 @@ public class TicTacGameActivity extends AppCompatActivity implements Observer {
         String timeLeftFormatted = String.format(Locale.getDefault(), "%02d:%02d", minutes, seconds);
         mTextViewCountDown.setText(timeLeftFormatted);
     }
+
+    public static long getmTimeLeftInMillis() {
+        return mTimeLeftInMillis;
+    }
+
+    public static boolean getmTimerRunning() {
+        return mTimerRunning;
+    }
+
     /**
      * Get database reference from the Firebase Database pointing to the current user
      */
