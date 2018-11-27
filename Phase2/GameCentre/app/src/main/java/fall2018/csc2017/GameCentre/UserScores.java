@@ -36,7 +36,6 @@ public class UserScores {
     }
 
 
-
     /**
      * Getter for array;
      *
@@ -46,12 +45,12 @@ public class UserScores {
         return array;
     }
 
-    public boolean contains(Object aScore){
+    public boolean contains(Object aScore) {
         boolean check = false;
-        if (aScore instanceof Scores ){
+        if (aScore instanceof Scores) {
             Scores theScore = (Scores) aScore;
-            for (int i=0; i<array.size();i++){
-                if ((array.get(i).getName().equals(theScore.getName()))){
+            for (int i = 0; i < array.size(); i++) {
+                if ((array.get(i).getName().equals(theScore.getName()))) {
                     check = true;
                 }
             }
@@ -85,20 +84,9 @@ public class UserScores {
      * @param score The Score to add to the array.
      */
     public void add(Object score) {
-//        Log.d("Score Object","its value" + score + score.toString() + score.getClass());
-        if (score instanceof Scores ) {
-            Scores theScore = (Scores) score;
-            array.add(theScore);
 
-        }else if (score instanceof HashMap){
-            HashMap hashScore = (HashMap) score;
-            String stringValOFScore = hashScore.get("score").toString();
-            String name = hashScore.get("name").toString();
-            Scores oldScore = new Scores();
-            oldScore.setScore(stringValOFScore);
-            oldScore.setName(name);
-            array.add(oldScore);
-        }
+        Scores newOne = new Scores(score);
+        array.add(newOne);
         sort();
     }
 
@@ -114,20 +102,21 @@ public class UserScores {
     /**
      * If a person has a score already in firebase this method
      * Adds the higher Score to the list, removes the lower one of that person.
+     *
      * @param score
      */
-    public void addLowerScore(Scores score){
+    public void addLowerScore(Scores score) {
         boolean checkIfLower = false;
         Scores theLowerOne = null;
-        for(Scores s : this.array){
-            if (s.getName().equals(score.getName())){
+        for (Scores s : this.array) {
+            if (s.getName().equals(score.getName())) {
                 if (s.getIntValue() > score.getIntValue()) {
                     checkIfLower = true;
                     theLowerOne = s;
                 }
             }
         }
-        if (checkIfLower){
+        if (checkIfLower) {
             array.remove(theLowerOne);
             array.add(score);
         }
@@ -152,15 +141,16 @@ public class UserScores {
 
     /**
      * Return user with name name.
+     *
      * @param name the name of the user to search for
      * @return the user with this name if they exist
      */
-    public Scores getUser(String name){
+    public Scores getUser(String name) {
         Scores emptyOne = new Scores();
         emptyOne.setName("");
         emptyOne.setScore("0");
-        for(int i=0; i< array.size();i++){
-            if (array.get(i).getName().equals(name)){
+        for (int i = 0; i < array.size(); i++) {
+            if (array.get(i).getName().equals(name)) {
                 return array.get(i);
             }
         }

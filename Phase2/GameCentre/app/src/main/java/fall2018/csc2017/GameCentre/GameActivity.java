@@ -145,7 +145,6 @@ public class GameActivity extends AppCompatActivity implements Observer {
         getUserDatabaseReference();
 
 
-
         loadFromFile(StartingActivity.TEMP_SAVE_FILENAME);
         int unn = MoveStack.NUM_UNDOS;
         System.out.println(unn);
@@ -193,19 +192,25 @@ public class GameActivity extends AppCompatActivity implements Observer {
         // saves score on database
 
 
-            leaderBoardFrontEnd = new LeaderBoardFrontEnd();
-            updateLeaderBoard();
-            System.out.println(currentUserName);
-            this.dataChange = false;
-
+        leaderBoardFrontEnd = new LeaderBoardFrontEnd();
+        updateLeaderBoard();
+        System.out.println(currentUserName);
+        this.dataChange = false;
 
 
         saveUserInformationOnDatabase();
         saveScoreCountOnDataBase();
+        databaseScoreSave();
+
+    }
+
+    /**
+     * Save the score to the leaderboard when the game finishes.
+     */
+    private void databaseScoreSave() {
         mGamesDatabase.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-//                if (boardManager.isOver()) {
 
                 if (boardManager.isOver() && !dataChange) {
                     leaderBoardFrontEnd.empty();
@@ -214,9 +219,7 @@ public class GameActivity extends AppCompatActivity implements Observer {
                     leaderBoardFrontEnd.saveScoreToLeaderBoard(dataSnapshot, boardManager); // move to leaderboard front endTODO
 
                     dataChange = true;
-//                    saveScoreCountOnDataBase(0);
                 }
-//                }
             }
 
             @Override
@@ -224,7 +227,6 @@ public class GameActivity extends AppCompatActivity implements Observer {
 
             }
         });
-
     }
     /*
     Scoreboard code which reads scores as the game when the game ends
@@ -241,7 +243,6 @@ public class GameActivity extends AppCompatActivity implements Observer {
         String userID = Objects.requireNonNull(mAuth.getCurrentUser()).getUid();
         mUserDatabase = FirebaseDatabase.getInstance().getReference().child("Users").child("userId").child(userID).child("sliding_tiles");
         mGamesDatabase = FirebaseDatabase.getInstance().getReference().child("Users").child("Games");
-//        mUserDatabase=FirebaseDatabase.getInstance().getReference().child("Users").child("userId").child(userID).child("sliding_tiles");
 
     }
 
@@ -255,10 +256,10 @@ public class GameActivity extends AppCompatActivity implements Observer {
         mUserDatabase.getParent().addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                if(dataSnapshot.exists() && dataSnapshot.getChildrenCount() >0) {
-                    Map<String, Object> map = (Map<String,Object>) dataSnapshot.getValue();
+                if (dataSnapshot.exists() && dataSnapshot.getChildrenCount() > 0) {
+                    Map<String, Object> map = (Map<String, Object>) dataSnapshot.getValue();
                     assert map != null;
-                    if (map.get("Name")!=null) {
+                    if (map.get("Name") != null) {
 //                        String name = map.get("Name").toString();
                         currentUserName = map.get("Name").toString();
                     }
@@ -491,8 +492,6 @@ public class GameActivity extends AppCompatActivity implements Observer {
         //Start a new activity to show these chunks into a grid
         return chunkedImages;
     }
-
-
 
 
 }
