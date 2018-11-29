@@ -18,6 +18,7 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.Map;
 import java.util.Objects;
 
+import fall2018.csc2017.GameCentre.ScoreBoard.ScoreBoardModelView.swipeTest;
 import fall2018.csc2017.GameCentre.Sequencer.SequencerStartingActivity;
 import fall2018.csc2017.GameCentre.SlidingTiles.StartingActivity;
 import fall2018.csc2017.GameCentre.TicTacToe.TicTacMainActivity;
@@ -58,6 +59,7 @@ public class GameChoiceActivity extends AppCompatActivity {
         addSequencerButtonListener();
         addTicTacToeButtonListener();
         addLogoutButtonListener();
+        switchToLeaderBoard();
     }
 
 
@@ -114,6 +116,21 @@ public class GameChoiceActivity extends AppCompatActivity {
                 Intent intent = new Intent(GameChoiceActivity.this,TicTacMainActivity.class);
                 startActivity(intent);
 
+            }
+        });
+    }
+
+    /**
+     * Switch to the leaderboard view LeaderBoard
+     */
+    private void switchToLeaderBoard(){
+
+        Button mLeaderBoard = findViewById(R.id.LeaderBoardButton);
+        mLeaderBoard.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(GameChoiceActivity.this,swipeTest.class);
+                startActivity(intent);
             }
         });
     }
