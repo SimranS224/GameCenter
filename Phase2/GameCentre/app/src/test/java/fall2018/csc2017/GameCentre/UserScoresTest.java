@@ -11,14 +11,15 @@ import fall2018.csc2017.GameCentre.ScoreBoard.ScoreBoardController.UserScores;
 import static org.junit.Assert.assertEquals;
 
 public class UserScoresTest {
-    private ArrayList<Scores> array;
-    private UserScores userscores;
-    private Scores score = new Scores("frank", "0");
+    public ArrayList<Scores> array;
+    UserScores userscores;
+
+    Scores score = new Scores("frank", "0");
     @Before
     public void setUp() {
         userscores = new UserScores();
-        array = new ArrayList<>();
-        userscores.add(score);
+        ArrayList<Scores> array = new ArrayList<>();
+        array.add(score);
     }
 
     @Test
@@ -36,7 +37,7 @@ public class UserScoresTest {
     @Test
     public void testContains() {
         setUp();
-        assertEquals(true, (boolean) userscores.contains("frank"));
+        assertEquals(true, userscores.contains("frank"));
         assertEquals(false, userscores.contains("fr"));
     }
 
