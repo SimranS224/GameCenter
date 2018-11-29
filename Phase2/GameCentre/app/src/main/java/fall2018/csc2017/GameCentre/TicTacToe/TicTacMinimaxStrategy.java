@@ -27,7 +27,7 @@ public class TicTacMinimaxStrategy extends TicTacStrategy {
 
     //return the next position for movement
     public int getNextMovement(TicTacBoardManager boardmanager, int depth) {
-        Move move = miniMax(boardmanager.getBoard(), boardmanager.getBoard().getCurrentPlayer(), 0);
+        Move move = miniMax(boardmanager, boardmanager.getBoard().getCurrentPlayer(), 0);
         return move.id;
 
         /*ArrayList<Integer> availableMoves = boardmanager.getValidMoves();
@@ -36,10 +36,10 @@ public class TicTacMinimaxStrategy extends TicTacStrategy {
         return availableMoves.get(n);*/
     }
 
-    public Move miniMax(TicTacBoard originboard, int current_player, int depth) {
+    public Move miniMax(TicTacBoardManager boardManager, int current_player, int depth) {
 
-        TicTacBoard board = new TicTacBoard(originboard);
-        ArrayList<Integer> validMoves = board.getValidMoves();
+        TicTacBoard board = new TicTacBoard(boardManager.getBoard());
+        ArrayList<Integer> validMoves = boardManager.getValidMoves();
         //checks for win, lose, tie and return value accordingly
 
 
@@ -71,11 +71,12 @@ public class TicTacMinimaxStrategy extends TicTacStrategy {
 
             //collect the score resulting from calling minimax on the opponent of the current player
             Move newMove;
+            TicTacBoardManager newBoardManager = new TicTacBoardManager(board);
             if (current_player == board.getPlayer1()) {
-                newMove = miniMax(board, board.getPlayer2(), depth+ 1);
+                newMove = miniMax(newBoardManager, board.getPlayer2(), depth+ 1);
                 move.score = newMove.score;
             } else {
-                newMove = miniMax(board, board.getPlayer1(), depth + 1);
+                newMove = miniMax(newBoardManager, board.getPlayer1(), depth + 1);
                 move.score = newMove.score;
             }
 

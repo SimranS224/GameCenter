@@ -217,19 +217,19 @@ class TicTacBoardManager implements Serializable, Manager {
         return d1 == 3 || d2 == 3;
     }
 
-    /**
-     * Return whether the blank tile is used.
-     *
-     * @param position the tile to check
-     * @return whether the tile at position is blank tile
-     */
-    boolean isValidTap(int position) {
-        return board.isValidTap(position);
-    }
-
-    public ArrayList<Integer> getValidMoves() {
-        return board.getValidMoves();
-    }
+//    /**
+//     * Return whether the blank tile is used.
+//     *
+//     * @param position the tile to check
+//     * @return whether the tile at position is blank tile
+//     */
+//    boolean isValidTap(int position) {
+//        return board.isValidTap(position);
+//    }
+//
+//    public ArrayList<Integer> getValidMoves() {
+//        return board.getValidMoves();
+//    }
 
     /**
      * Process a touch at position in the board, swapping tiles as appropriate.
@@ -253,7 +253,7 @@ class TicTacBoardManager implements Serializable, Manager {
                 board.setBackground(row, col, board.getP2Background());
             }
             // change player turns after tap
-            board.changeTurns();
+            this.changeTurns();
             // just a test
             //board.swapMarkers(row, col, row, col);
 
@@ -269,4 +269,50 @@ class TicTacBoardManager implements Serializable, Manager {
     public void setUserWins(boolean b) {
         this.p1Wins = true;
     }
+
+    /**
+     * Return whether the blank tile is used.
+     *
+     * @param position the tile to check
+     * @return whether the tile at position is blank tile
+     */
+    boolean isValidTap(int position) {
+
+        int row = position / board.NUM_COLS;
+        int col = position % board.NUM_COLS;
+        return (board.getMarker(row,col).getBackgroundId() == 0);
+    }
+
+    /**
+     * returns the list of valid moves left on the board
+     * @return the list of valid moves on the board
+     */
+    public ArrayList<Integer> getValidMoves() {
+        ArrayList<Integer> validMoves = new ArrayList<Integer>();
+        for (int position = 0; position < board.getRows() * board.getCols(); position++) {
+            if (isValidTap(position)) {
+                Integer IntPos = new Integer(position);
+                validMoves.add(IntPos);
+            }
+        }
+        return validMoves;
+    }
+
+    /**
+     * change turns
+     */
+    public void changeTurns() {
+        if (board.current_player == 0) {
+            board.current_player = 1;
+        } else {
+            board.current_player = 0;
+        }
+    }
+
+
+
+
+
+
+
 }
