@@ -35,7 +35,7 @@ public class TicTacBoard extends Observable implements Serializable, Iterable<Ti
      * current_player = 0 means player 1 turn
      * current_player = 1 means player 2 turn
      */
-    private int current_player;
+    int current_player;
 
     /**
      * p1 marker color
@@ -170,16 +170,16 @@ public class TicTacBoard extends Observable implements Serializable, Iterable<Ti
         }
     }
 
-    /**
-     * change turns
-     */
-    public void changeTurns() {
-        if (this.current_player == 0) {
-            this.current_player = 1;
-        } else {
-            this.current_player = 0;
-        }
-    }
+//    /**
+//     * change turns
+//     */
+//    public void changeTurns() {
+//        if (this.current_player == 0) {
+//            this.current_player = 1;
+//        } else {
+//            this.current_player = 0;
+//        }
+//    }
 
     /**
      * Return num rows
@@ -205,30 +205,30 @@ public class TicTacBoard extends Observable implements Serializable, Iterable<Ti
         return ticTacMarkers[row][col];
     }
 
-    /**
-     * Set the size of the board
-     * @param size the size of the board
-     */
-    public static void setBoardSize(int size) {
-        NUM_ROWS=size;
-        NUM_COLS=size;
-    }
+//    /**
+//     * Set the size of the board
+//     * @param size the size of the board
+//     */
+//    public static void setBoardSize(int size) {
+//        NUM_ROWS=size;
+//        NUM_COLS=size;
+//    }
 
-    /**
-     * Sets the type of the board.
-     * @param type type of the board
-     */
-    public static void setType(String type){
-        TYPE = type;
-    }
+//    /**
+//     * Sets the type of the board.
+//     * @param type type of the board
+//     */
+//    public static void setType(String type){
+//        TYPE = type;
+//    }
 
-    /**
-     * Gets the type of the board.
-     * @return returns the type of the board
-     */
-    public static String getType() {
-        return TYPE;
-    }
+//    /**
+//     * Gets the type of the board.
+//     * @return returns the type of the board
+//     */
+//    public static String getType() {
+//        return TYPE;
+//    }
 
     /**
      * Get the size of the Board
@@ -245,40 +245,14 @@ public class TicTacBoard extends Observable implements Serializable, Iterable<Ti
         notifyObservers();
     }
 
-    @Override
-    public String toString() {
-        return "Board{" +
-                "ticTacMarkers=" + Arrays.toString(ticTacMarkers) +
-                '}';
-    }
+//    @Override
+//    public String toString() {
+//        return "Board{" +
+//                "ticTacMarkers=" + Arrays.toString(ticTacMarkers) +
+//                '}';
+//    }
 
-    /**
-     * Return whether the blank tile is used.
-     *
-     * @param position the tile to check
-     * @return whether the tile at position is blank tile
-     */
-    boolean isValidTap(int position) {
 
-        int row = position / this.NUM_COLS;
-        int col = position % this.NUM_COLS;
-        return (this.getMarker(row,col).getBackgroundId() == 0);
-    }
-
-    /**
-     * returns the list of valid moves left on the board
-     * @return the list of valid moves on the board
-     */
-    public ArrayList<Integer> getValidMoves() {
-        ArrayList<Integer> validMoves = new ArrayList<Integer>();
-        for (int position = 0; position < this.getRows() * this.getCols(); position++) {
-            if (isValidTap(position)) {
-                Integer IntPos = new Integer(position);
-                validMoves.add(IntPos);
-            }
-        }
-        return validMoves;
-    }
 
     //implementing the iterator
     @NonNull
