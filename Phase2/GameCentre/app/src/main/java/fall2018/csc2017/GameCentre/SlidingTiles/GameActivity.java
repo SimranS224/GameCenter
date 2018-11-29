@@ -35,7 +35,7 @@ import java.util.Objects;
 import java.util.Observable;
 import java.util.Observer;
 
-import fall2018.csc2017.GameCentre.LeaderBoardFrontEnd;
+import fall2018.csc2017.GameCentre.ScoreBoard.ScoreBoardModelView.LeaderBoardFrontEnd;
 import fall2018.csc2017.GameCentre.R;
 
 /**

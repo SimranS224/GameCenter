@@ -1,4 +1,5 @@
-package fall2018.csc2017.GameCentre;
+package fall2018.csc2017.GameCentre.ScoreBoard.ScoreBoardModelView;
+
 import android.content.Context;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -6,7 +7,8 @@ import android.support.v4.app.FragmentStatePagerAdapter;
 import android.os.Bundle;
 
 import java.util.ArrayList;
-import java.util.List;
+
+import fall2018.csc2017.GameCentre.ScoreBoard.ScoreBoardController.UserScores;
 
 
 /**
@@ -14,15 +16,15 @@ import java.util.List;
  * a new DemoFragment is created. In order to set the TextViews on this new demo fragment,
  * a bundle is used to store the information, which is then taken out in DemoFragment.
  */
-public class swipeViewAdapter extends FragmentStatePagerAdapter{
-    String[] type = new String[6];
-    String[] size = new String[4];
-    String[] scoreType = new String[2];
-    public ArrayList<UserScores> allScores; // TODO make it size 6 and index in the fragments part
+public class swipeViewAdapter extends FragmentStatePagerAdapter {
+    private String[] type = new String[6];
+    private String[] size = new String[4];
+    private String[] scoreType = new String[2];
+    private ArrayList<UserScores> allScores;
     private Context mContext;
     private String curUserName;
 
-    swipeViewAdapter(FragmentManager fragmentManager) {
+    swipeViewAdapter(FragmentManager fragmentManager) { //TODO look into making these varibles final
         super(fragmentManager);
         type[0] = "Now Displaying Global Rankings For Sliding Tiles";
         type[1] = "Now Displaying Your Best Score For Sliding Tiles";
@@ -43,123 +45,123 @@ public class swipeViewAdapter extends FragmentStatePagerAdapter{
         return 10;
 
     }
+
     @Override
     public Fragment getItem(int position) {
         DemoFragment demoFragment = new DemoFragment();
         Bundle bundle = new Bundle();
         demoFragment.setContext(mContext);
         demoFragment.setList(allScores);
-        // todo make a method in demo fragment which sets its list to be the arraylist of 6 lists of highscores for the
-        // todo different games and then access the list by index that is sent from the if loops below,
-        // todo so only send an int value
-        position = position+1;
+
+        position = position + 1;
         String curr_type;
         String curr_size;
         String scoreViewType;
         Integer current;
-        // List curlist //todo
 
         if (position == 1) {
             curr_type = type[0];
             curr_size = size[0];
             current = 0;
             scoreViewType = scoreType[1];
-
-            //curr_list = list.get(0)//list x  todo set this to be the list that u want to show in each fragment
-            //list // slidingtiles floblal 3x3
-
-        }
-        else if (position == 2) {
+        } else if (position == 2) {
             curr_type = type[0];
             curr_size = size[1];
             current = 1;
             scoreViewType = scoreType[1];
-        }
-        else if (position == 3) {
+        } else if (position == 3) {
             curr_type = type[0];
             curr_size = size[2];
             current = 2;
             scoreViewType = scoreType[1];
-        }
-        else if (position == 4) {
+        } else if (position == 4) {
             curr_type = type[1];
             curr_size = size[0];
             current = 0;
             scoreViewType = scoreType[0];
 
-        }
-        else if (position == 5) {
+        } else if (position == 5) {
             curr_type = type[1];
             curr_size = size[1];
             current = 1;
             scoreViewType = scoreType[0];
-        }
-        else if (position == 6){ // all the sliding tiles ones first
+        } else if (position == 6) { // all the sliding tiles ones first
             curr_type = type[1];
             curr_size = size[2];
             current = 2;
             scoreViewType = scoreType[0];
 
-        }
-        else if (position == 7) {
+        } else if (position == 7) {
             curr_type = type[2];
             curr_size = size[3];
             current = 3;
             scoreViewType = scoreType[1];
 
-        }
-        else if (position == 8) {
+        } else if (position == 8) {
             curr_type = type[3];
             curr_size = size[3];
             current = 3;
             scoreViewType = scoreType[0];
 
-        }
-        else if (position == 9) {
+        } else if (position == 9) {
             curr_type = type[4];
             curr_size = size[3];
             current = 4;
             scoreViewType = scoreType[1];
 
-        }
-        else {
+        } else {
             curr_type = type[5];
             curr_size = size[3];
             current = 4;
             scoreViewType = scoreType[0];
 
         }
-//        bundle.putParcelableArrayList();
-        bundle.putString("currentUser",curUserName);
+        bundle.putString("currentUser", curUserName);
         bundle.putInt("index", current);
         bundle.putString("publicorglobal", scoreViewType);
         bundle.putString("type", curr_type);
         bundle.putString("size", curr_size);
-        //TODO This is where you add your arraylists/lists to the bundle,
-        //TODO based on position. No need to change the ListView directly in here,
-        //TODO that should be done in DemoFragment.
+
         demoFragment.setArguments(bundle);
 
         return demoFragment;
 
     }
 
+    /**
+     * Sets the list of UserScors
+     *
+     * @param contents the highscores of the games
+     */
     public void addToGameScoresList(ArrayList<UserScores> contents) {
         allScores = new ArrayList<>();
-        for (int i= 0; i< contents.size();i++){
-            allScores.add(contents.get(i));
-        }
-        //allScores.addAll(contents);
+        allScores.addAll(contents);
+
     }
 
+    /**
+     * sets the context
+     *
+     * @param swipeTest the context
+     */
     public void setContext(Context swipeTest) {
         this.mContext = swipeTest;
     }
 
+    /**
+     * the current user's name
+     *
+     * @param name current user names
+     */
     public void setName(String name) {
         this.curUserName = name;
     }
 
+    /**
+     * Gets the current user's name
+     *
+     * @return current user's name
+     */
     public String getName() {
         return curUserName;
     }

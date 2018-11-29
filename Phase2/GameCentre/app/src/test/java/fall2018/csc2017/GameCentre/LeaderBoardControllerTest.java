@@ -4,9 +4,9 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.util.ArrayList;
+import fall2018.csc2017.GameCentre.ScoreBoard.ScoreBoardController.LeaderBoardController;
+import fall2018.csc2017.GameCentre.ScoreBoard.ScoreBoardController.Scores;
 
-import fall2018.csc2017.GameCentre.LeaderBoardController.*;
 import static org.junit.Assert.assertEquals;
 
 public class LeaderBoardControllerTest {

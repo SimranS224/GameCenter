@@ -1,6 +1,5 @@
-package fall2018.csc2017.GameCentre;
+package fall2018.csc2017.GameCentre.ScoreBoard.ScoreBoardModelView;
 
-import android.hardware.usb.UsbRequest;
 import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.v4.app.FragmentActivity;
@@ -16,11 +15,13 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
-import java.util.Timer;
-import java.util.TimerTask;
+
+import fall2018.csc2017.GameCentre.R;
+import fall2018.csc2017.GameCentre.ScoreBoard.ScoreBoardController.LeaderBoardReader;
+import fall2018.csc2017.GameCentre.ScoreBoard.ScoreBoardController.Scores;
+import fall2018.csc2017.GameCentre.ScoreBoard.ScoreBoardController.UserScores;
 
 
 /**
@@ -28,20 +29,36 @@ import java.util.TimerTask;
  * changed in here.
  */
 public class swipeTest extends FragmentActivity {
-    static final int num_list = 6;
-
+//    static final int num_list = 6; // TODO remove if needed
+    /**
+     * the swipe view apapter
+     */
     swipeViewAdapter mAdapter;
-
+    /**
+     * the pager for the view
+     */
     ViewPager mPager;
-
-    Integer theCounter = 0;
-
+    /**
+     * stores a list of the different scores from all the games
+     */
     LeaderBoardReader tempStorage;
+    /**
+     * the Games database reference
+     */
     private DatabaseReference mGamesDatabase;
+    /**
+     * the User database reference
+     */
     private DatabaseReference mUserDatabase;
+    /**
+     * the name of the current user
+     */
     private String currentUserName;
-
+    /**
+     * the handler
+     */
     Handler handler = new Handler();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -56,18 +73,6 @@ public class swipeTest extends FragmentActivity {
         getCurrUserName();
         mAdapter.setName(currentUserName);
 
-//        Timer t = new Timer();
-//        t.schedule(new TimerTask() {
-//            @Override
-//            public void run() {
-//
-//            }
-//        }, 1000, 1000);
-//        new Handler().post(new Runnable() {
-//            @Override
-//            public void run() {
-//            }
-//        });
 
         Runnable update = new Runnable() {
             @Override
@@ -87,7 +92,6 @@ public class swipeTest extends FragmentActivity {
 
                                     tempStorage.addAllToContents(theCurrentList);
                                     System.out.println(tempStorage);
-                                    //                            addedAlready.add(toCheck);
 
                                 } else {
                                     UserScores emptyOne = new UserScores();
@@ -111,23 +115,6 @@ public class swipeTest extends FragmentActivity {
         };
         handler.post(update);
 
-
-        ArrayList<UserScores> testList = new ArrayList<>();
-        UserScores x = new UserScores();
-        Scores y = new Scores();
-        y.setName("");
-        y.setScore("");
-        x.add(y);
-//        testList.add(x);
-//        testList.add(x);
-//        testList.add(x);
-//        testList.add(x);
-//        testList.add(x);
-//        testList.add(x);
-
-
-//        mAdapter.addToGameScoresList(testList);
-
     }
 
     @Override
@@ -149,7 +136,6 @@ public class swipeTest extends FragmentActivity {
                     Map<String, Object> map = (Map<String, Object>) dataSnapshot.getValue();
                     assert map != null;
                     if (map.get("Name") != null) {
-//                        String name = map.get("Name").toString();
                         currentUserName = map.get("Name").toString();
                     }
                 }
@@ -162,22 +148,9 @@ public class swipeTest extends FragmentActivity {
         });
     }
 
-//    @Override
-//    protected void onStart() {
-//        super.onStart();
-//        tempStorage = new LeaderBoardReader();
-//    }
-
-//    private void saveCountOnDataBase() {
-//        Integer counter = theCounter;
-//
-//        // String lastSavedUndoCount = textView.getText().toString();
-//        Map<String, Object> newMap = new HashMap<>();
-//        newMap.put("last_Saved_Score", counter);
-//        mGamesDatabase.updateChildren(newMap);
-//    }
-
-
+    /**
+     * Gets the references to the database elements.
+     */
     public void getDataBaseReference() {
         FirebaseAuth mAuth = FirebaseAuth.getInstance();
         String userID = Objects.requireNonNull(mAuth.getCurrentUser()).getUid();
@@ -186,61 +159,3 @@ public class swipeTest extends FragmentActivity {
     }
 
 }
-// for (DataSnapshot dataSnapshot : d.getChildren()) {
-//            if (dataSnapshot.exists() && dataSnapshot.getChildrenCount() > 0) {
-//                Map<String, Object> map = (Map<String, Object>) dataSnapshot.getValue();
-//                assert map != null;
-//                if (map.get("Name") != null) {
-//                    String name = map.get("Name").toString();
-//                    String score = returnWinningScore(map);
-//                    Scores userScore = new Scores();
-//                    userScore.setName(name);
-//
-//                    userScore.setMoveCounter(score);
-//                    if (!userScore.getCurrGameScore().equals("NA")) {
-//                        allUsers.add(userScore);
-//                    }
-//                }
-//
-//            }
-//        }
-//
-//        LeaderBoardCustomListAdapter adapter = new LeaderBoardCustomListAdapter(this, allUsers);
-//        listLead.setAdapter(adapter);
-
-
-//                    if (map.get("SlidingTilesThree") != null && !addedAlready.contains("SlidingTilesThree")) {
-//                        ArrayList theCurrentList = (map.get("SlidingTilesThree"));
-//
-//                        tempStorage.addAllToContents(theCurrentList);
-//                        System.out.println(tempStorage);
-//                        addedAlready.add("SlidingTilesThree");
-//
-//                    }
-//                    if (map.get("SlidingTilesFour") != null && !addedAlready.contains("SlidingTilesFour")) {
-//                        ArrayList theCurrentList = (map.get("SlidingTilesFour"));
-//                        tempStorage.addAllToContents(theCurrentList);
-//                        addedAlready.add("SlidingTilesFour");
-//
-//                    }
-//                    if (map.get("SlidingTilesFive") != null && !addedAlready.contains("SlidingTilesFive")) {
-//                        ArrayList theCurrentList = (map.get("SlidingTilesFive"));
-//                        tempStorage.addAllToContents(theCurrentList);
-//                        addedAlready.add("SlidingTilesFive");
-//
-//                    }
-//                    if (map.get("Sequncer") != null && !addedAlready.contains("Sequncer")) {
-//                        ArrayList theCurrentList = (map.get("Sequncer"));
-//                        tempStorage.addAllToContents(theCurrentList);
-//                        addedAlready.add("Sequncer");
-//
-//                    }
-//                    if (map.get("TicTacToe") != null && !addedAlready.contains("TicTacToe")) {
-//                        ArrayList theCurrentList = (map.get("TicTacToe"));
-//                        tempStorage.addAllToContents(theCurrentList);
-//                        addedAlready.add("TicTacToe");
-//                    }
-//                    while (tempStorage.getSize() < 6) {
-//                        UserScores emptyOne = new UserScores();
-//                        tempStorage.add(emptyOne);
-//                    }

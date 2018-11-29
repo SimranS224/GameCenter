@@ -32,7 +32,7 @@ import java.util.Random;
 import fall2018.csc2017.GameCentre.FirstActivity;
 import fall2018.csc2017.GameCentre.GameChoiceActivity;
 import fall2018.csc2017.GameCentre.R;
-import fall2018.csc2017.GameCentre.swipeTest;
+import fall2018.csc2017.GameCentre.ScoreBoard.ScoreBoardModelView.swipeTest;
 
 /**
  * The initial activity for the sliding puzzle tile game.

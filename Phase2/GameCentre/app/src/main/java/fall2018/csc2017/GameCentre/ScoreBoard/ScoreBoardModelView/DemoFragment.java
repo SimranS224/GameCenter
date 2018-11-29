@@ -1,28 +1,20 @@
-package fall2018.csc2017.GameCentre;
+package fall2018.csc2017.GameCentre.ScoreBoard.ScoreBoardModelView;
 
 
 import android.content.Context;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
-
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Map;
 
 import fall2018.csc2017.GameCentre.R;
+import fall2018.csc2017.GameCentre.ScoreBoard.ScoreBoardController.Scores;
+import fall2018.csc2017.GameCentre.ScoreBoard.ScoreBoardController.UserScores;
 
 /**
  * This is an individual page in a sense. Every time a new page is swiped to, a new
@@ -30,9 +22,6 @@ import fall2018.csc2017.GameCentre.R;
  */
 public class DemoFragment extends Fragment {
 
-    private TextView textView1;
-    private TextView textView2;
-    private ListView listView;
     public ArrayList<UserScores> listOfGameScores;
     private Context theContext;
 
@@ -46,13 +35,16 @@ public class DemoFragment extends Fragment {
                              Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.fragment_demo, container, false);
-        textView1 = view.findViewById(R.id.GlobalRanktext);
-        textView2 = view.findViewById(R.id.globalRanktext);
+        TextView textView1 = view.findViewById(R.id.GlobalRanktext);
+        TextView textView2 = view.findViewById(R.id.globalRanktext);
         ListView listLead = view.findViewById(R.id.listLead);
         String type = getArguments().getString("type");
         String size = getArguments().getString("size");
         String curUser = getArguments().getString("currentUser");
         String scoreType = (String) getArguments().getString("publicorglobal");
+        if (scoreType == null) {
+            scoreType = "";
+        }
         Integer index = getArguments().getInt("index");
 
         //TODO Get your list/array lists back from the bundle.
@@ -63,7 +55,7 @@ public class DemoFragment extends Fragment {
 
 //        LeaderBoardCustomListAdapter adapter = new LeaderBoardCustomListAdapter(this, allUsers);
 //        listLead.setAdapter(adapter); - todo implement this here
-        if(listOfGameScores.size() !=0) {
+        if (listOfGameScores.size() != 0) {
             UserScores theCurrentView = listOfGameScores.get(index);
 
             //        Integer[] indexes = {3,4, 5, 7, 9};
@@ -71,16 +63,13 @@ public class DemoFragment extends Fragment {
 //        UserIndexes.addAll(indexes)
 
             LeaderBoardCustomListAdapter adapter;
-            //ArrayList<Integer> UserIndexes = new ArrayList<>(Arrays.asList(3,4, 5, 7, 9));
-//            ("SlidingTilesThree","SlidingTilesFour", "SlidingTilesFive", "Sequncer", "TicTacToe"));
-            if (scoreType.equalsIgnoreCase("p")) {
+            if (scoreType.equals("p")) {
 //                if (theCurrentView.size() != 0) {
                 UserScores onlyOne = new UserScores();
                 Scores bestOne = theCurrentView.getUser(curUser);
                 onlyOne.add(bestOne);
                 adapter = new LeaderBoardCustomListAdapter(theContext, onlyOne);
-            }
-            else{
+            } else {
                 adapter = new LeaderBoardCustomListAdapter(theContext, theCurrentView);
             }
 //            }else{
@@ -94,8 +83,6 @@ public class DemoFragment extends Fragment {
         }
 
 
-
-
         //TODO "Set" the listview to be that list you got back from the bundle.
         return view;
     }
@@ -103,7 +90,7 @@ public class DemoFragment extends Fragment {
     public void setList(ArrayList<UserScores> allScores) {
 
         listOfGameScores = new ArrayList<>();
-        if(allScores !=null) {
+        if (allScores != null) {
             listOfGameScores.addAll(allScores);
         }
     }

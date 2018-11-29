@@ -1,12 +1,14 @@
-package fall2018.csc2017.GameCentre;
+package fall2018.csc2017.GameCentre.ScoreBoard.ScoreBoardController;
 
 import java.util.ArrayList;
+
+import fall2018.csc2017.GameCentre.ScoreBoard.ScoreBoardController.UserScores;
 
 public class LeaderBoardReader {
 
     private ArrayList<UserScores> contents;
 
-    LeaderBoardReader(){
+    public LeaderBoardReader(){
         this.contents = new ArrayList<>();
     }
     public void addAllToContents(ArrayList list){

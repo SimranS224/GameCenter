@@ -23,7 +23,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 
-import fall2018.csc2017.GameCentre.LeaderBoardFrontEnd;
+import fall2018.csc2017.GameCentre.ScoreBoard.ScoreBoardModelView.LeaderBoardFrontEnd;
 import fall2018.csc2017.GameCentre.R;
 
 import static android.content.Context.MODE_PRIVATE;

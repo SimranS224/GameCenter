@@ -1,14 +1,8 @@
-package fall2018.csc2017.GameCentre;
+package fall2018.csc2017.GameCentre.ScoreBoard.ScoreBoardController;
 
-
-import android.renderscript.Script;
-import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashMap;
-
-import fall2018.csc2017.GameCentre.Scores;
 
 
 /**
@@ -20,7 +14,7 @@ public class UserScores {
     /**
      * Initializes a new ArrayList.
      */
-    UserScores() {
+    public UserScores() {
         this.array = new ArrayList<>();
     }
 
@@ -103,7 +97,7 @@ public class UserScores {
      * If a person has a score already in firebase this method
      * Adds the higher Score to the list, removes the lower one of that person.
      *
-     * @param score
+     * @param score a score
      */
     public void addLowerScore(Scores score) {
         boolean checkIfLower = false;
