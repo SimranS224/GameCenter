@@ -79,7 +79,7 @@ public class swipeTest extends FragmentActivity {
                         if (dataSnapshot.exists() && dataSnapshot.getChildrenCount() > 0) {
                             Map<String, ArrayList> map = (Map<String, ArrayList>) dataSnapshot.getValue();
                             assert map != null;
-                            ArrayList<String> listGames = new ArrayList<>(Arrays.asList("SlidingTilesThree", "SlidingTilesFour", "SlidingTilesFive", "Sequncer", "TicTacToe"));
+                            ArrayList<String> listGames = new ArrayList<>(Arrays.asList("SlidingTilesThree", "SlidingTilesFour", "SlidingTilesFive", "Sequencer", "TicTacToe"));
                             for (int i = 0; i < listGames.size(); i++) {
                                 String toCheck = listGames.get(i);
                                 if (map.get(toCheck) != null) {

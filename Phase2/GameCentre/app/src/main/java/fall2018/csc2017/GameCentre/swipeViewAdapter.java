@@ -29,7 +29,7 @@ public class swipeViewAdapter extends FragmentStatePagerAdapter{
         type[2] = "Now Displaying Your Global Rankings For Sequencer";
         type[3] = "Now Displaying Your Best Score For Sequencer";
         type[4] = "Now Displaying Your Global Rankings For TicTacToe";
-        type[5] = "Now Your Best Score For Sequencer For TicTacToe";
+        type[5] = "Now Your Best Score For TicTacToe";
         size[0] = "For 3x3:";
         size[1] = "For 4x4:";
         size[2] = "For 5x5:";

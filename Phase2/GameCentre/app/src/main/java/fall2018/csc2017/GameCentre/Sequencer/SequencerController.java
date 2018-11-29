@@ -56,7 +56,7 @@ public class SequencerController {
     /**
      * The LeaderBoard for this Game.
      */
-    private LeaderBoardFrontEnd leaderBoardFrontEnd;
+    private LeaderBoardFrontEnd leaderBoardFrontEnd = new LeaderBoardFrontEnd();
     /**
      * Firebase Database reference pointing to the current user
      */
@@ -94,7 +94,7 @@ public class SequencerController {
         // Firebase User Authorisation
         FirebaseAuth mAuth = FirebaseAuth.getInstance();
         String userID = Objects.requireNonNull(mAuth.getCurrentUser()).getUid();
-        this.mUserDatabase = FirebaseDatabase.getInstance().getReference().child("Users").child("userId").child(userID).child("sliding_tiles");
+        this.mUserDatabase = FirebaseDatabase.getInstance().getReference().child("Users").child("userId").child(userID).child("sequncer");
         this.mGamesDatabase = FirebaseDatabase.getInstance().getReference().child("Users").child("Games");
 
     }
@@ -103,7 +103,7 @@ public class SequencerController {
     /**
      * Get Current User's Saved Information from the database to the application
      */
-    private void updateLeaderBoard() {
+    public void updateLeaderBoard() {
 
         getUserDatabaseReference();
         this.mUserDatabase.getParent().addValueEventListener(new ValueEventListener() {

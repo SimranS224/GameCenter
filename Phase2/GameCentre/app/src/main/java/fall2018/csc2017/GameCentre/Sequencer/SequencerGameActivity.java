@@ -61,6 +61,11 @@ public class SequencerGameActivity extends AppCompatActivity implements Observer
             controller.boardManager.talking = true;
             Speak();
         }
+        controller.getUserDatabaseReference();
+        controller.updateLeaderBoard();
+        controller.saveUserInformationOnDatabase(score);
+        controller.saveScoreCountOnDataBase(score);
+        controller.databaseScoreSave();
 
     }
 
@@ -96,10 +101,7 @@ public class SequencerGameActivity extends AppCompatActivity implements Observer
         TextView theScore = findViewById(R.id.score);
         theScore.setText(String.valueOf(controller.boardManager.getScore()));
         Speak();
-        controller.getUserDatabaseReference();
-        controller.saveUserInformationOnDatabase(theScore);
-        controller.saveScoreCountOnDataBase(theScore);
-        controller.databaseScoreSave();
+
     }
 
 
