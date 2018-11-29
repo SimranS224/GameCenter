@@ -89,7 +89,7 @@ public class GameChoiceActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(GameChoiceActivity.this,StartingActivity.class);
                 startActivity(intent);
-                finish();
+
             }
         });
 
@@ -101,7 +101,7 @@ public class GameChoiceActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(GameChoiceActivity.this,SequencerStartingActivity.class);
                 startActivity(intent);
-                finish();
+
             }
         });
     }
@@ -113,7 +113,7 @@ public class GameChoiceActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(GameChoiceActivity.this,TicTacMainActivity.class);
                 startActivity(intent);
-                finish();
+
             }
         });
     }

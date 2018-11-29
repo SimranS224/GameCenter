@@ -31,6 +31,7 @@ import java.util.Random;
 
 import fall2018.csc2017.GameCentre.FirstActivity;
 import fall2018.csc2017.GameCentre.R;
+import fall2018.csc2017.GameCentre.ScoreBoard.ScoreBoardModelView.swipeTest;
 
 /**
  * The initial activity for the sliding puzzle tile game.
@@ -115,7 +116,7 @@ public class SequencerStartingActivity extends AppCompatActivity {
         mLeaderBoard.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(SequencerStartingActivity.this,SequencerStartingActivity.class);
+                Intent intent = new Intent(SequencerStartingActivity.this,swipeTest.class);
                 startActivity(intent);
             }
         });

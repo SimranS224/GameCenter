@@ -71,7 +71,6 @@ public class swipeTest extends FragmentActivity {
         getDataBaseReference();
         tempStorage = new LeaderBoardReader();
         getCurrUserName();
-        mAdapter.setName(currentUserName);
 
 
         Runnable update = new Runnable() {
@@ -137,6 +136,9 @@ public class swipeTest extends FragmentActivity {
                     assert map != null;
                     if (map.get("Name") != null) {
                         currentUserName = map.get("Name").toString();
+                        mAdapter.setName(currentUserName);
+                        System.out.println(currentUserName);
+
                     }
                 }
             }
