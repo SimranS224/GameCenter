@@ -19,6 +19,7 @@ import java.util.Map;
 import java.util.Objects;
 
 import fall2018.csc2017.GameCentre.Sequencer.SequencerStartingActivity;
+import fall2018.csc2017.GameCentre.SlidingTiles.StartingActivity;
 import fall2018.csc2017.GameCentre.TicTacToe.TicTacMainActivity;
 
 /**

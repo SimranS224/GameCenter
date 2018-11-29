@@ -70,7 +70,7 @@ public class LeaderBoardFrontEnd {
 
 
 
-    LeaderBoardFrontEnd(){
+    public LeaderBoardFrontEnd(){
         // the factory chooses which leaderboard controller to return
         //LeaderBoardFactory leaderBoardFactory = new LeaderBoardFactory();
         //leaderBoard = leaderBoardFactory.getType(leaderBoardType);

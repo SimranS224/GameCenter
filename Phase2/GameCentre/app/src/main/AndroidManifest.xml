@@ -22,12 +22,12 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".GameActivity" />
+        <activity android:name=".SlidingTiles.GameActivity" />
         <activity android:name=".swipeTest"/>
-        <activity android:name=".StartingActivity" />
+        <activity android:name=".SlidingTiles.StartingActivity" />
         <activity android:name=".LoginActivityMain" />
         <activity android:name=".RegistrationActivity" />
-        <activity android:name=".SettingsActivity" />
+        <activity android:name=".SlidingTiles.SettingsActivity" />
         <activity android:name=".FirstActivity" />
         <activity android:name=".GameChoiceActivity" />
         <activity android:name=".Sequencer.SequencerStartingActivity" />

@@ -1,4 +1,4 @@
-package fall2018.csc2017.GameCentre;
+package fall2018.csc2017.GameCentre.SlidingTiles;
 
 import android.content.Intent;
 import android.support.annotation.NonNull;
@@ -22,6 +22,8 @@ import java.io.ObjectOutputStream;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
+
+import fall2018.csc2017.GameCentre.R;
 
 /**
  * The settings activity where the new game settings are configured

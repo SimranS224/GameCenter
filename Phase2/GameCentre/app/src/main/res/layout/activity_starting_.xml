@@ -8,7 +8,7 @@
     android:clickable="true"
     android:focusable="true"
     android:focusableInTouchMode="true"
-    tools:context="fall2018.csc2017.GameCentre.StartingActivity">
+    tools:context="fall2018.csc2017.GameCentre.SlidingTiles.StartingActivity">
 
 
     <Button

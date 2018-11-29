@@ -1,4 +1,4 @@
-package fall2018.csc2017.GameCentre;
+package fall2018.csc2017.GameCentre.SlidingTiles;
 
 import android.content.Intent;
 import android.graphics.Color;
@@ -28,6 +28,11 @@ import java.io.ObjectOutputStream;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Random;
+
+import fall2018.csc2017.GameCentre.FirstActivity;
+import fall2018.csc2017.GameCentre.GameChoiceActivity;
+import fall2018.csc2017.GameCentre.R;
+import fall2018.csc2017.GameCentre.swipeTest;
 
 /**
  * The initial activity for the sliding puzzle tile game.

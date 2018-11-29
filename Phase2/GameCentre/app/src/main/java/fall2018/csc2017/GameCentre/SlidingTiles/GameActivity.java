@@ -1,4 +1,4 @@
-package fall2018.csc2017.GameCentre;
+package fall2018.csc2017.GameCentre.SlidingTiles;
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -34,6 +34,9 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.Observable;
 import java.util.Observer;
+
+import fall2018.csc2017.GameCentre.LeaderBoardFrontEnd;
+import fall2018.csc2017.GameCentre.R;
 
 /**
  * The game activity.
