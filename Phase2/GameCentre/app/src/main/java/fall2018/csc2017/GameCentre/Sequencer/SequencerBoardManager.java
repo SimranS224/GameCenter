@@ -51,7 +51,7 @@ public class SequencerBoardManager extends Observable implements Serializable, M
      * @return the score
      */
     @Override
-    public Long getScore() {
+    public Long getCurrGameScore() {
         return this.score;
     }
 

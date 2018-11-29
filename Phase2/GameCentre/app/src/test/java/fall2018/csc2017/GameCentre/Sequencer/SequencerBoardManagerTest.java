@@ -9,10 +9,10 @@ public class SequencerBoardManagerTest {
     @Test
     public void increaseScore() {
         SequencerBoardManager b = new SequencerBoardManager();
-        assertEquals(b.getScore(), (Long) 1L);
+        assertEquals(b.getCurrGameScore(), (Long) 1L);
         b.increaseScore();
         b.increaseScore();
-        assertEquals(b.getScore(), (Long) 3L);
+        assertEquals(b.getCurrGameScore(), (Long) 3L);
     }
 
     @Test

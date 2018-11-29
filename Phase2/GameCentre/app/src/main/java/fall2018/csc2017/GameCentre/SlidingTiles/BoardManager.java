@@ -135,7 +135,7 @@ class BoardManager implements Serializable, Manager {
      * @return the score
      */
     @Override
-    public Long getScore() {
+    public Long getCurrGameScore() {
         return this.score;
     }
 

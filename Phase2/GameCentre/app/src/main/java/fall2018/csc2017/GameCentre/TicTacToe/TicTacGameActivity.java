@@ -1,21 +1,37 @@
 package fall2018.csc2017.GameCentre.TicTacToe;
 
 import android.content.Context;
+import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.CountDownTimer;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.View;
 import android.view.ViewTreeObserver;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
+import fall2018.csc2017.GameCentre.GameChoiceActivity;
+import fall2018.csc2017.GameCentre.LeaderBoardFrontEnd;
+import fall2018.csc2017.GameCentre.Manager;
 import fall2018.csc2017.GameCentre.R;
 
+import java.io.IOException;
+import java.io.ObjectOutputStream;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Locale;
+import java.util.Map;
 import java.util.Objects;
 import java.util.Observable;
 import java.util.Observer;
@@ -38,9 +54,31 @@ public class TicTacGameActivity extends AppCompatActivity implements Observer {
     private TicTacBoardManager boardManager;
 
     /**
+     * Refererence to the list of games database.
+     */
+    private DatabaseReference mGamesDatabase;
+
+    /**
+     * Checks if data has been changed
+     */
+    private boolean dataChange;
+
+    /**
+     * Name of the current user
+     */
+    private String currentUserName;
+    /**
+     * The LeaderBoard for this Game.
+     */
+    private LeaderBoardFrontEnd leaderBoardFrontEnd;
+    /**
      * Firebase Database reference pointing to the current user
      */
     private DatabaseReference mUserDatabase;
+    /**
+     * moveCounter
+     */
+    private Long moveCounter;
 
     /**
      * The buttons to display.
@@ -74,6 +112,12 @@ public class TicTacGameActivity extends AppCompatActivity implements Observer {
     public void update(Observable o, Object arg) {
         System.out.println("TicTacGameActivity.update()==========");
         display();
+        moveCounter = boardManager.getMoveCounter();
+        getUserDatabaseReference();
+        saveUserInformationOnDatabase();
+        saveScoreCountOnDataBase();
+        updateLeaderBoard();
+        databaseScoreSave();
     }
 
     /**
@@ -106,7 +150,7 @@ public class TicTacGameActivity extends AppCompatActivity implements Observer {
             nextPos++;
         }
         //final TextView score = findViewById(R.id.score);
-        //score.setText(String.valueOf(boardManager.getScore()));
+        //score.setText(String.valueOf(boardManager.getCurrGameScore()));
         //saveUserInformationOnDatabase();
 
     }
@@ -119,11 +163,9 @@ public class TicTacGameActivity extends AppCompatActivity implements Observer {
         Bundle b = getIntent().getExtras();
 
 
-
-
         int gametype = -1; // or other values
         int depth = -1;
-        if(b != null) {
+        if (b != null) {
             gametype = b.getInt("gametype");
             depth = b.getInt("depth");
         }
@@ -177,7 +219,113 @@ public class TicTacGameActivity extends AppCompatActivity implements Observer {
                         startTimer();
                     }
                 });
+        moveCounter = boardManager.getMoveCounter();
+        leaderBoardFrontEnd = new LeaderBoardFrontEnd();
+        this.dataChange = false;
+//        getUserDatabaseReference();
+//        saveUserInformationOnDatabase();
+//        saveScoreCountOnDataBase();
+//        updateLeaderBoard();
+//        databaseScoreSave();
+
     }
+
+     /*
+    Scoreboard code which reads scores as the game when the game ends
+     */
+
+    /**
+     * Save the theScore to the leaderboard when the game finishes.
+     */
+    private void databaseScoreSave() {
+        mGamesDatabase.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if (boardManager.isGetWinnerHasBeenCalled()) {
+                    if (boardManager.isOver() && !dataChange) {
+                        leaderBoardFrontEnd.empty();
+                        System.out.println(currentUserName);
+                        leaderBoardFrontEnd.setmNameCurrentUser(currentUserName);
+                        leaderBoardFrontEnd.saveScoreToLeaderBoard(dataSnapshot, boardManager); // move to leaderboard front endTODO
+
+                        dataChange = true;
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+    }
+
+    /**
+     * Get database reference from the Firebase Database pointing to the current user
+     */
+    private void getUserDatabaseReference() {
+
+        // Firebase User Authorisation
+        FirebaseAuth mAuth = FirebaseAuth.getInstance();
+        String userID = Objects.requireNonNull(mAuth.getCurrentUser()).getUid();
+        mUserDatabase = FirebaseDatabase.getInstance().getReference().child("Users").child("userId").child(userID).child("tic_tac_toe");
+        mGamesDatabase = FirebaseDatabase.getInstance().getReference().child("Users").child("Games");
+
+    }
+
+
+    /**
+     * Get Current User's Saved Information from the database to the application
+     */
+    private void updateLeaderBoard() {
+
+        getUserDatabaseReference();
+        mUserDatabase.getParent().addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if (dataSnapshot.exists() && dataSnapshot.getChildrenCount() > 0) {
+                    Map<String, Object> map = (Map<String, Object>) dataSnapshot.getValue();
+                    assert map != null;
+                    if (map.get("Name") != null) {
+//                        String name = map.get("Name").toString();
+                        currentUserName = map.get("Name").toString();
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+    }
+
+    /**
+     * Saves the Current User's settings to the database
+     */
+    private void saveUserInformationOnDatabase() {
+
+
+        String lastSavedScore = moveCounter.toString();
+        Map<String, Object> userInfo = new HashMap<>();
+
+        userInfo.put("last_Saved_Score", lastSavedScore);
+
+        mUserDatabase.updateChildren(userInfo);
+
+    }
+
+    /**
+     * Saves a counter variable to the database that firebase listens for score changing.
+     */
+    private void saveScoreCountOnDataBase() {
+
+        String lastSavedScore = moveCounter.toString();
+        Map<String, Object> newMap = new HashMap<>();
+        newMap.put("last_Saved_Score", lastSavedScore);
+        mGamesDatabase.updateChildren(newMap);
+    }
+
 
     public static void startTimer() {
         mCountDownTimer = new CountDownTimer(mTimeLeftInMillis, 1000) {
@@ -200,7 +348,7 @@ public class TicTacGameActivity extends AppCompatActivity implements Observer {
         mTimerRunning = false;
     }
 
-    public static void resetTimer(){
+    public static void resetTimer() {
         mTimeLeftInMillis = START_TIME_IN_MILLIS;
         updateCountDownText();
     }
@@ -221,16 +369,6 @@ public class TicTacGameActivity extends AppCompatActivity implements Observer {
         return mTimerRunning;
     }
 
-    /**
-     * Get database reference from the Firebase Database pointing to the current user
-     */
-    private void getUserDatabaseReference() {
-
-        // Firebase User Authorisation
-        FirebaseAuth mAuth = FirebaseAuth.getInstance();
-        String userID = Objects.requireNonNull(mAuth.getCurrentUser()).getUid();
-        mUserDatabase = FirebaseDatabase.getInstance().getReference().child("Users").child("userId").child(userID).child("tic_tac_toe");
-    }
 
     /**
      * Adopted from https://stackoverflow.com/questions/4778754/how-do-i-kill-an-activity-when-the-back-button-is-pressed
@@ -242,7 +380,6 @@ public class TicTacGameActivity extends AppCompatActivity implements Observer {
         this.finish();
 
     }
-
 
 
 }

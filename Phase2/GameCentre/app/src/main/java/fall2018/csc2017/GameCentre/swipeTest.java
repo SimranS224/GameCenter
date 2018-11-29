@@ -196,8 +196,8 @@ public class swipeTest extends FragmentActivity {
 //                    Scores userScore = new Scores();
 //                    userScore.setName(name);
 //
-//                    userScore.setScore(score);
-//                    if (!userScore.getScore().equals("NA")) {
+//                    userScore.setMoveCounter(score);
+//                    if (!userScore.getCurrGameScore().equals("NA")) {
 //                        allUsers.add(userScore);
 //                    }
 //                }

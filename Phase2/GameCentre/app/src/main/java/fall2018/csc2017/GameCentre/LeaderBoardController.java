@@ -79,7 +79,7 @@ public class LeaderBoardController {
      *
      * @param score Score to add
      */
-    public void add(Scores score) {
+    public void add(Object score) {
         listOfScores.add(score);
     }
 
@@ -108,7 +108,7 @@ public class LeaderBoardController {
      */
     public void setFromFireBaseList(ArrayList<Object> list) {
         for (int i = 0; i < list.size(); i++) {
-            listOfScores.add(list.get(i));
+            this.add(list.get(i));
 
         }
 
@@ -130,7 +130,7 @@ public class LeaderBoardController {
      * @param boardManager of the current game
      */
     public void updateScores(Manager boardManager) {
-        Long winningScore = boardManager.getScore();
+        Long winningScore = boardManager.getCurrGameScore();
         addWinningScore(winningScore);
 
     }

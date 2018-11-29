@@ -182,13 +182,13 @@ public class GameActivity extends AppCompatActivity implements Observer {
         textView.setText(boardManager.stack.getUndos());
         // Reads the score by id
         score = findViewById(R.id.score);
-        score.setText(String.valueOf(boardManager.getScore()));
+        score.setText(String.valueOf(boardManager.getCurrGameScore()));
         LinearLayout rellayout = findViewById(R.id.main_activity);
         rellayout.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View view) {
-                score.setText(String.valueOf(boardManager.getScore()));
+                score.setText(String.valueOf(boardManager.getCurrGameScore()));
             }
         });
         addUndoButtonListener();
@@ -393,7 +393,7 @@ public class GameActivity extends AppCompatActivity implements Observer {
                     TextView textView = findViewById(R.id.UndoCounter);
 
                     textView.setText(boardManager.stack.getUndos());
-                    boardManager.setScore(boardManager.getScore() + 1);
+                    boardManager.setScore(boardManager.getCurrGameScore() + 1);
 
                 }
 //                saveScoreToLeaderBoard(boardManager);
@@ -444,7 +444,7 @@ public class GameActivity extends AppCompatActivity implements Observer {
             nextPos++;
         }
         final TextView score = findViewById(R.id.score);
-        score.setText(String.valueOf(boardManager.getScore()));
+        score.setText(String.valueOf(boardManager.getCurrGameScore()));
 //        saveScoreToLeaderBoard(boardManager);
     }
 

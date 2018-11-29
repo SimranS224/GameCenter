@@ -24,6 +24,7 @@ class TicTacMovementController {
             // Toast.makeText(context, "Add code to check getWinner()", Toast.LENGTH_SHORT).show();
             if (boardManager.getWinner(position)) {
                 boardManager.getBoard().setGameOver(true);
+                boardManager.setUserWins(true);
                 Toast.makeText(context, "P1 WIN!", Toast.LENGTH_SHORT).show();
                 TicTacGameActivity.pauseTimer();
 

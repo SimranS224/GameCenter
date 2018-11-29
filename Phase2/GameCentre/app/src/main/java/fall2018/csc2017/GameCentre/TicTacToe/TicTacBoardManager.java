@@ -1,10 +1,9 @@
 package fall2018.csc2017.GameCentre.TicTacToe;
 
 import fall2018.csc2017.GameCentre.Manager;
-import fall2018.csc2017.GameCentre.R;
+
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -33,10 +32,13 @@ class TicTacBoardManager implements Serializable, Manager {
     private TicTacStrategy strategy;
 
     /**
-     * score
+     * moveCounter
      */
-    private Long score;
-
+    private Long moveCounter;
+    /**
+     * getwinner has been called
+     */
+    private boolean getWinnerHasBeenCalled = false;
     /**
      * The board being managed.
      */
@@ -50,7 +52,7 @@ class TicTacBoardManager implements Serializable, Manager {
      */
     public TicTacBoardManager(TicTacBoard board) {
         this.board = board;
-        this.score = 0L;
+        this.moveCounter = 0L;
         this.stack = new TicTacMoveStack();
         this.game_position = -1;
     }
@@ -88,39 +90,40 @@ class TicTacBoardManager implements Serializable, Manager {
         }
         // assume p1 always goes first
         this.board = new TicTacBoard(ticTacMarkers);
-        this.score = 0L;
+        this.moveCounter = 0L;
         stack = new TicTacMoveStack();
     }
 
     /**
-     * A getter for the score
-     * @return the score
+     * A getter for the moveCounter
+     * @return the moveCounter
      */
-    public Long getScore() {
-        return this.score;
+    public Long getMoveCounter() {
+        return this.moveCounter;
     }
 
     /**
-     * A setter for the score.
-     * @param s The score to be set.
+     * A setter for the moveCounter.
+     * @param s The moveCounter to be set.
      */
-    public void setScore(Long s) {
-        score = s;
+    public void setMoveCounter(Long s) {
+        moveCounter = s;
     }
 
     public int getGamePosition() {
         return this.game_position;
     }
 
-    public int getscore(long time) {
-        if (this.p1Wins) {
-            long longtime = TicTacGameActivity.getmTimeLeftInMillis();
-            double doubletime = (double) (longtime / 1000);
-            int inttime = (int) doubletime;
-            int score = 100 - inttime;
-            return score;
-        }
-        return -1;
+    @Override
+    public Long getCurrGameScore() {
+//        if (this.p1Wins) {
+        long longtime = TicTacGameActivity.getmTimeLeftInMillis();
+        Long doubletime = (longtime / 1000);
+//            int inttime = (int) doubletime;
+        Long score = 100 - doubletime;
+        return score;
+//        }
+//        return -1;
     }
 
     /**
@@ -146,10 +149,11 @@ class TicTacBoardManager implements Serializable, Manager {
         } else {
             return false;
         }*/
-        if (this.getBoard().getGameOver() && p1Wins) {
-            return true;
-        }
-        return false;
+        return (this.getBoard().getGameOver() && p1Wins);
+//        {
+//            return true;
+//        }
+//        return false;
     }
 
     @Override
@@ -209,6 +213,7 @@ class TicTacBoardManager implements Serializable, Manager {
                 (d1 == 3 || d2 == 3)) {
             this.p1Wins = true;
         }
+        getWinnerHasBeenCalled = true;
         return d1 == 3 || d2 == 3;
     }
 
@@ -253,8 +258,15 @@ class TicTacBoardManager implements Serializable, Manager {
             //board.swapMarkers(row, col, row, col);
 
         }
-        score++;
+        moveCounter++;
         return current_player;
     }
 
+    public boolean isGetWinnerHasBeenCalled() {
+        return getWinnerHasBeenCalled;
+    }
+
+    public void setUserWins(boolean b) {
+        this.p1Wins = true;
+    }
 }

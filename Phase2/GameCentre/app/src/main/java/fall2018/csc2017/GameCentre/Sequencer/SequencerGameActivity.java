@@ -40,13 +40,13 @@ public class SequencerGameActivity extends AppCompatActivity implements Observer
     public void update() {
         // Updates the score counter
         final TextView score = findViewById(R.id.score);
-        score.setText(String.valueOf(controller.boardManager.getScore()));
+        score.setText(String.valueOf(controller.boardManager.getCurrGameScore()));
         gridView.setAdapter(new CustomAdapter(controller.tileButtons, columnWidth, columnHeight));
 
         // Saves to the file (Autosave)
         controller.saveToFile(SequencerStartingActivity.SAVE_FILENAME, this);
         controller.saveToFile(SequencerStartingActivity.TEMP_SAVE_FILENAME, this);
-        score.setText(String.valueOf(controller.boardManager.getScore()));
+        score.setText(String.valueOf(controller.boardManager.getCurrGameScore()));
 
         // Checks whether tha game is over, if it is then it saves the theScore and terminates the game.
         if (controller.boardManager.isOver()) {
@@ -99,7 +99,7 @@ public class SequencerGameActivity extends AppCompatActivity implements Observer
                 });
 
         TextView theScore = findViewById(R.id.score);
-        theScore.setText(String.valueOf(controller.boardManager.getScore()));
+        theScore.setText(String.valueOf(controller.boardManager.getCurrGameScore()));
         Speak();
 
     }
