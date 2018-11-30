@@ -50,25 +50,4 @@ class TicTacMovementController {
             Toast.makeText(context, "Invalid Tap: position:" + position , Toast.LENGTH_SHORT).show();
         }
     }
-
-//    private void showDialog(Context context) {
-//        AlertDialog.Builder builder = new AlertDialog.Builder(context);
-//        builder.setMessage("Game Over~")
-//                .setCancelable(false)
-//                .setPositiveButton("Go to Tic Tac Toe Dashboard", new DialogInterface.OnClickListener() {
-//                    public void onClick(DialogInterface dialog, int id) {
-//                        Intent intent = new Intent(TicTacMovementController.this, TicTacMainActivity.class );
-//                    }
-//                })
-//                .setNegativeButton("Quit", new DialogInterface.OnClickListener() {
-//                    public void onClick(DialogInterface dialog, int id) {
-//                        finish();
-//                    }
-//                });
-//        AlertDialog alert = builder.create();
-//        alert.show();
-//    }
-
-
-
 }

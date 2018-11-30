@@ -31,16 +31,6 @@ public class TicTacGameActivity extends AppCompatActivity implements Observer {
 
     public Timer time = new Timer();
     /**
-     * the start time in millis
-     */
-    /*private static final long START_TIME_IN_MILLIS = 100000;
-
-    private static TextView mTextViewCountDown;
-    private static CountDownTimer mCountDownTimer;
-    private static boolean mTimerRunning;
-
-    public static long mTimeLeftInMillis = START_TIME_IN_MILLIS;*/
-    /**
      * The board manager.
      */
     private TicTacBoardManager boardManager;
@@ -94,10 +84,6 @@ public class TicTacGameActivity extends AppCompatActivity implements Observer {
     public void display() {
         updateTileButtons();
         gridView.setAdapter(new TicTacCustomAdapter(markerButtons, columnWidth, columnHeight));
-
-        /*//autosave
-        saveToFile(StartingActivity.SAVE_FILENAME);
-        saveToFile(StartingActivity.TEMP_SAVE_FILENAME);*/
     }
 
     //@Override
@@ -141,9 +127,6 @@ public class TicTacGameActivity extends AppCompatActivity implements Observer {
             b.setBackgroundResource(board.getMarker(row, col).getBackground());
             nextPos++;
         }
-        //final TextView score = findViewById(R.id.score);
-        //score.setText(String.valueOf(boardManager.getCurrGameScore()));
-        //saveUserInformationOnDatabase();
 
     }
 
@@ -307,50 +290,6 @@ public class TicTacGameActivity extends AppCompatActivity implements Observer {
         mGamesDatabase.updateChildren(newMap);
     }
 
-
-    /*public static void startTimer() {
-        mCountDownTimer = new CountDownTimer(mTimeLeftInMillis, 1000) {
-            @Override
-            public void onTick(long millisUntilFinished) {
-                mTimeLeftInMillis = millisUntilFinished;
-                updateCountDownText();
-            }
-
-            @Override
-            public void onFinish() {
-                mTimerRunning = false;
-            }
-        }.start();
-        mTimerRunning = true;
-    }
-
-    public static void pauseTimer() {
-        mCountDownTimer.cancel();
-        mTimerRunning = false;
-    }
-
-    public static void resetTimer() {
-        mTimeLeftInMillis = START_TIME_IN_MILLIS;
-        updateCountDownText();
-    }
-
-    public static void updateCountDownText() {
-        int minutes = (int) (mTimeLeftInMillis / 1000) / 60;
-        int seconds = (int) (mTimeLeftInMillis / 1000) % 60;
-
-        String timeLeftFormatted = String.format(Locale.getDefault(), "%02d:%02d", minutes, seconds);
-        mTextViewCountDown.setText(timeLeftFormatted);
-    }
-
-    public static long getmTimeLeftInMillis() {
-        return mTimeLeftInMillis;
-    }
-
-    public static boolean getmTimerRunning() {
-        return mTimerRunning;
-    }*/
-
-
     /**
      * Adopted from https://stackoverflow.com/questions/4778754/how-do-i-kill-an-activity-when-the-back-button-is-pressed
      */
@@ -364,5 +303,3 @@ public class TicTacGameActivity extends AppCompatActivity implements Observer {
 
 
 }
-
-
