@@ -1,5 +1,24 @@
 Group_0668 README.MD
+#PHASE 2:
+# Steps in cloning:
+1. Make a new folder in your file manager and call it something relevant to this project
+2. Open Android Studio and select File -> New -> Project from Version Control -> Git
+3. Use this link https://markus.teach.cs.toronto.edu/git/csc207-2018-09-reg/group_0668 and select the new folder that you have just made to clone it into.
+Make sure you/the user have GameCentre as the project you/the user open not Phase 1 when you want to run the app.
 
+Once there, run the app and select Android device (Pixel 2) that you would like to run the app on.
+
+Once opened, the user will have the option to log in or sign up as a new user.
+
+Log in or sign up as needed. (Password created must be longer than 6 characters)
+
+Once in, you have the option of playing three games, checking the leaderboard, and signing out
+
+HOW TO PLAY
+
+
+
+#PHASE 1
 # Steps in cloning:
 1. Make a new folder in your file manager and call it something relevant to this project
 2. Open Android Studio and select File -> New -> Project from Version Control -> Git
@@ -27,7 +46,7 @@ Pressing the log out button will return to the log in/sign up screen.
 In order to login a new user, you must log out. Other wise the current signed in user will always be signed in until you log out.
 
 #New Game Setup:
-When you click on 'new game' in the game launcher activity, you will directed to the game seteup. Here you can choose the board size, the number of undos and the type of the board (numbers or pictures) and then choose the a picture background for the board accordingly. Then you can like Start to launch the game.
+When you click on 'new game' in the game launcher activity, you will directed to the game setup. Here you can choose the board size, the number of undos and the type of the board (numbers or pictures) and then choose the a picture background for the board accordingly. Then you can like Start to launch the game.
 
 
 # Extra Functionalities (Bonuses)

@@ -4,10 +4,15 @@
    - Marco Angeli, 905-617-4898 - git username: Marco Angeli
    - Abdullah Amin, 647-391-6749 - git username: Abdullah amin
    - Ryan Foster, 416-836-3422 - git username: fosterr6/ Singh Simran Partap (Some pushed were
-                                        pushed by Ryan logged onto Simran's account in the CSC labs)
+                                        pushed by Ryan logged onto Simran's account in the CSC labs since his login didnt work
+                                        and his emulator didnt work )
 
 # Contributions:
-
+Simran Singh:
+Jeffrey Chen: Worked on TicTacToe and made the sliding tiles board always solvable, unittests for TicTacToe, and Score
+Marco Angeli:
+Abdullah Amin:
+Ryan Foster:
 
 # Communication tools used:
 - Trello - used to assign tasks and go over what needed to be added
@@ -74,6 +79,12 @@ Discussed what still needed to be worked on
 - solvable for sliding tiles, unittests, sequencer randomizing the sequences still needed,
 AI still needed for tic tac toe
 Meeting 3: Got together and got a lot of work done
-- solvablesliding tiles got fixed, started thinking about design patterns, random strategy and
-hard AI and PVP for Tictactoe basically working,
+- solvable sliding tiles got fixed, started thinking about design patterns, random strategy and
+hard AI and PVP for Tictactoe basically working, sequencer developing well, leaderboard still being worked on
+Meeting 4: Discussed what needed final touches and started writing test codes;
+fixed a bunch of bugs in Tic Tac Toe, Sequencer worked, scoreboard almost done,
+unittests and little details still needed to be done
+Meeting 5: Scoreboard done, worked on unittests and cleaned up a lot of code smells,
+added java doc, and finished unittests. Also added the walkthrough pdf
+
 
