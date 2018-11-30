@@ -15,6 +15,42 @@ Log in or sign up as needed. (Password created must be longer than 6 characters)
 Once in, you have the option of playing three games, checking the leaderboard, and signing out
 
 HOW TO PLAY
+# Sequencer :
+Goal is to memorize the sequence on each round and tap corresponding tiles, sequence gets larger as rounds increase.
+Further, autosave is implemented for sequencer.
+
+# TicTacToe
+Three types of playing options easy and hard where you play against an AI. Or you can play against another user on the same phone.
+#SlidingTiles:
+As per Phase1
+
+#ScoreBoardNote:
+The scores in the database are lower than actually attainable,
+for SlidingTiles we did this for testing purposes, further the leaderboard only display the highest score of a person.
+
+# leaderboard Note
+Each games scores is calculated such that lower scores mean that you did better in the game, the goal was to resemble ranking.   
+
+#**IMPORTANT NOTE:
+
+-In case you want to see our Firebase Database. You can log on to the Firebase Console using following login credentials:
+Email Address: csc207fall2018@gmail.com
+Password: CSC207FALL
+The password is all uppercase.
+Steps after login:
+1. Press Game Centre.
+Under 'Develop'
+2, Press Database
+3. Make sure that 'Real Time Database' is selected at the top, this is info and dropdown is located near the large Database title.
+4. To see the registered users, press authentication.
+5. In case database has not updated, press the refresh button near the right corner of the screen.
+
+
+- In case you find errors after cloning, try cleaning and rebuilding the project and then running it.
+
+-You may receive warning about the 'use of deprecated API' in
+FirstActivity after building the app. Just ignore it and run the application. We adopted the API to check the internet connection from another resource (citation included).
+
 
 
 
@@ -83,7 +119,7 @@ Steps after login:
 1. Press sliding tiles.
 Under 'Develop'
 2, Press Database
-3. Make sure that 'Real Time Database' is selected at the top, this is info and dropdown is located near the large Database title. 
+3. Make sure that 'Real Time Database' is selected at the top, this is info and dropdown is located near the large Database title.
 4. To see the registered users, press authentication.
 5. In case database has not updated, press the refresh button near the right corner of the screen.
 

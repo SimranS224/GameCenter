@@ -8,11 +8,11 @@
                                         and his emulator didnt work )
 
 # Contributions:
-Simran Singh:
-Jeffrey Chen: Worked on TicTacToe and made the sliding tiles board always solvable, unittests for TicTacToe, and Score
-Marco Angeli:
-Abdullah Amin:
-Ryan Foster:
+Simran Singh: Changed implementation of leaderboard to simplify it to two main classes, connected tab view to leaderboard. Further, unit-tested the controller code of the leaderboard. Also changed way database calls were made to generalize design.
+Jeffrey Chen: Worked on TicTacToe and made the sliding tiles board always solvable, unit-tests for TicTacToe, and Score
+Marco Angeli: Designed and created Sequencer game from scratch, further unit-tested and debugged issues related to it. Also refactored portions of code in Slidingtiles and created unit test for sliding tiles.
+Abdullah Amin: Contributed to creating Sequencer game - in terms of class design and implementing. Further, worked on database debugging and configuration features. Additionally, refactored large portions of game activity to follow MVC framework.
+Ryan Foster:Implemented tab-view for leaderboard, as well as refactored large portions of tic tac toe, and created unit tests for it.
 
 # Communication tools used:
 - Trello - used to assign tasks and go over what needed to be added
