@@ -17,9 +17,9 @@ import fall2018.csc2017.GameCentre.ScoreBoard.ScoreBoardController.UserScores;
  * a bundle is used to store the information, which is then taken out in DemoFragment.
  */
 public class swipeViewAdapter extends FragmentStatePagerAdapter {
-    private String[] type = new String[6];
-    private String[] size = new String[4];
-    private String[] scoreType = new String[2];
+    private final String[] type = new String[6];
+    private final String[] size = new String[4];
+    private final String[] scoreType = new String[2];
     private ArrayList<UserScores> allScores;
     private Context mContext;
     private String curUserName;
