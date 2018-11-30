@@ -5,18 +5,39 @@ import android.widget.TextView;
 
 import java.util.Locale;
 
+/**
+ * The class for timer
+ */
 public class Timer {
     /**
      * the start time in millis
      */
     private static final long START_TIME_IN_MILLIS = 100000;
 
-    public static TextView mTextViewCountDown;
-    public static CountDownTimer mCountDownTimer;
-    public static boolean mTimerRunning;
+    /**
+     * Textview for keeping track of text in xml
+     */
+    static TextView mTextViewCountDown;
 
-    public static long mTimeLeftInMillis = START_TIME_IN_MILLIS;
-    public static void startTimer() {
+    /**
+     * Countdown timer
+     */
+    static CountDownTimer mCountDownTimer;
+
+    /**
+     * Variable to see if timer is running
+     */
+    static boolean mTimerRunning;
+
+    /**
+     * Time left in millis
+     */
+    static long mTimeLeftInMillis = START_TIME_IN_MILLIS;
+
+    /**
+     * Starts timer
+     */
+    static void startTimer() {
         mCountDownTimer = new CountDownTimer(mTimeLeftInMillis, 1000) {
             @Override
             public void onTick(long millisUntilFinished) {
@@ -32,17 +53,26 @@ public class Timer {
         mTimerRunning = true;
     }
 
-    public static void pauseTimer() {
+    /**
+     * pauses timer
+     */
+    static void pauseTimer() {
         mCountDownTimer.cancel();
         mTimerRunning = false;
     }
 
-    public static void resetTimer() {
+    /**
+     * resets timer
+     */
+    static void resetTimer() {
         mTimeLeftInMillis = START_TIME_IN_MILLIS;
         updateCountDownText();
     }
 
-    public static void updateCountDownText() {
+    /**
+     * updates text as timer goes down
+     */
+    static void updateCountDownText() {
         int minutes = (int) (mTimeLeftInMillis / 1000) / 60;
         int seconds = (int) (mTimeLeftInMillis / 1000) % 60;
 
@@ -50,11 +80,19 @@ public class Timer {
         mTextViewCountDown.setText(timeLeftFormatted);
     }
 
-    public static long getmTimeLeftInMillis() {
+    /**
+     * Gets time left in millis
+     * @return the time left on the timer in millis
+     */
+    static long getmTimeLeftInMillis() {
         return mTimeLeftInMillis;
     }
 
-    public static boolean getmTimerRunning() {
+    /**
+     * get if the timer is still running
+     * @return if the timer is running
+     */
+    static boolean getmTimerRunning() {
         return mTimerRunning;
     }
 }

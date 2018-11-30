@@ -38,7 +38,7 @@ public class TicTacBoardManager implements Serializable, Manager {
     /**
      * getwinner has been called
      */
-    private boolean getWinnerHasBeenCalled = false;
+    private boolean getWinnerHasBeenCalled;
     /**
      * The board being managed.
      */
@@ -59,6 +59,7 @@ public class TicTacBoardManager implements Serializable, Manager {
         this.board = board;
         this.moveCounter = 0L;
         this.game_position = -1;
+        this.getWinnerHasBeenCalled = false;
     }
 
     /**
@@ -71,7 +72,7 @@ public class TicTacBoardManager implements Serializable, Manager {
     /**
      * Return the strategy
      */
-    public TicTacStrategy getStrategy() {
+    TicTacStrategy getStrategy() {
         return this.strategy;
     }
 
@@ -89,34 +90,22 @@ public class TicTacBoardManager implements Serializable, Manager {
         }
         this.board = new TicTacBoard(ticTacMarkers);
         this.moveCounter = 0L;
+        this.getWinnerHasBeenCalled = false;
     }
 
     /**
      * A getter for the moveCounter
      * @return the moveCounter
      */
-    public Long getMoveCounter() {
+    Long getMoveCounter() {
         return this.moveCounter;
-    }
-
-    /**
-     * A setter for the moveCounter.
-     * @param s The moveCounter to be set.
-     */
-    public void setMoveCounter(Long s) {
-        moveCounter = s;
-    }
-
-    public int getGamePosition() {
-        return this.game_position;
     }
 
     @Override
     public Long getCurrGameScore() {
         long longtime = time.getmTimeLeftInMillis();
         Long doubletime = (longtime / 1000);
-        Long score = 100 - doubletime;
-        return score;
+        return 100 - doubletime;
     }
 
     /**
@@ -194,7 +183,7 @@ public class TicTacBoardManager implements Serializable, Manager {
      * @param position the position
      * @return the current player turn
      */
-    public int touchMove(int position) {
+    int touchMove(int position) {
 
         int row = position / TicTacBoard.NUM_COLS;
         int col = position % TicTacBoard.NUM_COLS;
@@ -217,11 +206,9 @@ public class TicTacBoardManager implements Serializable, Manager {
         return current_player;
     }
 
-    public boolean isGetWinnerHasBeenCalled() {
-        return getWinnerHasBeenCalled;
-    }
 
-    public void setUserWins(boolean b) {
+
+    void setUserWins(boolean b) {
         this.p1Wins = true;
     }
 
@@ -242,11 +229,11 @@ public class TicTacBoardManager implements Serializable, Manager {
      * returns the list of valid moves left on the board
      * @return the list of valid moves on the board
      */
-    public ArrayList<Integer> getValidMoves() {
+    ArrayList<Integer> getValidMoves() {
         ArrayList<Integer> validMoves = new ArrayList<Integer>();
         for (int position = 0; position < board.getRows() * board.getCols(); position++) {
             if (isValidTap(position)) {
-                Integer IntPos = new Integer(position);
+                Integer IntPos = position;
                 validMoves.add(IntPos);
             }
         }
@@ -256,7 +243,7 @@ public class TicTacBoardManager implements Serializable, Manager {
     /**
      * change turns
      */
-    public void changeTurns() {
+    void changeTurns() {
         if (board.current_player == 0) {
             board.current_player = 1;
         } else {
