@@ -48,15 +48,15 @@ public class SequencerGameActivity extends AppCompatActivity implements Observer
         controller.saveToFile(SequencerStartingActivity.TEMP_SAVE_FILENAME, this);
         score.setText(String.valueOf(controller.boardManager.getCurrGameScore()));
 
-        // Checks whether tha game is over, if it is then it saves the theScore and terminates the game.
+        // Checks whether the game is over, if it is then it saves the theScore and terminates the game.
         if (controller.boardManager.isOver()) {
             Intent intent = new Intent(SequencerGameActivity.this,SequencerStartingActivity.class);
             startActivity(intent);
         }
         // Checks if the round is over.
         // If it is, then it increases the round, and shows its pattern.
-        if (controller.boardManager.sequence.position == controller.boardManager.sequence.round) {
-            controller.boardManager.sequence.round += 1;
+        if (controller.boardManager.sequence.position == controller.boardManager.getRound()) {
+            controller.boardManager.increaseRound();
             controller.boardManager.sequence.reset();
             controller.boardManager.talking = true;
             Speak();
@@ -132,7 +132,7 @@ public class SequencerGameActivity extends AppCompatActivity implements Observer
 
     }
     private void Speak() {
-        int round = controller.boardManager.sequence.round;
+        int round = controller.boardManager.getRound();
         Handler handler = new Handler();
         for (int i = 0; i < round; i++) {
             handler.postDelayed(new Runnable() {

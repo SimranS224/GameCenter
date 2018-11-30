@@ -90,13 +90,11 @@ public class SequencerController {
      * Get database reference from the Firebase Database pointing to the current user
      */
     void getUserDatabaseReference() {
-
         // Firebase User Authorisation
         FirebaseAuth mAuth = FirebaseAuth.getInstance();
         String userID = Objects.requireNonNull(mAuth.getCurrentUser()).getUid();
         this.mUserDatabase = FirebaseDatabase.getInstance().getReference().child("Users").child("userId").child(userID).child("sequncer");
         this.mGamesDatabase = FirebaseDatabase.getInstance().getReference().child("Users").child("Games");
-
     }
 
 
