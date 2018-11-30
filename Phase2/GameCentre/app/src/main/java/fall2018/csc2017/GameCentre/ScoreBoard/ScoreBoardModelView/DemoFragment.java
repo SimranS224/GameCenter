@@ -41,7 +41,7 @@ public class DemoFragment extends Fragment {
         String type = getArguments().getString("type");
         String size = getArguments().getString("size");
         String curUser = getArguments().getString("currentUser");
-        String scoreType = (String) getArguments().getString("publicorglobal");
+        String scoreType = getArguments().getString("publicorglobal");
         if (scoreType == null) {
             scoreType = "";
         }
@@ -53,18 +53,13 @@ public class DemoFragment extends Fragment {
         textView2.setText(size);
 
 
-//        LeaderBoardCustomListAdapter adapter = new LeaderBoardCustomListAdapter(this, allUsers);
-//        listLead.setAdapter(adapter); - todo implement this here
         if (listOfGameScores.size() != 0) {
             UserScores theCurrentView = listOfGameScores.get(index);
 
-            //        Integer[] indexes = {3,4, 5, 7, 9};
-//        ArrayList<Integer> UserIndexes = new ArrayList<>();
-//        UserIndexes.addAll(indexes)
 
             LeaderBoardCustomListAdapter adapter;
             if (scoreType.equals("p")) {
-//                if (theCurrentView.size() != 0) {
+
                 UserScores onlyOne = new UserScores();
                 Scores bestOne = theCurrentView.getUser(curUser);
                 onlyOne.add(bestOne);
@@ -72,18 +67,14 @@ public class DemoFragment extends Fragment {
             } else {
                 adapter = new LeaderBoardCustomListAdapter(theContext, theCurrentView);
             }
-//            }else{
-//                adapter = new LeaderBoardCustomListAdapter(theContext, theCurrentView);
-//            }
 
 
-//        LeaderBoardCustomListAdapter adapter = new LeaderBoardCustomListAdapter(theContext, theCurrentView);
             listLead.setAdapter(adapter);
 
         }
 
 
-        //TODO "Set" the listview to be that list you got back from the bundle.
+
         return view;
     }
 
