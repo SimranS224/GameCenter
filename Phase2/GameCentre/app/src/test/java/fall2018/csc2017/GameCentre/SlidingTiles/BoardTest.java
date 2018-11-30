@@ -13,6 +13,7 @@ public class BoardTest {
 
     @Before
     public void setUp() {
+        Board.setBoardSize(4);
         List<Tile> tiles = new ArrayList<>();
         final int numTiles = Board.NUM_ROWS * Board.NUM_COLS;
         for (int tileNum = 0; tileNum != numTiles; tileNum++) {
@@ -31,6 +32,7 @@ public class BoardTest {
     @Test
     public void getNumRows() {
         setUp();
+        Board.setBoardSize(4);
         assertEquals(4, Board.getNumRows());
         Board.setBoardSize(3);
         assertEquals(3, Board.getNumRows());
@@ -41,6 +43,7 @@ public class BoardTest {
     @Test
     public void getNumCols() {
         setUp();
+        Board.setBoardSize(4);
         assertEquals(4, Board.getNumCols());
         Board.setBoardSize(3);
         assertEquals(3, Board.getNumCols());

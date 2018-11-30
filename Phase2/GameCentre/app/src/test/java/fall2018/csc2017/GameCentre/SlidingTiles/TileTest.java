@@ -6,6 +6,7 @@ import org.junit.Test;
 import static org.junit.Assert.*;
 
 public class TileTest {
+
     /**
      * Tile for testing.
      */
@@ -15,7 +16,6 @@ public class TileTest {
      * Another Tile for testing.
      */
     private Tile anotherOne;
-
     /**
      * Creates two Tile objects for testing.
      */
@@ -23,7 +23,6 @@ public class TileTest {
     public void setUp() {
         testOne = new Tile(5, 10);
         anotherOne = new Tile(5, 10);
-
     }
 
     /**

@@ -74,7 +74,7 @@ public class BoardManagerTest {
 
     @Test
     public void isValidTap() {
-        setUp();
+        boardManager = new BoardManager();
         assertTrue(boardManager.isValidTap(11));
         assertTrue(boardManager.isValidTap(14));
         assertFalse(boardManager.isValidTap(10));
