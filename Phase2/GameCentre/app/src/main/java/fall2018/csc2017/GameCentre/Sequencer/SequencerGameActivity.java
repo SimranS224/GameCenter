@@ -1,7 +1,10 @@
 package fall2018.csc2017.GameCentre.Sequencer;
 
+import fall2018.csc2017.GameCentre.GameActivityController;
 import fall2018.csc2017.GameCentre.SlidingTiles.CustomAdapter;
 import fall2018.csc2017.GameCentre.R;
+
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -11,6 +14,8 @@ import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
 import android.widget.Button;
 import android.widget.TextView;
+
+import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -26,12 +31,20 @@ public class SequencerGameActivity extends AppCompatActivity implements Observer
     private SequencerGestureDetectGridView gridView;
 
     /**
+     * The buttons to update.
+     */
+    ArrayList<Button> tileButtons;
+
+    /**
      * The calculated column width and Height Based on Device Size
      */
     private static int columnWidth, columnHeight;
 
+    /**
+     * The controller of the game activity
+     */
+    private GameActivityController controller;
 
-    private SequencerController controller;
 
     /**
      * Updates the game by checking whether the game is over, whether the round is over,
@@ -41,27 +54,27 @@ public class SequencerGameActivity extends AppCompatActivity implements Observer
         // Updates the score counter
         final TextView score = findViewById(R.id.score);
         score.setText(String.valueOf(controller.boardManager.getCurrGameScore()));
-        gridView.setAdapter(new CustomAdapter(controller.tileButtons, columnWidth, columnHeight));
+        gridView.setAdapter(new CustomAdapter(tileButtons, columnWidth, columnHeight));
 
         // Saves to the file (Autosave)
         controller.saveToFile(SequencerStartingActivity.SAVE_FILENAME, this);
         controller.saveToFile(SequencerStartingActivity.TEMP_SAVE_FILENAME, this);
         score.setText(String.valueOf(controller.boardManager.getCurrGameScore()));
 
-        // Checks whether tha game is over, if it is then it saves the theScore and terminates the game.
+        // Checks whether the game is over, if it is then it saves the theScore and terminates the game.
         if (controller.boardManager.isOver()) {
             Intent intent = new Intent(SequencerGameActivity.this,SequencerStartingActivity.class);
             startActivity(intent);
         }
         // Checks if the round is over.
         // If it is, then it increases the round, and shows its pattern.
-        if (controller.boardManager.sequence.position == controller.boardManager.sequence.round) {
-            controller.boardManager.sequence.round += 1;
-            controller.boardManager.sequence.reset();
-            controller.boardManager.talking = true;
+        if (controller.getSequencerBoardManager().sequence.position == controller.getSequencerBoardManager().getRound()) {
+            controller.getSequencerBoardManager().increaseRound();
+            controller.getSequencerBoardManager().sequence.reset();
+            controller.getSequencerBoardManager().talking = true;
             Speak();
         }
-        controller.getUserDatabaseReference();
+        controller.getUserDatabaseReference("sequncer");
         controller.updateLeaderBoard();
         controller.saveUserInformationOnDatabase(score);
         controller.saveScoreCountOnDataBase(score);
@@ -72,15 +85,19 @@ public class SequencerGameActivity extends AppCompatActivity implements Observer
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        controller = new SequencerController();
+
+
+        controller = new GameActivityController();
+
         controller.loadFromFile(SequencerStartingActivity.TEMP_SAVE_FILENAME, this);
-        controller.createTileButtons(this);
+
+        createTileButtons(this);
         setContentView(R.layout.activity_sequencer_game);
         // Add View to activity
         gridView = findViewById(R.id.grid);
         gridView.setNumColumns(SequencerBoardManager.NUM_COLS);
-        gridView.setBoardManager(controller.boardManager);
-        controller.boardManager.addObserver(this);
+        gridView.setBoardManager(controller.getSequencerBoardManager());
+        controller.getSequencerBoardManager().addObserver(this);
         // Observer sets up desired dimensions as well as calls our update function
         gridView.getViewTreeObserver().addOnGlobalLayoutListener(
                 new ViewTreeObserver.OnGlobalLayoutListener() {
@@ -104,7 +121,21 @@ public class SequencerGameActivity extends AppCompatActivity implements Observer
 
     }
 
-
+    /**
+     * Create the buttons for displaying the tiles.
+     *
+     * @param context the context
+     */
+    void createTileButtons(Context context) {
+        tileButtons = new ArrayList<>();
+        for (int row = 0; row != SequencerBoardManager.NUM_ROWS; row++) {
+            for (int col = 0; col != SequencerBoardManager.NUM_COLS; col++) {
+                Button tmp = new Button(context);
+                tmp.setBackgroundResource(R.drawable.green);
+                this.tileButtons.add(tmp);
+            }
+        }
+    }
 
     /**
      * Dispatch onPause() to fragments.
@@ -127,12 +158,12 @@ public class SequencerGameActivity extends AppCompatActivity implements Observer
         anim.setDuration(1000); //You can manage the blinking time with this parameter
         anim.setRepeatCount(1);
         anim.setRepeatMode(Animation.REVERSE);
-        Button b = controller.tileButtons.get(controller.boardManager.sequence.get());
+        Button b = tileButtons.get(controller.getSequencerBoardManager().sequence.get());
         b.startAnimation(anim);
 
     }
     private void Speak() {
-        int round = controller.boardManager.sequence.round;
+        int round = controller.getSequencerBoardManager().getRound();
         Handler handler = new Handler();
         for (int i = 0; i < round; i++) {
             handler.postDelayed(new Runnable() {
@@ -143,8 +174,8 @@ public class SequencerGameActivity extends AppCompatActivity implements Observer
         }
         handler.postDelayed(new Runnable() {
             public void run() {
-                controller.boardManager.sequence.reset();
-                controller.boardManager.talking = false;
+                controller.getSequencerBoardManager().sequence.reset();
+                controller.getSequencerBoardManager().talking = false;
             }
         }, 1000 * round - 1);
     }

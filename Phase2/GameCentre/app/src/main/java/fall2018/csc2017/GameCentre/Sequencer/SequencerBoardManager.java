@@ -2,10 +2,7 @@ package fall2018.csc2017.GameCentre.Sequencer;
 
 import java.io.Serializable;
 import java.util.Observable;
-
 import fall2018.csc2017.GameCentre.Manager;
-
-import static android.icu.lang.UCharacter.GraphemeClusterBreak.L;
 
 /**
  * Manage a board, including swapping tiles, checking for a win, and managing taps.
@@ -21,10 +18,6 @@ public class SequencerBoardManager extends Observable implements Serializable, M
      */
     static int NUM_COLS = 4;
     /**
-     * Score of the game (number of correct taps)
-     */
-    private Long score;
-    /**
      * The Sequence to be used for this game.
      */
     Sequence sequence;
@@ -37,12 +30,18 @@ public class SequencerBoardManager extends Observable implements Serializable, M
      * user to repeat the sequence in the board), in which case the variable would be set to false.
      */
     boolean talking = true;
+    /**
+     * The round until where in the sequence you have to remember.
+     * First round: Remember the first element of the sequence
+     * Second Round: Remember the first two elements of the sequence
+     * etc.
+     */
+    private int round = 1;
 
     /**
      * Constructor
      */
-    public SequencerBoardManager() {
-        this.score = 1L;
+    SequencerBoardManager() {
         this.sequence = new Sequence();
     }
 
@@ -52,16 +51,7 @@ public class SequencerBoardManager extends Observable implements Serializable, M
      */
     @Override
     public Long getCurrGameScore() {
-        return this.score;
-    }
-
-    /**
-     * Increases the score by 1 and notifies the observers (so that the counter can get updated).
-     */
-    public void increaseScore(){
-        score += 1;
-        setChanged();
-        notifyObservers();
+        return (long) 100 - round;
     }
 
 
@@ -77,8 +67,19 @@ public class SequencerBoardManager extends Observable implements Serializable, M
     /**
      * Sets that this game is over and announces it to the observers.
      */
-    public void setGameOver() {
+    void setGameOver() {
         gameOver = true;
+        update();
+    }
+    void increaseRound() {
+        round += 1;
+        update();
+
+    }
+    int getRound() {
+        return round;
+    }
+    public void update(){
         setChanged();
         notifyObservers();
     }
@@ -89,6 +90,9 @@ public class SequencerBoardManager extends Observable implements Serializable, M
      */
     @Override
     public boolean isOver() {
+        if (round == 100) {
+            return true;
+        }
         return gameOver;
     }
 

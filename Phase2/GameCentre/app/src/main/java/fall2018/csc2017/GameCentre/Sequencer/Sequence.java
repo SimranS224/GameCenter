@@ -9,8 +9,6 @@ public class Sequence implements Serializable {
     private ArrayList<Integer> sequence;
     // The initial Position
     public int position = 0;
-    // The initial position
-    int round = 1;
 
     public Sequence() {
         sequence = new ArrayList<>();

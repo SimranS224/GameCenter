@@ -35,6 +35,7 @@ import java.util.Objects;
 import java.util.Observable;
 import java.util.Observer;
 
+import fall2018.csc2017.GameCentre.GameActivityController;
 import fall2018.csc2017.GameCentre.ScoreBoard.ScoreBoardModelView.LeaderBoardFrontEnd;
 import fall2018.csc2017.GameCentre.R;
 
@@ -53,11 +54,11 @@ public class GameActivity extends AppCompatActivity implements Observer {
      */
     TextView textView;
 
-
-    /**
-     * The board manager.
-     */
-    private BoardManager boardManager;
+//
+//    /**
+//     * The board manager.
+//     */
+//    private BoardManager boardManager;
 
 
     /**
@@ -79,28 +80,36 @@ public class GameActivity extends AppCompatActivity implements Observer {
      */
     ArrayList<Bitmap> chunckedImages;
 
-    /**
-     * Refererence to the list of games database.
-     */
-    private DatabaseReference mGamesDatabase;
 
     /**
-     * Checks if data has been changed
+     * The controller of the game activity
      */
-    private boolean dataChange;
+    private GameActivityController controller;
 
-    /**
-     * Name of the current user
-     */
-    private String currentUserName;
-    /**
-     * The LeaderBoard for this Game.
-     */
-    private LeaderBoardFrontEnd leaderBoardFrontEnd;
-    /**
-     * Firebase Database reference pointing to the current user
-     */
-    private DatabaseReference mUserDatabase;
+//    /**
+//     * Refererence to the list of games database.
+//     */
+//    private DatabaseReference mGamesDatabase;
+//
+//    /**
+//     * Checks if data has been changed
+//     */
+//    private boolean dataChange;
+//
+//    /**
+//     * Name of the current user
+//     */
+//    private String currentUserName;
+//    /**
+//     * The LeaderBoard for this Game.
+//     */
+//    private LeaderBoardFrontEnd leaderBoardFrontEnd;
+//    /**
+//     * Firebase Database reference pointing to the current user
+//     */
+//    private DatabaseReference mUserDatabase;
+
+
 
 
     /**
@@ -137,18 +146,21 @@ public class GameActivity extends AppCompatActivity implements Observer {
         gridView.setAdapter(new CustomAdapter(tileButtons, columnWidth, columnHeight));
 
         //autosave
-        saveToFile(StartingActivity.SAVE_FILENAME);
-        saveToFile(StartingActivity.TEMP_SAVE_FILENAME);
+        controller.saveToFile(StartingActivity.SAVE_FILENAME,this);
+        controller.saveToFile(StartingActivity.TEMP_SAVE_FILENAME,this);
     }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        getUserDatabaseReference();
+        controller = new GameActivityController();
+        controller.getUserDatabaseReference("sliding_tiles");
 
 
-        loadFromFile(StartingActivity.TEMP_SAVE_FILENAME);
+
+
+        controller.loadFromFile(StartingActivity.TEMP_SAVE_FILENAME,this);
         int unn = MoveStack.NUM_UNDOS;
         System.out.println(unn);
         createTileButtons(this);
@@ -159,8 +171,8 @@ public class GameActivity extends AppCompatActivity implements Observer {
         // Add View to activity
         gridView = findViewById(R.id.grid);
         gridView.setNumColumns(Board.NUM_COLS);
-        gridView.setBoardManager(boardManager);
-        boardManager.getBoard().addObserver(this);
+        gridView.setBoardManager(controller.getSlidingtilesBoardManager());
+        controller.getSlidingtilesBoardManager().getBoard().addObserver(this);
 
         // Observer sets up desired dimensions as well as calls our display function
         gridView.getViewTreeObserver().addOnGlobalLayoutListener(
@@ -179,136 +191,43 @@ public class GameActivity extends AppCompatActivity implements Observer {
                     }
                 });
         textView = findViewById(R.id.UndoCounter);
-        textView.setText(boardManager.stack.getUndos());
+        textView.setText(controller.getSlidingtilesBoardManager().stack.getUndos());
         // Reads the score by id
         score = findViewById(R.id.score);
-        score.setText(String.valueOf(boardManager.getCurrGameScore()));
+        score.setText(String.valueOf(controller.getSlidingtilesBoardManager().getCurrGameScore()));
         LinearLayout rellayout = findViewById(R.id.main_activity);
         rellayout.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View view) {
-                score.setText(String.valueOf(boardManager.getCurrGameScore()));
+                score.setText(String.valueOf(controller.getSlidingtilesBoardManager().getCurrGameScore()));
             }
         });
         addUndoButtonListener();
+
+
         // saves score on database
-
-
-        leaderBoardFrontEnd = new LeaderBoardFrontEnd();
-        updateLeaderBoard();
-        System.out.println(currentUserName);
-        this.dataChange = false;
-
-
-        saveUserInformationOnDatabase();
-        saveScoreCountOnDataBase();
-        databaseScoreSave();
+        controller.updateLeaderBoard();
+        controller.saveUserInformationOnDatabase(score);
+        controller.saveScoreCountOnDataBase(score);
+        controller.databaseScoreSave();
 
     }
 
 
-    /*
-    Scoreboard code which reads scores as the game when the game ends
-     */
-
-    /**
-     * Save the score to the leaderboard when the game finishes.
-     */
-    private void databaseScoreSave() {
-        mGamesDatabase.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-
-                if (boardManager.isOver() && !dataChange) {
-                    leaderBoardFrontEnd.empty();
-                    System.out.println(currentUserName);
-                    leaderBoardFrontEnd.setmNameCurrentUser(currentUserName);
-                    leaderBoardFrontEnd.saveScoreToLeaderBoard(dataSnapshot, boardManager); // move to leaderboard front endTODO
-
-                    dataChange = true;
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-        });
-    }
-    /**
-     * Get database reference from the Firebase Database pointing to the current user
-     */
-    private void getUserDatabaseReference() {
-
-        // Firebase User Authorisation
-        FirebaseAuth mAuth = FirebaseAuth.getInstance();
-        String userID = Objects.requireNonNull(mAuth.getCurrentUser()).getUid();
-        mUserDatabase = FirebaseDatabase.getInstance().getReference().child("Users").child("userId").child(userID).child("sliding_tiles");
-        mGamesDatabase = FirebaseDatabase.getInstance().getReference().child("Users").child("Games");
-
-    }
-
-
-    /**
-     * Get Current User's Saved Information from the database to the application
-     */
-    private void updateLeaderBoard() {
-
-        getUserDatabaseReference();
-        mUserDatabase.getParent().addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                if (dataSnapshot.exists() && dataSnapshot.getChildrenCount() > 0) {
-                    Map<String, Object> map = (Map<String, Object>) dataSnapshot.getValue();
-                    assert map != null;
-                    if (map.get("Name") != null) {
-//                        String name = map.get("Name").toString();
-                        currentUserName = map.get("Name").toString();
-                    }
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-        });
-    }
-
-    /**
-     * Saves the Current User's settings to the database
-     */
-    private void saveUserInformationOnDatabase() {
-
-
-        String lastSavedScore = score.getText().toString();
-        String lastSavedUndoCount = textView.getText().toString();
-        Map<String, Object> userInfo = new HashMap<>();
-
-        userInfo.put("last_Saved_Score", lastSavedScore);
-        userInfo.put("last_saved_undo_count", lastSavedUndoCount);
-
-        mUserDatabase.updateChildren(userInfo);
-
-    }
-
-    /**
-     * Saves a counter variable to the database that firebase listens for score changing.
-     */
-    private void saveScoreCountOnDataBase() {
-
-        String lastSavedScore = score.getText().toString();
-        Map<String, Object> newMap = new HashMap<>();
-        newMap.put("last_Saved_Score", lastSavedScore);
-        mGamesDatabase.updateChildren(newMap);
-    }
 
 
 
-    /*
-    Saving functions
-     */
+
+
+
+
+
+
+
+
+
+
 
     /**
      * Dispatch onPause() to fragments.
@@ -316,59 +235,20 @@ public class GameActivity extends AppCompatActivity implements Observer {
     @Override
     protected void onPause() {
         super.onPause();
-        saveToFile(StartingActivity.TEMP_SAVE_FILENAME);
+        controller.saveToFile(StartingActivity.TEMP_SAVE_FILENAME,this);
 //        saveScoreToLeaderBoard(boardManager);
     }
 
-    /**
-     * Load the board manager from fileName.
-     *
-     * @param fileName the name of the file
-     */
-    private void loadFromFile(String fileName) {
 
-        //String dbFileName= downloadUserBoard(fileName);
 
-        try {
-            InputStream inputStream = this.openFileInput(fileName);
-            if (inputStream != null) {
-                ObjectInputStream input = new ObjectInputStream(inputStream);
-                boardManager = (BoardManager) input.readObject();
-                inputStream.close();
-            }
-        } catch (FileNotFoundException e) {
-            Log.e("login activity", "File not found: " + e.toString());
-        } catch (IOException e) {
-            Log.e("login activity", "Can not read file: " + e.toString());
-        } catch (ClassNotFoundException e) {
-            Log.e("login activity", "File contained unexpected data type: " + e.toString());
-        }
-    }
 
-    /**
-     * Save the board manager to fileName.
-     *
-     * @param fileName the name of the file
-     */
-    public void saveToFile(String fileName) {
-        try {
-            ObjectOutputStream outputStream = new ObjectOutputStream(
-                    this.openFileOutput(fileName, MODE_PRIVATE));
-            outputStream.writeObject(boardManager);
-            outputStream.close();
-        } catch (IOException e) {
-            Log.e("Exception", "File write failed: " + e.toString());
-        }
-        //uploadUserBoard(fileName);
-//        saveScoreToLeaderBoard(boardManager);
-    }
 
     @Override
     public void update(Observable o, Object arg) {
         display();
 //        saveScoreToLeaderBoard(boardManager);
-        saveScoreCountOnDataBase();
-        saveUserInformationOnDatabase();
+        controller.saveScoreCountOnDataBase(score);
+        controller.saveUserInformationOnDatabase(score);
     }
 
     /*
@@ -386,14 +266,14 @@ public class GameActivity extends AppCompatActivity implements Observer {
             @Override
             public void onClick(View v) {
                 Toast.makeText(getApplicationContext(), "UNDO BUTTON PRESSED", Toast.LENGTH_SHORT).show();
-                Board board = boardManager.getBoard();
-                if (boardManager.stack.canUndo()) {
-                    Integer[] lastMoves = boardManager.stack.remove();
+                Board board = controller.getSlidingtilesBoardManager().getBoard();
+                if (controller.getSlidingtilesBoardManager().stack.canUndo()) {
+                    Integer[] lastMoves = controller.getSlidingtilesBoardManager().stack.remove();
                     board.swapTiles(lastMoves[0], lastMoves[1], lastMoves[2], lastMoves[3]);
                     TextView textView = findViewById(R.id.UndoCounter);
 
-                    textView.setText(boardManager.stack.getUndos());
-                    boardManager.setScore(boardManager.getCurrGameScore() + 1);
+                    textView.setText(controller.getSlidingtilesBoardManager().stack.getUndos());
+                    controller.getSlidingtilesBoardManager().setScore(controller.getSlidingtilesBoardManager().getCurrGameScore() + 1);
 
                 }
 //                saveScoreToLeaderBoard(boardManager);
@@ -409,7 +289,7 @@ public class GameActivity extends AppCompatActivity implements Observer {
      * @param context the context
      */
     private void createTileButtons(Context context) {
-        Board board = boardManager.getBoard();
+        Board board = controller.getSlidingtilesBoardManager().getBoard();
         tileButtons = new ArrayList<>();
         for (int row = 0; row != Board.NUM_ROWS; row++) {
             for (int col = 0; col != Board.NUM_COLS; col++) {
@@ -424,7 +304,7 @@ public class GameActivity extends AppCompatActivity implements Observer {
      * Update the backgrounds on the buttons to match the tiles.
      */
     private void updateTileButtons() {
-        Board board = boardManager.getBoard();
+        Board board = controller.getSlidingtilesBoardManager().getBoard();
         int nextPos = 0;
         for (Button b : tileButtons) {
             int row = nextPos / Board.NUM_ROWS;
@@ -444,7 +324,7 @@ public class GameActivity extends AppCompatActivity implements Observer {
             nextPos++;
         }
         final TextView score = findViewById(R.id.score);
-        score.setText(String.valueOf(boardManager.getCurrGameScore()));
+        score.setText(String.valueOf(controller.getSlidingtilesBoardManager().getCurrGameScore()));
 //        saveScoreToLeaderBoard(boardManager);
     }
 

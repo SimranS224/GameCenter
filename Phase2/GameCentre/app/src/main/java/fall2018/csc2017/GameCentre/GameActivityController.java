@@ -1,9 +1,8 @@
-package fall2018.csc2017.GameCentre.Sequencer;
+package fall2018.csc2017.GameCentre;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.util.Log;
-import android.widget.Button;
 import android.widget.TextView;
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -18,27 +17,24 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 
 import fall2018.csc2017.GameCentre.ScoreBoard.ScoreBoardModelView.LeaderBoardFrontEnd;
-import fall2018.csc2017.GameCentre.R;
+import fall2018.csc2017.GameCentre.Sequencer.SequencerBoardManager;
+import fall2018.csc2017.GameCentre.Sequencer.SequencerStartingActivity;
+import fall2018.csc2017.GameCentre.SlidingTiles.BoardManager;
 
 import static android.content.Context.MODE_PRIVATE;
 
-public class SequencerController {
+public class GameActivityController {
 
     /**
-     * The board manager.
+     * The board manager
      */
-    SequencerBoardManager boardManager;
+    public Manager boardManager;
 
-    /**
-     * The buttons to update.
-     */
-    ArrayList<Button> tileButtons;
     /**
      * Refererence to the list of games database.
      */
@@ -61,11 +57,31 @@ public class SequencerController {
      * Firebase Database reference pointing to the current user
      */
     private DatabaseReference mUserDatabase;
+    public GameActivityController() {
+    }
+
+//    private void setBoardManagerType(Manager boardManager) {
+//        if (boardManager instanceof SequencerBoardManager){
+//            this.boardManager = sequencerBoardManager;
+//        }
+//        else if(boardManager instanceof BoardManager) {
+//            this.boardManager = slidingtilesBoardManager;
+//        }
+//    }
+    public SequencerBoardManager getSequencerBoardManager(){
+            return (SequencerBoardManager) this.boardManager;
+
+    }
+
+    public BoardManager getSlidingtilesBoardManager() {
+        return (BoardManager) this.boardManager;
+    }
+
 
     /**
      * Save the theScore to the leaderboard when the game finishes.
      */
-    void databaseScoreSave() {
+    public void databaseScoreSave() {
         mGamesDatabase.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -89,14 +105,12 @@ public class SequencerController {
     /**
      * Get database reference from the Firebase Database pointing to the current user
      */
-    void getUserDatabaseReference() {
-
+    public void getUserDatabaseReference(String gameName) {
         // Firebase User Authorisation
         FirebaseAuth mAuth = FirebaseAuth.getInstance();
         String userID = Objects.requireNonNull(mAuth.getCurrentUser()).getUid();
-        this.mUserDatabase = FirebaseDatabase.getInstance().getReference().child("Users").child("userId").child(userID).child("sequncer");
+        this.mUserDatabase = FirebaseDatabase.getInstance().getReference().child("Users").child("userId").child(userID).child(gameName);
         this.mGamesDatabase = FirebaseDatabase.getInstance().getReference().child("Users").child("Games");
-
     }
 
 
@@ -105,8 +119,7 @@ public class SequencerController {
      */
     public void updateLeaderBoard() {
 
-        getUserDatabaseReference();
-        this.mUserDatabase.getParent().addValueEventListener(new ValueEventListener() {
+        Objects.requireNonNull(this.mUserDatabase.getParent()).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 if (dataSnapshot.exists() && dataSnapshot.getChildrenCount() > 0) {
@@ -129,7 +142,7 @@ public class SequencerController {
     /**
      * Saves the Current User's settings to the database
      */
-    void saveUserInformationOnDatabase(TextView theScore) {
+    public void saveUserInformationOnDatabase(TextView theScore) {
 
 
         String lastSavedScore = theScore.getText().toString();
@@ -144,7 +157,7 @@ public class SequencerController {
     /**
      * Saves a counter variable to the database that firebase listens for theScore changing.
      */
-    void saveScoreCountOnDataBase(TextView theScore) {
+    public void saveScoreCountOnDataBase(TextView theScore) {
 
         String lastSavedScore = theScore.getText().toString();
         Map<String, Object> newMap = new HashMap<>();
@@ -155,27 +168,13 @@ public class SequencerController {
 
 
 
-    /**
-     * Create the buttons for displaying the tiles.
-     *
-     * @param context the context
-     */
-    void createTileButtons(Context context) {
-        tileButtons = new ArrayList<>();
-        for (int row = 0; row != SequencerBoardManager.NUM_ROWS; row++) {
-            for (int col = 0; col != SequencerBoardManager.NUM_COLS; col++) {
-                Button tmp = new Button(context);
-                tmp.setBackgroundResource(R.drawable.green);
-                this.tileButtons.add(tmp);
-            }
-        }
-    }
+
     /**
      * Load the board manager from fileName.
      *
      * @param fileName the name of the file
      */
-    void loadFromFile(String fileName, Context context) {
+    public void loadFromFile(String fileName, Context context) {
 
         //String dbFileName= downloadUserBoard(fileName);
 
@@ -183,7 +182,13 @@ public class SequencerController {
             InputStream inputStream = context.openFileInput(fileName);
             if (inputStream != null) {
                 ObjectInputStream input = new ObjectInputStream(inputStream);
-                boardManager = (SequencerBoardManager) input.readObject();
+                if(fileName.equals(SequencerStartingActivity.SAVE_FILENAME) || fileName.equals(SequencerStartingActivity.TEMP_SAVE_FILENAME)) {
+                    boardManager = (SequencerBoardManager) input.readObject();
+                }
+
+                else {
+                    boardManager = (BoardManager) input.readObject();
+                }
                 inputStream.close();
             }
         } catch (FileNotFoundException e) {
