@@ -8,7 +8,7 @@
                                         and his emulator didnt work )
 
 # Contributions:
-
+Jeffrey Chen: Worked on TicTacToe and made the sliding tiles board always solvable, unittests for TicTacToe, and Score
 
 # Communication tools used:
 - Trello - used to assign tasks and go over what needed to be added
