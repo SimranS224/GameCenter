@@ -80,7 +80,7 @@ public class SequencerBoardManager extends Observable implements Serializable, M
         return round;
     }
 
-    public void update(){
+    void update(){
         setChanged();
         notifyObservers();
     }
@@ -97,6 +97,10 @@ public class SequencerBoardManager extends Observable implements Serializable, M
         return gameOver;
     }
 
+    /**
+     * Name to identify which game this is
+     * @return Name of this game.
+     */
     @Override
     public String getSpecificName() {
         return "Sequencer";

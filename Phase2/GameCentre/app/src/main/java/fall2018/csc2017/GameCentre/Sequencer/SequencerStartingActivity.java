@@ -1,5 +1,6 @@
 package fall2018.csc2017.GameCentre.Sequencer;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.GradientDrawable;
@@ -33,7 +34,6 @@ import fall2018.csc2017.GameCentre.FirstActivity;
 import fall2018.csc2017.GameCentre.GameChoiceActivity;
 import fall2018.csc2017.GameCentre.R;
 import fall2018.csc2017.GameCentre.ScoreBoard.ScoreBoardModelView.swipeTest;
-import fall2018.csc2017.GameCentre.SlidingTiles.StartingActivity;
 
 /**
  * The initial activity for the sliding puzzle tile game.
@@ -323,6 +323,7 @@ public class SequencerStartingActivity extends AppCompatActivity {
 
         getUserDatabaseReference();
         mUserDatabase.addValueEventListener(new ValueEventListener() {
+            @SuppressLint("SetTextI18n")
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 if(dataSnapshot.exists() && dataSnapshot.getChildrenCount() >0) {
@@ -330,7 +331,7 @@ public class SequencerStartingActivity extends AppCompatActivity {
                     assert map != null;
                     if (map.get("Name")!=null) {
                             String name = map.get("Name").toString();
-                            mWelcomeText.setText("Welcome Back "+name);
+                            mWelcomeText.setText("Welcome Back " + name);
                     }
                 }
             }

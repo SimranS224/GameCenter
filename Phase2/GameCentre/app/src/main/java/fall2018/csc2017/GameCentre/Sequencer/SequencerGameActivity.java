@@ -153,6 +153,9 @@ public class SequencerGameActivity extends AppCompatActivity implements Observer
         update();
     }
 
+    /**
+     * Lights up the correct tile depending on the current position in the sequence.
+     */
     private void lightUp() {
         Animation anim = new AlphaAnimation(1.0f, 0.0f);
         anim.setDuration(1000); //You can manage the blinking time with this parameter
@@ -162,6 +165,10 @@ public class SequencerGameActivity extends AppCompatActivity implements Observer
         b.startAnimation(anim);
 
     }
+
+    /**
+     * Lights up all the tiles in the sequence in this round with a delay (one after another)
+     */
     private void Speak() {
         int round = controller.getSequencerBoardManager().getRound();
         Handler handler = new Handler();
