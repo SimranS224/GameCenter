@@ -29,7 +29,6 @@ import fall2018.csc2017.GameCentre.ScoreBoard.ScoreBoardController.UserScores;
  * changed in here.
  */
 public class swipeTest extends FragmentActivity {
-//    static final int num_list = 6; // TODO remove if needed
     /**
      * the swipe view apapter
      */
@@ -65,7 +64,7 @@ public class swipeTest extends FragmentActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.swipeview_test);
         mAdapter = new swipeViewAdapter(getSupportFragmentManager());
-        mPager = (ViewPager) findViewById(R.id.pager_test);
+        mPager = findViewById(R.id.pager_test);
         mPager.setAdapter(mAdapter);
         mAdapter.setContext(this);
         getDataBaseReference();
@@ -82,7 +81,7 @@ public class swipeTest extends FragmentActivity {
                         ArrayList<String> addedAlready = new ArrayList<>();
                         if (dataSnapshot.exists() && dataSnapshot.getChildrenCount() > 0) {
                             Map<String, ArrayList> map = (Map<String, ArrayList>) dataSnapshot.getValue();
-                            assert map != null;
+                            if (map == null) throw new AssertionError();
                             ArrayList<String> listGames = new ArrayList<>(Arrays.asList("SlidingTilesThree", "SlidingTilesFour", "SlidingTilesFive", "Sequencer", "TicTacToe"));
                             for (int i = 0; i < listGames.size(); i++) {
                                 String toCheck = listGames.get(i);
@@ -113,12 +112,6 @@ public class swipeTest extends FragmentActivity {
 
         };
         handler.post(update);
-
-    }
-
-    @Override
-    protected void onStart() {
-        super.onStart();
 
     }
 

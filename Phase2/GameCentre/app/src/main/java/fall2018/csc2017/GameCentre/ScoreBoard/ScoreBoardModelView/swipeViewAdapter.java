@@ -24,7 +24,7 @@ public class swipeViewAdapter extends FragmentStatePagerAdapter {
     private Context mContext;
     private String curUserName;
 
-    swipeViewAdapter(FragmentManager fragmentManager) { //TODO look into making these varibles final
+    swipeViewAdapter(FragmentManager fragmentManager) {
         super(fragmentManager);
         type[0] = "Now Displaying Global Rankings For Sliding Tiles";
         type[1] = "Now Displaying Your Best Score For Sliding Tiles";
@@ -36,11 +36,13 @@ public class swipeViewAdapter extends FragmentStatePagerAdapter {
         size[1] = "For 4x4:";
         size[2] = "For 5x5:";
         size[3] = ""; // for games where size doesnt matter.
-        scoreType[0] = "p";
-        scoreType[1] = "g";
+        scoreType[0] = "p"; // Personal highscores
+        scoreType[1] = "g"; // Global highscores
 
     }
-
+    /**
+     * The total number of pages to be shown in the swipeView.
+     */
     public int getCount() {
         return 10;
 
@@ -59,6 +61,12 @@ public class swipeViewAdapter extends FragmentStatePagerAdapter {
         String scoreViewType;
         Integer current;
 
+        // Position corresponds to which fragment we are currently on;
+        // ie: Position 1 is the first screen and so on; Each if branch
+        // changes the scoretype, which is either global or personal, the
+        // text to display at the top of the screen, and the current list
+        // to be displayed at the highscores, which is just an int corressponding
+        // to the position in the highscores list.
         if (position == 1) {
             curr_type = type[0];
             curr_size = size[0];
@@ -133,7 +141,7 @@ public class swipeViewAdapter extends FragmentStatePagerAdapter {
      *
      * @param contents the highscores of the games
      */
-    public void addToGameScoresList(ArrayList<UserScores> contents) {
+    void addToGameScoresList(ArrayList<UserScores> contents) {
         allScores = new ArrayList<>();
         allScores.addAll(contents);
 
