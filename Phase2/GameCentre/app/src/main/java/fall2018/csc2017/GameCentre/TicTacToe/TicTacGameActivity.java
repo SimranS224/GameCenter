@@ -121,7 +121,7 @@ public class TicTacGameActivity extends AppCompatActivity implements Observer {
 
 
         // Add View to activity
-        time.mTextViewCountDown = findViewById(R.id.text_count_Down);
+        Timer.mTextViewCountDown = findViewById(R.id.text_count_Down);
         gridView = findViewById(R.id.gridView);
         gridView.setBoardManager(controller.getTicTacBoardManager());
         gridView.setNumColumns(TicTacBoard.NUM_COLS);
@@ -141,8 +141,8 @@ public class TicTacGameActivity extends AppCompatActivity implements Observer {
                         columnHeight = displayHeight / TicTacBoard.NUM_ROWS;
 
                         display();
-                        time.resetTimer();
-                        time.startTimer();
+                        Timer.resetTimer();
+                        Timer.startTimer();
                     }
                 });
         moveCounter = controller.getTicTacBoardManager().getMoveCounter();
@@ -190,7 +190,7 @@ public class TicTacGameActivity extends AppCompatActivity implements Observer {
     @Override
     public void onBackPressed() {
         super.onBackPressed();
-        time.pauseTimer();
+        Timer.pauseTimer();
         this.finish();
 
     }
