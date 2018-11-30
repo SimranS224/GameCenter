@@ -12,6 +12,9 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertTrue;
 
+/**
+ * Class for testing methods in MinimaxStrategy
+ */
 public class TicTacMinimaxStrategyTest {
     TicTacBoardManager boardManager;
 

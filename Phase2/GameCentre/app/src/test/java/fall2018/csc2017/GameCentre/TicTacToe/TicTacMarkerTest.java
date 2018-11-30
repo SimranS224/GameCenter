@@ -7,6 +7,9 @@ import fall2018.csc2017.GameCentre.R;
 
 import static org.junit.Assert.*;
 
+/**
+ * class for testing the methods in the tictactoe markers
+ */
 public class TicTacMarkerTest {
     TicTacMarker marker;
 

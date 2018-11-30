@@ -7,6 +7,9 @@ import fall2018.csc2017.GameCentre.ScoreBoard.ScoreBoardController.Scores;
 
 import static org.junit.Assert.assertEquals;
 
+/**
+ * Class for testing methods in Scores
+ */
 public class ScoresTest {
     /**
      * A Score object used for testing.
