@@ -3,8 +3,14 @@ package fall2018.csc2017.GameCentre.TicTacToe;
 import java.util.ArrayList;
 import java.util.Random;
 
+/**
+ * Minimax strategy class for AI
+ */
 public class TicTacMinimaxStrategy extends TicTacStrategy {
 
+    /**
+     * a class for the the moves of the AI in minimax
+     */
     class Move {
         public int id;
         public int score;
@@ -21,21 +27,34 @@ public class TicTacMinimaxStrategy extends TicTacStrategy {
         }
     }
 
+    /**
+     * call super class Strategy
+     * @param depth
+     */
     public TicTacMinimaxStrategy(int depth) {
         super(depth);
     }
 
     //return the next position for movement
+
+    /**
+     * gets the next move for the AI player, uses recursion
+     * @param boardmanager looks at the board
+     * @param depth used to calculate next move
+     * @return the move for the ai
+     */
     public int getNextMovement(TicTacBoardManager boardmanager, int depth) {
         Move move = miniMax(boardmanager, boardmanager.getBoard().getCurrentPlayer(), 0);
         return move.id;
-
-        /*ArrayList<Integer> availableMoves = boardmanager.getValidMoves();
-        Random rand = new Random();
-        int n = rand.nextInt(availableMoves.size());
-        return availableMoves.get(n);*/
     }
 
+    /**
+     * calculates the best possible move for the get nextmovement
+     * @param boardManager looks at the board to see the valid moves
+     * @param current_player switches between players to see all the moves each player can make
+     * @param depth used to help calcualte the best move
+     * @return
+     */
     public Move miniMax(TicTacBoardManager boardManager, int current_player, int depth) {
 
         TicTacBoard board = new TicTacBoard(boardManager.getBoard());
@@ -172,6 +191,10 @@ public class TicTacMinimaxStrategy extends TicTacStrategy {
 
     }
 
+    /**
+     * returns if the strategy is valid
+     * @return true because random strategy is AI strategy
+     */
     @Override
     public boolean isValid() {
         return true;
