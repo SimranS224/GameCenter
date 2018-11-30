@@ -14,7 +14,7 @@ public class TicTacBoardTest {
     TicTacBoard board;
 
     /**
-     * set up an empty board and p1 is player 1 turnn
+     * set up an empty board and p1 is player 1 turn
      */
     @Before
     public void setUp(){
