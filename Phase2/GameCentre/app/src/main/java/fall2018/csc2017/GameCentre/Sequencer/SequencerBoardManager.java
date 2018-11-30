@@ -41,7 +41,7 @@ public class SequencerBoardManager extends Observable implements Serializable, M
     /**
      * Constructor
      */
-    SequencerBoardManager() {
+    public SequencerBoardManager() {
         this.sequence = new Sequence();
     }
 
@@ -79,6 +79,7 @@ public class SequencerBoardManager extends Observable implements Serializable, M
     int getRound() {
         return round;
     }
+
     public void update(){
         setChanged();
         notifyObservers();

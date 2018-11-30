@@ -173,6 +173,7 @@ public class GameActivity extends AppCompatActivity implements Observer {
         gridView.setNumColumns(Board.NUM_COLS);
         gridView.setBoardManager(controller.getSlidingtilesBoardManager());
         controller.getSlidingtilesBoardManager().getBoard().addObserver(this);
+        controller.getSlidingtilesBoardManager().addObserver(this);
 
         // Observer sets up desired dimensions as well as calls our display function
         gridView.getViewTreeObserver().addOnGlobalLayoutListener(
@@ -269,7 +270,7 @@ public class GameActivity extends AppCompatActivity implements Observer {
                 Board board = controller.getSlidingtilesBoardManager().getBoard();
                 if (controller.getSlidingtilesBoardManager().stack.canUndo()) {
                     Integer[] lastMoves = controller.getSlidingtilesBoardManager().stack.remove();
-                    board.swapTiles(lastMoves[0], lastMoves[1], lastMoves[2], lastMoves[3]);
+                    controller.getSlidingtilesBoardManager().swapTiles(lastMoves[0], lastMoves[1], lastMoves[2], lastMoves[3]);
                     TextView textView = findViewById(R.id.UndoCounter);
 
                     textView.setText(controller.getSlidingtilesBoardManager().stack.getUndos());
