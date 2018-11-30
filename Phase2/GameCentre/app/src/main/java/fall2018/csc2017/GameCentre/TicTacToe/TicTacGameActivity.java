@@ -29,16 +29,7 @@ import java.util.Observer;
 
 public class TicTacGameActivity extends AppCompatActivity implements Observer {
 
-    /**
-     * the start time in millis
-     */
-    private static final long START_TIME_IN_MILLIS = 100000;
-
-    private static TextView mTextViewCountDown;
-    private static CountDownTimer mCountDownTimer;
-    private static boolean mTimerRunning;
-
-    public static long mTimeLeftInMillis = START_TIME_IN_MILLIS;
+    public Timer time = new Timer();
     /**
      * The board manager.
      */
@@ -93,10 +84,6 @@ public class TicTacGameActivity extends AppCompatActivity implements Observer {
     public void display() {
         updateTileButtons();
         gridView.setAdapter(new TicTacCustomAdapter(markerButtons, columnWidth, columnHeight));
-
-        /*//autosave
-        saveToFile(StartingActivity.SAVE_FILENAME);
-        saveToFile(StartingActivity.TEMP_SAVE_FILENAME);*/
     }
 
     //@Override
@@ -140,9 +127,6 @@ public class TicTacGameActivity extends AppCompatActivity implements Observer {
             b.setBackgroundResource(board.getMarker(row, col).getBackground());
             nextPos++;
         }
-        //final TextView score = findViewById(R.id.score);
-        //score.setText(String.valueOf(boardManager.getCurrGameScore()));
-        //saveUserInformationOnDatabase();
 
     }
 
@@ -176,17 +160,12 @@ public class TicTacGameActivity extends AppCompatActivity implements Observer {
         }
 
         setContentView(R.layout.tictac_game_activity);
-        /*if (savedInstanceState == null) {
-            getSupportFragmentManager().beginTransaction()
-                    .replace(R.id.container, Con4GameFragment.newInstance())
-                    .commitNow();
-        }*/
 
         createTileButtons(this);
         // set to tictac_game_activity
         setContentView(R.layout.tictac_game_activity);
         // Add View to activity
-        mTextViewCountDown = findViewById(R.id.text_count_Down);
+        time.mTextViewCountDown = findViewById(R.id.text_count_Down);
         gridView = findViewById(R.id.gridView);
         gridView.setBoardManager(boardManager);
         gridView.setNumColumns(TicTacBoard.NUM_COLS);
@@ -206,18 +185,13 @@ public class TicTacGameActivity extends AppCompatActivity implements Observer {
                         columnHeight = displayHeight / TicTacBoard.NUM_ROWS;
 
                         display();
-                        resetTimer();
-                        startTimer();
+                        time.resetTimer();
+                        time.startTimer();
                     }
                 });
         moveCounter = boardManager.getMoveCounter();
         leaderBoardFrontEnd = new LeaderBoardFrontEnd();
         this.dataChange = false;
-//        getUserDatabaseReference();
-//        saveUserInformationOnDatabase();
-//        saveScoreCountOnDataBase();
-//        updateLeaderBoard();
-//        databaseScoreSave();
 
     }
 
@@ -278,7 +252,6 @@ public class TicTacGameActivity extends AppCompatActivity implements Observer {
                     Map<String, Object> map = (Map<String, Object>) dataSnapshot.getValue();
                     assert map != null;
                     if (map.get("Name") != null) {
-//                        String name = map.get("Name").toString();
                         currentUserName = map.get("Name").toString();
                     }
                 }
@@ -317,62 +290,16 @@ public class TicTacGameActivity extends AppCompatActivity implements Observer {
         mGamesDatabase.updateChildren(newMap);
     }
 
-
-    public static void startTimer() {
-        mCountDownTimer = new CountDownTimer(mTimeLeftInMillis, 1000) {
-            @Override
-            public void onTick(long millisUntilFinished) {
-                mTimeLeftInMillis = millisUntilFinished;
-                updateCountDownText();
-            }
-
-            @Override
-            public void onFinish() {
-                mTimerRunning = false;
-            }
-        }.start();
-        mTimerRunning = true;
-    }
-
-    public static void pauseTimer() {
-        mCountDownTimer.cancel();
-        mTimerRunning = false;
-    }
-
-    public static void resetTimer() {
-        mTimeLeftInMillis = START_TIME_IN_MILLIS;
-        updateCountDownText();
-    }
-
-    public static void updateCountDownText() {
-        int minutes = (int) (mTimeLeftInMillis / 1000) / 60;
-        int seconds = (int) (mTimeLeftInMillis / 1000) % 60;
-
-        String timeLeftFormatted = String.format(Locale.getDefault(), "%02d:%02d", minutes, seconds);
-        mTextViewCountDown.setText(timeLeftFormatted);
-    }
-
-    public static long getmTimeLeftInMillis() {
-        return mTimeLeftInMillis;
-    }
-
-    public static boolean getmTimerRunning() {
-        return mTimerRunning;
-    }
-
-
     /**
      * Adopted from https://stackoverflow.com/questions/4778754/how-do-i-kill-an-activity-when-the-back-button-is-pressed
      */
     @Override
     public void onBackPressed() {
         super.onBackPressed();
-        pauseTimer();
+        time.pauseTimer();
         this.finish();
 
     }
 
 
 }
-
-

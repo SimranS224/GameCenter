@@ -113,10 +113,7 @@ public class LeaderBoardController {
     public void setFromFireBaseList(ArrayList<Object> list) {
         for (int i = 0; i < list.size(); i++) {
             this.add(list.get(i));
-
         }
-
-
     }
 
     /**
