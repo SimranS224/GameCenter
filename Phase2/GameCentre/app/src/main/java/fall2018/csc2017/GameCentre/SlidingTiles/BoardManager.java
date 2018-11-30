@@ -29,7 +29,7 @@ public class BoardManager implements Serializable, Manager {
      *
      * @param board the board
      */
-    BoardManager(Board board) {
+    public BoardManager(Board board) {
         this.board = board;
         this.score = 0L;
         this.stack = new MoveStack();
