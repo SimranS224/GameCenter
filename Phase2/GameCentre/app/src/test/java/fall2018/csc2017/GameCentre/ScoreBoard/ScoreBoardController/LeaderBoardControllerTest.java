@@ -1,4 +1,4 @@
-package fall2018.csc2017.GameCentre;
+package fall2018.csc2017.GameCentre.ScoreBoard.ScoreBoardController;
 
 import org.junit.After;
 import org.junit.Before;
@@ -28,6 +28,10 @@ public class LeaderBoardControllerTest {
      * A sample testScore
      */
     private Scores testOne;
+    /**
+     * the UserScores object used for testing.
+     */
+    private Scores anotherOne;
 
     /**
      * Creates a LeaderBoardController and Score object instance.
@@ -35,8 +39,10 @@ public class LeaderBoardControllerTest {
     @Before
     public void setUp() {
         newOne = new LeaderBoardController();
+        newOne.setPlayerName("Frank");
         testOne = new Scores("Bob", "10");
-
+        anotherOne = new Scores("Bill", "5");
+        newOne.addWinningScore(5L);
 
     }
 
@@ -54,6 +60,7 @@ public class LeaderBoardControllerTest {
      */
     @Test
     public void testsetPlayerName() {
+        setUp();
         newOne.setPlayerName("TESTNAME");
         assertEquals("TESTNAME", newOne.getPLayerName());
     }
@@ -63,6 +70,7 @@ public class LeaderBoardControllerTest {
      */
     @Test
     public void testClear() {
+        setUp();
         testOne.setScore("4");
         testOne.setName("TESTNAME");
         newOne.add(testOne);
@@ -77,7 +85,8 @@ public class LeaderBoardControllerTest {
      */
     @Test
     public void testGetDataChange() {
-        newOne.setDataChange(false);
+        LeaderBoardController sample = new LeaderBoardController();
+        sample.setDataChange(false);
         assertFalse(newOne.getDataChange());
     }
 
@@ -86,6 +95,7 @@ public class LeaderBoardControllerTest {
      */
     @Test
     public void testSetDataChange() {
+        setUp();
         newOne.setDataChange(true);
         assertTrue(newOne.getDataChange());
     }
@@ -94,12 +104,13 @@ public class LeaderBoardControllerTest {
      * Tests to make sure LeaderBoardController adds a new Score to its local storager.
      */
     @Test
-    public void testAdd() {
+    public void testAddWinningScore() {
         tearDown();
         setUp();
         testOne.setScore("4");
         testOne.setName("TESTNAME");
         newOne.add(testOne);
+        newOne.addWinningScore(5L);
         assertFalse(newOne.isEmpty());
     }
 
@@ -119,6 +130,7 @@ public class LeaderBoardControllerTest {
      */
     @Test
     public void testGetName() {
+        setUp();
         SequencerBoardManager newBoard = new SequencerBoardManager();
         newOne.setBoard(newBoard);
         assertEquals("Sequencer", newOne.getName());
@@ -129,13 +141,12 @@ public class LeaderBoardControllerTest {
      */
     @Test
     public void testSetFromFireBaseList() {
-        UserScores listOfUserScores = new UserScores();
+        setUp();
         Scores theNewScore = new Scores("Jeff", "10");
-        listOfUserScores.add(theNewScore);
         ArrayList<Object> temp = new ArrayList<>();
-        temp.add(listOfUserScores);
+        temp.add(theNewScore);
         newOne.setFromFireBaseList(temp);
-        assertEquals(1, newOne.getWriteData().size());
+        assertEquals(2, newOne.getWriteData().size());
     }
 
     /**
@@ -143,9 +154,10 @@ public class LeaderBoardControllerTest {
      */
     @Test
     public void testGetWriteData() {
-        assertEquals(0, newOne.getWriteData().size());
-        newOne.add(testOne);
+        setUp();
         assertEquals(1, newOne.getWriteData().size());
+        newOne.add(anotherOne);
+        assertEquals(2, newOne.getWriteData().size());
 
     }
 
@@ -155,6 +167,7 @@ public class LeaderBoardControllerTest {
      */
     @Test
     public void testUpdateScores() {
+        setUp();
         SequencerBoardManager newBoard = new SequencerBoardManager();
         newOne.updateScores(newBoard);
         assertEquals(1, newOne.getWriteData().size());

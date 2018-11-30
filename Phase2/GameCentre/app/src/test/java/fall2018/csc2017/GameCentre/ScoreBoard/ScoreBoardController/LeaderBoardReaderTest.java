@@ -5,6 +5,9 @@ import org.junit.Test;
 
 import java.util.ArrayList;
 
+import fall2018.csc2017.GameCentre.ScoreBoard.ScoreBoardController.LeaderBoardReader;
+import fall2018.csc2017.GameCentre.ScoreBoard.ScoreBoardController.Scores;
+
 import static org.junit.Assert.*;
 
 /**

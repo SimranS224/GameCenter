@@ -1,4 +1,4 @@
-package fall2018.csc2017.GameCentre;
+package fall2018.csc2017.GameCentre.ScoreBoard.ScoreBoardController;
 
 import org.junit.After;
 import org.junit.Before;
