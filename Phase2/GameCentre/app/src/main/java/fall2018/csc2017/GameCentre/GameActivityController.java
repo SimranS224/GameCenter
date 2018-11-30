@@ -106,13 +106,11 @@ public class GameActivityController {
      * Get database reference from the Firebase Database pointing to the current user
      */
     public void getUserDatabaseReference(String gameName) {
-
         // Firebase User Authorisation
         FirebaseAuth mAuth = FirebaseAuth.getInstance();
         String userID = Objects.requireNonNull(mAuth.getCurrentUser()).getUid();
         this.mUserDatabase = FirebaseDatabase.getInstance().getReference().child("Users").child("userId").child(userID).child(gameName);
         this.mGamesDatabase = FirebaseDatabase.getInstance().getReference().child("Users").child("Games");
-
     }
 
 
