@@ -4,7 +4,8 @@
    - Marco Angeli, 905-617-4898 - git username: Marco Angeli
    - Abdullah Amin, 647-391-6749 - git username: Abdullah amin
    - Ryan Foster, 416-836-3422 - git username: fosterr6/ Singh Simran Partap (Some pushed were
-                                        pushed by Ryan logged onto Simran's account in the CSC labs)
+                                        pushed by Ryan logged onto Simran's account in the CSC labs since his login didnt work
+                                        and his emulator didnt work )
 
 # Contributions:
 
