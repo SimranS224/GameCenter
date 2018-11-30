@@ -1,7 +1,7 @@
 package fall2018.csc2017.GameCentre.TicTacToe;
 
 /*
-Model/ View Code 
+Model/ View Code
  */
 /*
 Taken from:

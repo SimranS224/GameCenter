@@ -24,7 +24,9 @@ import java.util.Map;
 import java.util.Objects;
 
 import fall2018.csc2017.GameCentre.R;
-
+/*
+Model/View Code.
+ */
 /**
  * The settings activity where the new game settings are configured
  */
@@ -82,8 +84,6 @@ public class SettingsActivity extends AppCompatActivity {
     private String requestedType;
 
 
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -135,7 +135,7 @@ public class SettingsActivity extends AppCompatActivity {
         mUndoSettings.check(R.id.limitedUndo);
         requestedUndoSettingId = mUndoSettings.getCheckedRadioButtonId();
         final RadioButton selectedRadioButton = findViewById(requestedUndoSettingId);
-        requestedUndoSetting= selectedRadioButton.getText().toString();
+        requestedUndoSetting = selectedRadioButton.getText().toString();
     }
 
     /**
@@ -146,8 +146,9 @@ public class SettingsActivity extends AppCompatActivity {
         mBoardSize.check(R.id.fourByFour);
         requestedBoardSizeId = mBoardSize.getCheckedRadioButtonId();
         final RadioButton selectedBoardSize = findViewById(requestedBoardSizeId);
-        requestedBoardSize= selectedBoardSize.getText().toString();
+        requestedBoardSize = selectedBoardSize.getText().toString();
     }
+
     private void addImageButtonListener() {
         mImage = findViewById(R.id.imageSettings);
         mImage.check(R.id.american_pie);
@@ -155,6 +156,7 @@ public class SettingsActivity extends AppCompatActivity {
         final RadioButton selectedImage = findViewById(requestedImageId);
         requestedImage = selectedImage.getText().toString();
     }
+
     private void addTypeButtonListener() {
         mType = findViewById(R.id.boardType);
         mType.check(R.id.numberTiles);
@@ -249,54 +251,54 @@ public class SettingsActivity extends AppCompatActivity {
         mUserDatabase.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                if(dataSnapshot.exists() && dataSnapshot.getChildrenCount() >0) {
-                    Map<String, Object> map = (Map<String,Object>) dataSnapshot.getValue();
+                if (dataSnapshot.exists() && dataSnapshot.getChildrenCount() > 0) {
+                    Map<String, Object> map = (Map<String, Object>) dataSnapshot.getValue();
                     assert map != null;
-                    if(map.get("undoSettings") !=null) {
+                    if (map.get("undoSettings") != null) {
                         requestedUndoSetting = map.get("undoSettings").toString();
-                        if(requestedUndoSetting.equals("3 Undo")) {
-                            requestedUndoSettingId= R.id.limitedUndo;
+                        if (requestedUndoSetting.equals("3 Undo")) {
+                            requestedUndoSettingId = R.id.limitedUndo;
                         }
-                        if(requestedUndoSetting.equals("Unlimited Undo")) {
-                            requestedUndoSettingId= R.id.unlimitedUndo;
+                        if (requestedUndoSetting.equals("Unlimited Undo")) {
+                            requestedUndoSettingId = R.id.unlimitedUndo;
                         }
                         mUndoSettings.check(requestedUndoSettingId);
                     }
 
-                    if(map.get("Board Size") !=null) {
+                    if (map.get("Board Size") != null) {
                         requestedBoardSize = map.get("Board Size").toString();
-                        if(requestedBoardSize.equals("3x3")) {
-                            requestedBoardSizeId= R.id.threeByThree;
+                        if (requestedBoardSize.equals("3x3")) {
+                            requestedBoardSizeId = R.id.threeByThree;
                         }
-                        if(requestedBoardSize.equals("4x4")) {
-                            requestedBoardSizeId= R.id.fourByFour;
+                        if (requestedBoardSize.equals("4x4")) {
+                            requestedBoardSizeId = R.id.fourByFour;
                         }
-                        if(requestedBoardSize.equals("5x5")) {
-                            requestedBoardSizeId= R.id.fiveByFive;
+                        if (requestedBoardSize.equals("5x5")) {
+                            requestedBoardSizeId = R.id.fiveByFive;
                         }
 
                         mBoardSize.check(requestedBoardSizeId);
                     }
-                    if (map.get("Board_Type") !=null) {
+                    if (map.get("Board_Type") != null) {
                         requestedType = map.get("Board_Type").toString();
-                        if(requestedType.equals("Number tiles")) {
+                        if (requestedType.equals("Number tiles")) {
                             requestedTypeId = R.id.numberTiles;
                         }
-                        if(requestedType.equals("Image tiles")) {
+                        if (requestedType.equals("Image tiles")) {
                             requestedTypeId = R.id.imageTiles;
                         }
 
                         mType.check(requestedTypeId);
                     }
-                    if ((map.get("requested_image"))!= null) {
+                    if ((map.get("requested_image")) != null) {
                         requestedImage = map.get("requested_image").toString();
-                        if(requestedImage.equals("American Pie")) {
+                        if (requestedImage.equals("American Pie")) {
                             requestedImageId = R.id.american_pie;
                         }
-                        if(requestedImage.equals("U of T")) {
+                        if (requestedImage.equals("U of T")) {
                             requestedImageId = R.id.uoft;
                         }
-                        if(requestedImage.equals("Flower")) {
+                        if (requestedImage.equals("Flower")) {
                             requestedImageId = R.id.flower;
                         }
                         mImage.check(requestedImageId);
@@ -324,12 +326,12 @@ public class SettingsActivity extends AppCompatActivity {
         //number of undos
         requestedUndoSettingId = mUndoSettings.getCheckedRadioButtonId();
         final RadioButton selectedRadioButton = findViewById(requestedUndoSettingId);
-        requestedUndoSetting= selectedRadioButton.getText().toString();
+        requestedUndoSetting = selectedRadioButton.getText().toString();
 
         //board size
         requestedBoardSizeId = mBoardSize.getCheckedRadioButtonId();
         final RadioButton selectedBoardSize = findViewById(requestedBoardSizeId);
-        requestedBoardSize= selectedBoardSize.getText().toString();
+        requestedBoardSize = selectedBoardSize.getText().toString();
 
 
         //board type
@@ -343,18 +345,17 @@ public class SettingsActivity extends AppCompatActivity {
         requestedImage = selectedImage.getText().toString();
 
 
-
         Map<String, Object> userInfo = new HashMap<>();
-        userInfo.put("undoSettings",requestedUndoSetting);
+        userInfo.put("undoSettings", requestedUndoSetting);
 
         //overwrite last saved undo count
-        userInfo.put("last_saved_undo_count",requestedUndoSetting);
+        userInfo.put("last_saved_undo_count", requestedUndoSetting);
 
         userInfo.put("Board Size", requestedBoardSize);
 
-        userInfo.put("Board_Type",requestedType);
+        userInfo.put("Board_Type", requestedType);
 
-        userInfo.put("requested_image",requestedImage);
+        userInfo.put("requested_image", requestedImage);
 
         mUserDatabase.updateChildren(userInfo);
     }
@@ -367,11 +368,8 @@ public class SettingsActivity extends AppCompatActivity {
 
         FirebaseAuth mAuth = FirebaseAuth.getInstance();
         String userID = Objects.requireNonNull(mAuth.getCurrentUser()).getUid();
-        mUserDatabase= FirebaseDatabase.getInstance().getReference().child("Users").child("userId").child(userID).child("sliding_tiles");
+        mUserDatabase = FirebaseDatabase.getInstance().getReference().child("Users").child("userId").child(userID).child("sliding_tiles");
     }
-
-
-
 
 
 }

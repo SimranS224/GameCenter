@@ -5,10 +5,8 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
-import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewTreeObserver;
 import android.widget.Button;
@@ -16,28 +14,16 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
-
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Objects;
+
 import java.util.Observable;
 import java.util.Observer;
 
 import fall2018.csc2017.GameCentre.GameActivityController;
-import fall2018.csc2017.GameCentre.ScoreBoard.ScoreBoardModelView.LeaderBoardFrontEnd;
 import fall2018.csc2017.GameCentre.R;
+/*
+ * Model/View Code since it creates the buttons and display for the game.
+ */
 
 /**
  * The game activity.
@@ -115,8 +101,8 @@ public class GameActivity extends AppCompatActivity implements Observer {
         gridView.setAdapter(new CustomAdapter(tileButtons, columnWidth, columnHeight));
 
         //autosave
-        controller.saveToFile(StartingActivity.SAVE_FILENAME,this);
-        controller.saveToFile(StartingActivity.TEMP_SAVE_FILENAME,this);
+        controller.saveToFile(StartingActivity.SAVE_FILENAME, this);
+        controller.saveToFile(StartingActivity.TEMP_SAVE_FILENAME, this);
     }
 
     @Override
@@ -127,9 +113,7 @@ public class GameActivity extends AppCompatActivity implements Observer {
         controller.getUserDatabaseReference("sliding_tiles");
 
 
-
-
-        controller.loadFromFile(StartingActivity.TEMP_SAVE_FILENAME,this);
+        controller.loadFromFile(StartingActivity.TEMP_SAVE_FILENAME, this);
         createTileButtons(this);
         setContentView(R.layout.activity_main);
         if (isImage()) {
@@ -183,25 +167,19 @@ public class GameActivity extends AppCompatActivity implements Observer {
     }
 
 
-
     /**
      * Dispatch onPause() to fragments.
      */
     @Override
     protected void onPause() {
         super.onPause();
-        controller.saveToFile(StartingActivity.TEMP_SAVE_FILENAME,this);
-//        saveScoreToLeaderBoard(boardManager);
+        controller.saveToFile(StartingActivity.TEMP_SAVE_FILENAME, this);
     }
-
-
-
 
 
     @Override
     public void update(Observable o, Object arg) {
         display();
-//        saveScoreToLeaderBoard(boardManager);
         controller.saveScoreCountOnDataBase(score);
         controller.saveUserInformationOnDatabase(score);
     }
@@ -221,7 +199,6 @@ public class GameActivity extends AppCompatActivity implements Observer {
             @Override
             public void onClick(View v) {
                 Toast.makeText(getApplicationContext(), "UNDO BUTTON PRESSED", Toast.LENGTH_SHORT).show();
-                Board board = controller.getSlidingtilesBoardManager().getBoard();
                 if (controller.getSlidingtilesBoardManager().stack.canUndo()) {
                     Integer[] lastMoves = controller.getSlidingtilesBoardManager().stack.remove();
                     controller.getSlidingtilesBoardManager().swapTiles(lastMoves[0], lastMoves[1], lastMoves[2], lastMoves[3]);
@@ -278,7 +255,6 @@ public class GameActivity extends AppCompatActivity implements Observer {
         }
         final TextView score = findViewById(R.id.score);
         score.setText(String.valueOf(controller.getSlidingtilesBoardManager().getCurrGameScore()));
-//        saveScoreToLeaderBoard(boardManager);
     }
 
 
