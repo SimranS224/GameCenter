@@ -36,6 +36,7 @@ import fall2018.csc2017.GameCentre.ScoreBoard.ScoreBoardModelView.swipeTest;
 /*
 Model/View Code
  */
+
 /**
  * The initial activity for the sliding puzzle tile game.
  */
@@ -79,8 +80,6 @@ public class StartingActivity extends AppCompatActivity {
     private int oldBoardSize;
 
 
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -90,7 +89,7 @@ public class StartingActivity extends AppCompatActivity {
 
         //every user has a different save file
         SAVE_FILENAME = userID + "save_file.ser";
-        TEMP_SAVE_FILENAME= userID + "save_file_tmp.ser";
+        TEMP_SAVE_FILENAME = userID + "save_file_tmp.ser";
 
         getUserInfoFromDatabase();
         slidingTilesBoardManager = new SlidingTilesBoardManager();
@@ -109,7 +108,6 @@ public class StartingActivity extends AppCompatActivity {
         switchToLeaderBoard();
 
 
-
         //getUserDatabaseReference();
 
         addLogoutButtonListener();
@@ -119,19 +117,19 @@ public class StartingActivity extends AppCompatActivity {
         mWelcomeText = findViewById(R.id.welcomeText);
         getUserInfoFromDatabase();
 
-       addBackgroundTapListener();
+        addBackgroundTapListener();
     }
 
     /**
      * Switch to the leaderboard view LeaderBoard
      */
-    private void switchToLeaderBoard(){
+    private void switchToLeaderBoard() {
 
         Button mLeaderBoard = findViewById(R.id.LeaderBoardButton);
         mLeaderBoard.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(StartingActivity.this,swipeTest.class);
+                Intent intent = new Intent(StartingActivity.this, swipeTest.class);
                 startActivity(intent);
             }
         });
@@ -146,7 +144,7 @@ public class StartingActivity extends AppCompatActivity {
         mMainMenuButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(StartingActivity.this,GameChoiceActivity.class);
+                Intent intent = new Intent(StartingActivity.this, GameChoiceActivity.class);
                 startActivity(intent);
                 finish();
             }
@@ -161,7 +159,7 @@ public class StartingActivity extends AppCompatActivity {
         startButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(StartingActivity.this,SettingsActivity.class);
+                Intent intent = new Intent(StartingActivity.this, SettingsActivity.class);
                 startActivity(intent);
 
             }
@@ -201,7 +199,7 @@ public class StartingActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 FirebaseAuth.getInstance().signOut();
-                Intent intent = new Intent(StartingActivity.this,FirstActivity.class);
+                Intent intent = new Intent(StartingActivity.this, FirstActivity.class);
                 startActivity(intent);
                 finish();
             }
@@ -283,7 +281,7 @@ public class StartingActivity extends AppCompatActivity {
     private void loadFromFile(String fileName) {
 
 
-           //String dbFileName =downloadUserBoard(fileName);
+        //String dbFileName =downloadUserBoard(fileName);
 
 
         try {
@@ -296,7 +294,7 @@ public class StartingActivity extends AppCompatActivity {
             }
 
 
-       } catch (FileNotFoundException e) {
+        } catch (FileNotFoundException e) {
             Log.e("login activity", "File not found: " + e.toString());
         } catch (IOException e) {
             Log.e("login activity", "Can not read file: " + e.toString());
@@ -321,8 +319,7 @@ public class StartingActivity extends AppCompatActivity {
         } catch (IOException e) {
             Log.e("Exception", "File write failed: " + e.toString());
         }
-      //  uploadUserBoard(fileName);
-
+        //  uploadUserBoard(fileName);
 
 
     }
@@ -336,10 +333,10 @@ public class StartingActivity extends AppCompatActivity {
         mUserDatabase.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                if(dataSnapshot.exists() && dataSnapshot.getChildrenCount() >0) {
-                    Map<String, Object> map = (Map<String,Object>) dataSnapshot.getValue();
+                if (dataSnapshot.exists() && dataSnapshot.getChildrenCount() > 0) {
+                    Map<String, Object> map = (Map<String, Object>) dataSnapshot.getValue();
                     assert map != null;
-                    if (map.get("SlidingTilesBoard Size")!=null) {
+                    if (map.get("SlidingTilesBoard Size") != null) {
                         String boardSize = map.get("SlidingTilesBoard Size").toString();
                         switch (boardSize) {
                             case "3x3":
@@ -357,7 +354,7 @@ public class StartingActivity extends AppCompatActivity {
                                 break;
                         }
                     }
-                    if (map.get("last_saved_undo_count")!=null) {
+                    if (map.get("last_saved_undo_count") != null) {
                         String lastSavedUndoCount = map.get("last_saved_undo_count").toString();
                         switch (lastSavedUndoCount) {
                             case "Undo uses left: 0":
@@ -378,17 +375,17 @@ public class StartingActivity extends AppCompatActivity {
                         }
 
                     }
-                    if (map.get("last_Saved_Score")!=null) {
+                    if (map.get("last_Saved_Score") != null) {
                         Long lastSavedScore = Long.parseLong(map.get("last_Saved_Score").toString());
                         slidingTilesBoardManager.setScore(lastSavedScore);
                     }
 
-                    if(map.get("Board_Type")!= null) {
+                    if (map.get("Board_Type") != null) {
                         String lastSavedBoardType = map.get("Board_Type").toString();
                         SlidingTilesBoard.setType(lastSavedBoardType);
 
                     }
-                    if(map.get("requested_image")!= null) {
+                    if (map.get("requested_image") != null) {
                         String lastSavedBoardImage = map.get("requested_image").toString();
                         SlidingTilesBoard.setIMAGE(lastSavedBoardImage);
                     }
@@ -404,7 +401,6 @@ public class StartingActivity extends AppCompatActivity {
         });
 
 
-
     }
 
     /**
@@ -416,12 +412,12 @@ public class StartingActivity extends AppCompatActivity {
         mUserDatabase.getParent().addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                if(dataSnapshot.exists() && dataSnapshot.getChildrenCount() >0) {
-                    Map<String, Object> map = (Map<String,Object>) dataSnapshot.getValue();
+                if (dataSnapshot.exists() && dataSnapshot.getChildrenCount() > 0) {
+                    Map<String, Object> map = (Map<String, Object>) dataSnapshot.getValue();
                     assert map != null;
-                    if (map.get("Name")!=null) {
+                    if (map.get("Name") != null) {
                         String name = map.get("Name").toString();
-                        mWelcomeText.setText("Welcome Back "+name);
+                        mWelcomeText.setText("Welcome Back " + name);
                     }
                 }
             }
@@ -440,7 +436,7 @@ public class StartingActivity extends AppCompatActivity {
 
         FirebaseAuth mAuth = FirebaseAuth.getInstance();
         userID = Objects.requireNonNull(mAuth.getCurrentUser()).getUid();
-        mUserDatabase= FirebaseDatabase.getInstance().getReference().child("Users").child("userId").child(userID).child("sliding_tiles");
+        mUserDatabase = FirebaseDatabase.getInstance().getReference().child("Users").child("userId").child(userID).child("sliding_tiles");
     }
 
 

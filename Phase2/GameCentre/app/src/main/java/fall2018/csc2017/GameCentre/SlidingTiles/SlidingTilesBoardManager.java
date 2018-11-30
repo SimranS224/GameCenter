@@ -175,7 +175,7 @@ public class SlidingTilesBoardManager extends Observable implements Serializable
                 break;
             }
         }
-        return solved || score == 2;
+        return solved;
     }
 
     /**
@@ -194,7 +194,6 @@ public class SlidingTilesBoardManager extends Observable implements Serializable
         Tile below = row == SlidingTilesBoard.NUM_ROWS - 1 ? null : slidingTilesBoard.getTile(row + 1, col);
         Tile left = col == 0 ? null : slidingTilesBoard.getTile(row, col - 1);
         Tile right = col == SlidingTilesBoard.NUM_COLS - 1 ? null : slidingTilesBoard.getTile(row, col + 1);
-        System.out.println(right.getId());
         return (below != null && below.getId() == blankId)
                 || (above != null && above.getId() == blankId)
                 || (left != null && left.getId() == blankId)
