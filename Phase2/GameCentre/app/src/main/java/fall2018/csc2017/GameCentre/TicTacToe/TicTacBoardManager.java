@@ -27,11 +27,6 @@ class TicTacBoardManager implements Serializable, Manager {
     private int game_position = -1;
 
     /**
-     * movement controller
-     */
-    private TicTacMovementController mController;
-
-    /**
      * strategy
      */
     private TicTacStrategy strategy;
@@ -48,7 +43,6 @@ class TicTacBoardManager implements Serializable, Manager {
      * The board being managed.
      */
     private TicTacBoard board;
-    private TicTacMoveStack stack;
 
     /**
      * Get timer
@@ -64,7 +58,6 @@ class TicTacBoardManager implements Serializable, Manager {
     public TicTacBoardManager(TicTacBoard board) {
         this.board = board;
         this.moveCounter = 0L;
-        this.stack = new TicTacMoveStack();
         this.game_position = -1;
     }
 
@@ -87,7 +80,6 @@ class TicTacBoardManager implements Serializable, Manager {
      */
     TicTacBoardManager(TicTacStrategy strategy) {
         this.strategy = strategy;
-        mController = new TicTacMovementController();
 
         List<TicTacMarker> ticTacMarkers = new ArrayList<>();
         for (int row = 0; row < TicTacBoard.NUM_ROWS; row++) {
@@ -95,10 +87,8 @@ class TicTacBoardManager implements Serializable, Manager {
                 ticTacMarkers.add(new TicTacMarker(row, col, 0));
             }
         }
-        // assume p1 always goes first
         this.board = new TicTacBoard(ticTacMarkers);
         this.moveCounter = 0L;
-        stack = new TicTacMoveStack();
     }
 
     /**
