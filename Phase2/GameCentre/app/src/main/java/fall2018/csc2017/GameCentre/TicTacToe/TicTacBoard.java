@@ -190,7 +190,7 @@ public class TicTacBoard extends Observable implements Serializable, Iterable<Ti
     }
 
     /**
-     * Get the size of the Board
+     * Get the size of the SlidingTilesBoard
      * @return the number of rows in the board
      */
     public int getBoardSize() {

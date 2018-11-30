@@ -49,7 +49,7 @@ public class SettingsActivity extends AppCompatActivity {
     /**
      * The board manager
      */
-    private BoardManager boardManager;
+    private SlidingTilesBoardManager slidingTilesBoardManager;
 
     /**
      * The options for the board size
@@ -118,7 +118,7 @@ public class SettingsActivity extends AppCompatActivity {
         try {
             ObjectOutputStream outputStream = new ObjectOutputStream(
                     this.openFileOutput(fileName, MODE_PRIVATE));
-            outputStream.writeObject(boardManager);
+            outputStream.writeObject(slidingTilesBoardManager);
             outputStream.close();
 
         } catch (IOException e) {
@@ -139,7 +139,7 @@ public class SettingsActivity extends AppCompatActivity {
     }
 
     /**
-     * Activate the Board Size Options Button
+     * Activate the SlidingTilesBoard Size Options Button
      */
     private void addBoardSizeButtonListener() {
         mBoardSize = findViewById(R.id.boardSize);
@@ -209,22 +209,22 @@ public class SettingsActivity extends AppCompatActivity {
 
         switch (requestedBoardSize) {
             case "3x3":
-                Board.setBoardSize(3);
+                SlidingTilesBoard.setBoardSize(3);
                 break;
             case "4x4":
-                Board.setBoardSize(4);
+                SlidingTilesBoard.setBoardSize(4);
                 break;
             case "5x5":
-                Board.setBoardSize(5);
+                SlidingTilesBoard.setBoardSize(5);
 
                 break;
         }
 
         // Sets the correct type of board
-        Board.setType(requestedType);
+        SlidingTilesBoard.setType(requestedType);
 
         // Sets the correct image
-        Board.setIMAGE(requestedImage);
+        SlidingTilesBoard.setIMAGE(requestedImage);
 
 
         startNewGame();
@@ -236,8 +236,8 @@ public class SettingsActivity extends AppCompatActivity {
      * Start a new game
      */
     private void startNewGame() {
-        boardManager = new BoardManager();
-        Intent tmp = new Intent(SettingsActivity.this, GameActivity.class);
+        slidingTilesBoardManager = new SlidingTilesBoardManager();
+        Intent tmp = new Intent(SettingsActivity.this, SlidingTilesGameActivity.class);
         saveToFile(StartingActivity.TEMP_SAVE_FILENAME);
         startActivity(tmp);
         finish();
@@ -265,8 +265,8 @@ public class SettingsActivity extends AppCompatActivity {
                         mUndoSettings.check(requestedUndoSettingId);
                     }
 
-                    if (map.get("Board Size") != null) {
-                        requestedBoardSize = map.get("Board Size").toString();
+                    if (map.get("SlidingTilesBoard Size") != null) {
+                        requestedBoardSize = map.get("SlidingTilesBoard Size").toString();
                         if (requestedBoardSize.equals("3x3")) {
                             requestedBoardSizeId = R.id.threeByThree;
                         }
@@ -351,7 +351,7 @@ public class SettingsActivity extends AppCompatActivity {
         //overwrite last saved undo count
         userInfo.put("last_saved_undo_count", requestedUndoSetting);
 
-        userInfo.put("Board Size", requestedBoardSize);
+        userInfo.put("SlidingTilesBoard Size", requestedBoardSize);
 
         userInfo.put("Board_Type", requestedType);
 

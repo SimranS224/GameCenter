@@ -15,18 +15,18 @@ class SlidingMovementController {
     /**
      * boardManger
      */
-    private BoardManager boardManager = null;
+    private SlidingTilesBoardManager slidingTilesBoardManager = null;
 
     SlidingMovementController() {
     }
 
     /**
-     * Sets a boardManager
+     * Sets a slidingTilesBoardManager
      *
-     * @param boardManager the boardManger to set to
+     * @param slidingTilesBoardManager the boardManger to set to
      */
-    void setBoardManager(BoardManager boardManager) {
-        this.boardManager = boardManager;
+    void setSlidingTilesBoardManager(SlidingTilesBoardManager slidingTilesBoardManager) {
+        this.slidingTilesBoardManager = slidingTilesBoardManager;
     }
 
     /**
@@ -36,9 +36,9 @@ class SlidingMovementController {
      * @param position the position
      */
     void processTapMovement(Context context, int position) {
-        if (boardManager.isValidTap(position)) {
-            boardManager.touchMove(position);
-            if (boardManager.isOver()) {
+        if (slidingTilesBoardManager.isValidTap(position)) {
+            slidingTilesBoardManager.touchMove(position);
+            if (slidingTilesBoardManager.isOver()) {
                 Toast.makeText(context, "YOU WIN!", Toast.LENGTH_SHORT).show();
             }
         } else {

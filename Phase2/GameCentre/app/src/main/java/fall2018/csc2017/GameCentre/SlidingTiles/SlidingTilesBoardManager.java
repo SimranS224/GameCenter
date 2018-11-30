@@ -10,9 +10,9 @@ import java.util.Observable;
 import fall2018.csc2017.GameCentre.Manager;
 
 /**
- * Manage a board, including swapping tiles, checking for a win, and managing taps.
+ * Manage a slidingTilesBoard, including swapping tiles, checking for a win, and managing taps.
  */
-public class BoardManager extends Observable implements Serializable, Manager {
+public class SlidingTilesBoardManager extends Observable implements Serializable, Manager {
 
     /**
      * score
@@ -20,36 +20,36 @@ public class BoardManager extends Observable implements Serializable, Manager {
     private Long score;
 
     /**
-     * The board being managed.
+     * The slidingTilesBoard being managed.
      */
-    private Board board;
+    private SlidingTilesBoard slidingTilesBoard;
     MoveStack stack;
 
     /**
-     * Manage a board that has been pre-populated.
+     * Manage a slidingTilesBoard that has been pre-populated.
      *
-     * @param board the board
+     * @param slidingTilesBoard the slidingTilesBoard
      */
-    BoardManager(Board board) {
-        this.board = board;
+    SlidingTilesBoardManager(SlidingTilesBoard slidingTilesBoard) {
+        this.slidingTilesBoard = slidingTilesBoard;
         this.score = 0L;
         this.stack = new MoveStack();
     }
 
     /**
-     * Return the current board.
+     * Return the current slidingTilesBoard.
      */
-    Board getBoard() {
-        return board;
+    SlidingTilesBoard getSlidingTilesBoard() {
+        return slidingTilesBoard;
     }
 
     /**
-     * Manage a new shuffled board.
+     * Manage a new shuffled slidingTilesBoard.
      */
-    BoardManager() {
+    SlidingTilesBoardManager() {
         List<Tile> tiles = new ArrayList<>();
 
-        final int numTiles = Board.NUM_COLS * Board.NUM_ROWS;
+        final int numTiles = SlidingTilesBoard.NUM_COLS * SlidingTilesBoard.NUM_ROWS;
         for (int tileNum = 0; tileNum != (numTiles - 1); tileNum++) {
             tiles.add(new Tile(tileNum));
         }
@@ -63,7 +63,7 @@ public class BoardManager extends Observable implements Serializable, Manager {
             solvable = checkPuzzleSolvable(tiles);
         }
 
-        this.board = new Board(tiles);
+        this.slidingTilesBoard = new SlidingTilesBoard(tiles);
         this.score = 0L;
         stack = new MoveStack();
     }
@@ -75,9 +75,9 @@ public class BoardManager extends Observable implements Serializable, Manager {
      */
     @Override
     public String getSpecificName() {
-        if (board.getBoardSize() == 3) {
+        if (slidingTilesBoard.getBoardSize() == 3) {
             return "SlidingTilesThree";
-        } else if (board.getBoardSize() == 4) {
+        } else if (slidingTilesBoard.getBoardSize() == 4) {
             return "SlidingTilesFour";
         } else {
             return "SlidingTilesFive";
@@ -85,7 +85,7 @@ public class BoardManager extends Observable implements Serializable, Manager {
     }
 
     /**
-     * An algorithm to see whether the board is solvable
+     * An algorithm to see whether the slidingTilesBoard is solvable
      *
      * @return boolean, True if solvable, False otherwise
      */
@@ -107,7 +107,7 @@ public class BoardManager extends Observable implements Serializable, Manager {
         }
         //check if number of rows is odd or even
         // If the grid width is odd, then the number of inversions in a solvable situation is even.
-        if (Board.getNumRows() % 2 != 0) {
+        if (SlidingTilesBoard.getNumRows() % 2 != 0) {
             if (inversions % 2 == 0) {
                 solvable = true;
             }
@@ -126,7 +126,7 @@ public class BoardManager extends Observable implements Serializable, Manager {
             }
 
             // get row position
-            int row_pos = position / Board.getNumCols();
+            int row_pos = position / SlidingTilesBoard.getNumCols();
             solvable = ((row_pos % 2 == 0) && (inversions % 2 != 0)) ||
                     ((row_pos % 2 != 0) && (inversions % 2 == 0));
         }
@@ -159,7 +159,7 @@ public class BoardManager extends Observable implements Serializable, Manager {
      */
     @Override
     public boolean isOver() {
-        Iterator<Tile> TileIterator = this.board.iterator();
+        Iterator<Tile> TileIterator = this.slidingTilesBoard.iterator();
         Tile past = TileIterator.next();
         boolean solved = true;
         while (true) {
@@ -186,14 +186,14 @@ public class BoardManager extends Observable implements Serializable, Manager {
      */
     boolean isValidTap(int position) {
 
-        int row = position / Board.NUM_COLS;
-        int col = position % Board.NUM_COLS;
+        int row = position / SlidingTilesBoard.NUM_COLS;
+        int col = position % SlidingTilesBoard.NUM_COLS;
         int blankId = 25;
         // Are any of the 4 the blank tile?
-        Tile above = row == 0 ? null : board.getTile(row - 1, col);
-        Tile below = row == Board.NUM_ROWS - 1 ? null : board.getTile(row + 1, col);
-        Tile left = col == 0 ? null : board.getTile(row, col - 1);
-        Tile right = col == Board.NUM_COLS - 1 ? null : board.getTile(row, col + 1);
+        Tile above = row == 0 ? null : slidingTilesBoard.getTile(row - 1, col);
+        Tile below = row == SlidingTilesBoard.NUM_ROWS - 1 ? null : slidingTilesBoard.getTile(row + 1, col);
+        Tile left = col == 0 ? null : slidingTilesBoard.getTile(row, col - 1);
+        Tile right = col == SlidingTilesBoard.NUM_COLS - 1 ? null : slidingTilesBoard.getTile(row, col + 1);
         System.out.println(right.getId());
         return (below != null && below.getId() == blankId)
                 || (above != null && above.getId() == blankId)
@@ -202,26 +202,26 @@ public class BoardManager extends Observable implements Serializable, Manager {
     }
 
     /**
-     * Process a touch at position in the board, swapping tiles as appropriate.
+     * Process a touch at position in the slidingTilesBoard, swapping tiles as appropriate.
      *
      * @param position the position
      */
     void touchMove(int position) {
 
-        int row = position / Board.NUM_ROWS;
-        int col = position % Board.NUM_COLS;
+        int row = position / SlidingTilesBoard.NUM_ROWS;
+        int col = position % SlidingTilesBoard.NUM_COLS;
         int blankId = 25;
 
         if (isValidTap(position)) {
 
             //get row and column of blank tile
             int blankPos = 0;
-            Iterator<Tile> iter = board.iterator();
+            Iterator<Tile> iter = slidingTilesBoard.iterator();
             while (iter.next().getId() != blankId) {
                 blankPos++;
             }
-            int blankRow = blankPos / Board.NUM_ROWS;
-            int blankCol = blankPos % Board.NUM_COLS;
+            int blankRow = blankPos / SlidingTilesBoard.NUM_ROWS;
+            int blankCol = blankPos % SlidingTilesBoard.NUM_COLS;
 
             //swap them
             swapTiles(row, col, blankRow, blankCol);
@@ -241,10 +241,10 @@ public class BoardManager extends Observable implements Serializable, Manager {
      * @param col2 the second tile col
      */
     void swapTiles(int row1, int col1, int row2, int col2) {
-        Tile tile1 = board.getTile(row1, col1); //to store original tile
-        Tile tile2 = board.getTile(row2, col2);
-        board.setTiles(tile1, row2, col2);
-        board.setTiles(tile2, row1, col1);
+        Tile tile1 = slidingTilesBoard.getTile(row1, col1); //to store original tile
+        Tile tile2 = slidingTilesBoard.getTile(row2, col2);
+        slidingTilesBoard.setTiles(tile1, row2, col2);
+        slidingTilesBoard.setTiles(tile2, row1, col1);
         setChanged();
         notifyObservers();
     }

@@ -1,6 +1,6 @@
 package fall2018.csc2017.GameCentre.Sequencer;
 
-import fall2018.csc2017.GameCentre.GameActivityController;
+import fall2018.csc2017.GameCentre.GameActivityModel;
 import fall2018.csc2017.GameCentre.SlidingTiles.CustomAdapter;
 import fall2018.csc2017.GameCentre.R;
 
@@ -43,7 +43,7 @@ public class SequencerGameActivity extends AppCompatActivity implements Observer
     /**
      * The controller of the game activity
      */
-    private GameActivityController controller;
+    private GameActivityModel controller;
 
 
     /**
@@ -87,7 +87,7 @@ public class SequencerGameActivity extends AppCompatActivity implements Observer
         super.onCreate(savedInstanceState);
 
 
-        controller = new GameActivityController();
+        controller = new GameActivityModel();
 
         controller.loadFromFile(SequencerStartingActivity.TEMP_SAVE_FILENAME, this);
 

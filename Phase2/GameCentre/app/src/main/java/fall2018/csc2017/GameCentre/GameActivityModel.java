@@ -24,9 +24,8 @@ import java.util.Objects;
 import fall2018.csc2017.GameCentre.ScoreBoard.ScoreBoardModelView.LeaderBoardFrontEnd;
 import fall2018.csc2017.GameCentre.Sequencer.SequencerBoardManager;
 import fall2018.csc2017.GameCentre.Sequencer.SequencerStartingActivity;
-import fall2018.csc2017.GameCentre.SlidingTiles.BoardManager;
+import fall2018.csc2017.GameCentre.SlidingTiles.SlidingTilesBoardManager;
 import fall2018.csc2017.GameCentre.SlidingTiles.StartingActivity;
-import fall2018.csc2017.GameCentre.TicTacToe.TicTacBoard;
 import fall2018.csc2017.GameCentre.TicTacToe.TicTacBoardManager;
 import fall2018.csc2017.GameCentre.TicTacToe.TicTacEmptyStrategy;
 import fall2018.csc2017.GameCentre.TicTacToe.TicTacMinimaxStrategy;
@@ -37,7 +36,7 @@ import static android.content.Context.MODE_PRIVATE;
 /**
  * Controls Game Activity for Sliding Tiles, TicTacToe and Sequencer
  */
-public class GameActivityController {
+public class GameActivityModel {
 
     /**
      * The board manager
@@ -73,9 +72,9 @@ public class GameActivityController {
 
 
     /**
-     * Creates a GameActivity Controller that controls each game activity
+     * Creates a SlidingTilesGameActivity Controller that controls each game activity
      */
-    public GameActivityController() { }
+    public GameActivityModel() { }
 
 
     /**
@@ -88,12 +87,12 @@ public class GameActivityController {
      * Get the board manager of Sliding Tiles
      * @return The sliding tiles board manager
      */
-    public BoardManager getSlidingtilesBoardManager() {
-        return (BoardManager) this.boardManager;
+    public SlidingTilesBoardManager getSlidingtilesBoardManager() {
+        return (SlidingTilesBoardManager) this.boardManager;
     }
 
     /**
-     * Get the board manager of TicTacToe Board Manager
+     * Get the board manager of TicTacToe SlidingTilesBoard Manager
      * @return The tictactoe board manager
      */
     public TicTacBoardManager getTicTacBoardManager() {
@@ -221,7 +220,7 @@ public class GameActivityController {
                 }
 
                 else if(fileName.equals(StartingActivity.SAVE_FILENAME) || fileName.equals(StartingActivity.TEMP_SAVE_FILENAME)) {
-                    boardManager = (BoardManager) input.readObject();
+                    boardManager = (SlidingTilesBoardManager) input.readObject();
                 }
 
                 inputStream.close();
@@ -254,7 +253,7 @@ public class GameActivityController {
     }
 
     /**
-     * Create a new Tic Tac Toe Board Manager
+     * Create a new Tic Tac Toe SlidingTilesBoard Manager
      */
     public void createTicTacBoardManager(String gameType) {
         if(gameType.equals("PlayerToPlayer")) {

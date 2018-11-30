@@ -56,7 +56,7 @@ public class StartingActivity extends AppCompatActivity {
     /**
      * The board manager.
      */
-    private BoardManager boardManager;
+    private SlidingTilesBoardManager slidingTilesBoardManager;
 
     /**
      * The Welcome Text
@@ -93,9 +93,9 @@ public class StartingActivity extends AppCompatActivity {
         TEMP_SAVE_FILENAME= userID + "save_file_tmp.ser";
 
         getUserInfoFromDatabase();
-        boardManager = new BoardManager();
+        slidingTilesBoardManager = new SlidingTilesBoardManager();
         getUserInfoFromDatabase();
-        String type1 = Board.getType();
+        String type1 = SlidingTilesBoard.getType();
         System.out.println(type1);
 
 
@@ -267,10 +267,10 @@ public class StartingActivity extends AppCompatActivity {
     }
 
     /**
-     * Switch to the GameActivity view to play the game.
+     * Switch to the SlidingTilesGameActivity view to play the game.
      */
     private void switchToGame() {
-        Intent tmp = new Intent(this, GameActivity.class);
+        Intent tmp = new Intent(this, SlidingTilesGameActivity.class);
         saveToFile(StartingActivity.TEMP_SAVE_FILENAME);
         startActivity(tmp);
     }
@@ -290,7 +290,7 @@ public class StartingActivity extends AppCompatActivity {
             InputStream inputStream = this.openFileInput(fileName);
             if (inputStream != null) {
                 ObjectInputStream input = new ObjectInputStream(inputStream);
-                boardManager = (BoardManager) input.readObject();
+                slidingTilesBoardManager = (SlidingTilesBoardManager) input.readObject();
 
                 inputStream.close();
             }
@@ -315,7 +315,7 @@ public class StartingActivity extends AppCompatActivity {
         try {
             ObjectOutputStream outputStream = new ObjectOutputStream(
                     this.openFileOutput(fileName, MODE_PRIVATE));
-            outputStream.writeObject(boardManager);
+            outputStream.writeObject(slidingTilesBoardManager);
             outputStream.close();
 
         } catch (IOException e) {
@@ -339,21 +339,21 @@ public class StartingActivity extends AppCompatActivity {
                 if(dataSnapshot.exists() && dataSnapshot.getChildrenCount() >0) {
                     Map<String, Object> map = (Map<String,Object>) dataSnapshot.getValue();
                     assert map != null;
-                    if (map.get("Board Size")!=null) {
-                        String boardSize = map.get("Board Size").toString();
+                    if (map.get("SlidingTilesBoard Size")!=null) {
+                        String boardSize = map.get("SlidingTilesBoard Size").toString();
                         switch (boardSize) {
                             case "3x3":
                                 oldBoardSize = 3;
-                                Board.setBoardSize(oldBoardSize);
+                                SlidingTilesBoard.setBoardSize(oldBoardSize);
                                 break;
                             case "4x4":
                                 oldBoardSize = 4;
-                                Board.setBoardSize(oldBoardSize);
+                                SlidingTilesBoard.setBoardSize(oldBoardSize);
 
                                 break;
                             case "5x5":
                                 oldBoardSize = 5;
-                                Board.setBoardSize(oldBoardSize);
+                                SlidingTilesBoard.setBoardSize(oldBoardSize);
                                 break;
                         }
                     }
@@ -380,17 +380,17 @@ public class StartingActivity extends AppCompatActivity {
                     }
                     if (map.get("last_Saved_Score")!=null) {
                         Long lastSavedScore = Long.parseLong(map.get("last_Saved_Score").toString());
-                        boardManager.setScore(lastSavedScore);
+                        slidingTilesBoardManager.setScore(lastSavedScore);
                     }
 
                     if(map.get("Board_Type")!= null) {
                         String lastSavedBoardType = map.get("Board_Type").toString();
-                        Board.setType(lastSavedBoardType);
+                        SlidingTilesBoard.setType(lastSavedBoardType);
 
                     }
                     if(map.get("requested_image")!= null) {
                         String lastSavedBoardImage = map.get("requested_image").toString();
-                        Board.setIMAGE(lastSavedBoardImage);
+                        SlidingTilesBoard.setIMAGE(lastSavedBoardImage);
                     }
 
 

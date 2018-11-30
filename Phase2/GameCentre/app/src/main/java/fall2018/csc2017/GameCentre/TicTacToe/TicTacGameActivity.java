@@ -5,7 +5,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.ViewTreeObserver;
 import android.widget.Button;
-import fall2018.csc2017.GameCentre.GameActivityController;
+import fall2018.csc2017.GameCentre.GameActivityModel;
 import fall2018.csc2017.GameCentre.R;
 import java.util.ArrayList;
 import java.util.Observable;
@@ -29,7 +29,7 @@ public class TicTacGameActivity extends AppCompatActivity implements Observer {
     /**
      * The controller of the game activity
      */
-    private GameActivityController controller;
+    private GameActivityModel controller;
 
 
     /**
@@ -112,7 +112,7 @@ public class TicTacGameActivity extends AppCompatActivity implements Observer {
 
         Bundle b = getIntent().getExtras();
 
-        controller = new GameActivityController();
+        controller = new GameActivityModel();
         controller.getUserDatabaseReference("tic_tac_toe");
 
 

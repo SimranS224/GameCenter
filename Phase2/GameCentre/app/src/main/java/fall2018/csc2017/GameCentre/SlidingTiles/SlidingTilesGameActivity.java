@@ -19,7 +19,7 @@ import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Observer;
 
-import fall2018.csc2017.GameCentre.GameActivityController;
+import fall2018.csc2017.GameCentre.GameActivityModel;
 import fall2018.csc2017.GameCentre.R;
 /*
  * Model/View Code since it creates the buttons and display for the game.
@@ -28,7 +28,7 @@ import fall2018.csc2017.GameCentre.R;
 /**
  * The game activity.
  */
-public class GameActivity extends AppCompatActivity implements Observer {
+public class SlidingTilesGameActivity extends AppCompatActivity implements Observer {
 
     /**
      * The Score of the User's Current Game
@@ -64,27 +64,27 @@ public class GameActivity extends AppCompatActivity implements Observer {
     /**
      * The controller of the game activity
      */
-    private GameActivityController controller;
+    private GameActivityModel controller;
 
 
     /**
-     * Checks the type the Board class is set as.
+     * Checks the type the SlidingTilesBoard class is set as.
      *
-     * @return whether the Board type is set to Image Tile
+     * @return whether the SlidingTilesBoard type is set to Image Tile
      */
     private boolean isImage() {
-        return Board.getType().equals("Image tiles");
+        return SlidingTilesBoard.getType().equals("Image tiles");
     }
 
     /**
-     * Gets the image depending on what is set up in Board.
+     * Gets the image depending on what is set up in SlidingTilesBoard.
      *
      * @return A bitmap of the image selected.
      */
     private Bitmap getImage() {
-        if (Board.getIMAGE().equals("American Pie")) {
+        if (SlidingTilesBoard.getIMAGE().equals("American Pie")) {
             return BitmapFactory.decodeResource(getResources(), R.drawable.american_pie);
-        } else if (Board.getIMAGE().equals("U of T")) {
+        } else if (SlidingTilesBoard.getIMAGE().equals("U of T")) {
             return BitmapFactory.decodeResource(getResources(), R.drawable.uoft);
         }
         return BitmapFactory.decodeResource(getResources(), R.drawable.flower);
@@ -109,7 +109,7 @@ public class GameActivity extends AppCompatActivity implements Observer {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        controller = new GameActivityController();
+        controller = new GameActivityModel();
         controller.getUserDatabaseReference("sliding_tiles");
 
 
@@ -121,9 +121,9 @@ public class GameActivity extends AppCompatActivity implements Observer {
         }
         // Add View to activity
         gridView = findViewById(R.id.grid);
-        gridView.setNumColumns(Board.NUM_COLS);
-        gridView.setBoardManager(controller.getSlidingtilesBoardManager());
-        controller.getSlidingtilesBoardManager().getBoard().addObserver(this);
+        gridView.setNumColumns(SlidingTilesBoard.NUM_COLS);
+        gridView.setSlidingTilesBoardManager(controller.getSlidingtilesBoardManager());
+        controller.getSlidingtilesBoardManager().getSlidingTilesBoard().addObserver(this);
         controller.getSlidingtilesBoardManager().addObserver(this);
 
         // Observer sets up desired dimensions as well as calls our display function
@@ -136,8 +136,8 @@ public class GameActivity extends AppCompatActivity implements Observer {
                         int displayWidth = gridView.getMeasuredWidth();
                         int displayHeight = gridView.getMeasuredHeight();
 
-                        columnWidth = displayWidth / Board.NUM_COLS;
-                        columnHeight = displayHeight / Board.NUM_ROWS;
+                        columnWidth = displayWidth / SlidingTilesBoard.NUM_COLS;
+                        columnHeight = displayHeight / SlidingTilesBoard.NUM_ROWS;
 
                         display();
                     }
@@ -219,12 +219,12 @@ public class GameActivity extends AppCompatActivity implements Observer {
      * @param context the context
      */
     private void createTileButtons(Context context) {
-        Board board = controller.getSlidingtilesBoardManager().getBoard();
+        SlidingTilesBoard slidingTilesBoard = controller.getSlidingtilesBoardManager().getSlidingTilesBoard();
         tileButtons = new ArrayList<>();
-        for (int row = 0; row != Board.NUM_ROWS; row++) {
-            for (int col = 0; col != Board.NUM_COLS; col++) {
+        for (int row = 0; row != SlidingTilesBoard.NUM_ROWS; row++) {
+            for (int col = 0; col != SlidingTilesBoard.NUM_COLS; col++) {
                 Button tmp = new Button(context);
-                tmp.setBackgroundResource(board.getTile(row, col).getBackground());
+                tmp.setBackgroundResource(slidingTilesBoard.getTile(row, col).getBackground());
                 this.tileButtons.add(tmp);
             }
         }
@@ -234,21 +234,21 @@ public class GameActivity extends AppCompatActivity implements Observer {
      * Update the backgrounds on the buttons to match the tiles.
      */
     private void updateTileButtons() {
-        Board board = controller.getSlidingtilesBoardManager().getBoard();
+        SlidingTilesBoard slidingTilesBoard = controller.getSlidingtilesBoardManager().getSlidingTilesBoard();
         int nextPos = 0;
         for (Button b : tileButtons) {
-            int row = nextPos / Board.NUM_ROWS;
-            int col = nextPos % Board.NUM_COLS;
+            int row = nextPos / SlidingTilesBoard.NUM_ROWS;
+            int col = nextPos % SlidingTilesBoard.NUM_COLS;
             if (isImage()) {
-                int i = board.getTile(row, col).getId() - 1;
+                int i = slidingTilesBoard.getTile(row, col).getId() - 1;
                 if (i == 24 || i >= chunckedImages.size()) {
-                    b.setBackgroundResource(board.getTile(row, col).getBackground());
+                    b.setBackgroundResource(slidingTilesBoard.getTile(row, col).getBackground());
                 } else {
                     Drawable d = new BitmapDrawable(getResources(), chunckedImages.get(i));
                     b.setBackground(d);
                 }
             } else {
-                b.setBackgroundResource(board.getTile(row, col).getBackground());
+                b.setBackgroundResource(slidingTilesBoard.getTile(row, col).getBackground());
             }
 
             nextPos++;
@@ -273,7 +273,7 @@ public class GameActivity extends AppCompatActivity implements Observer {
 
         //For height and width of the small image chunks
         int chunkHeight, chunkWidth;
-        int chunkNumbers = Board.NUM_COLS * Board.NUM_ROWS;
+        int chunkNumbers = SlidingTilesBoard.NUM_COLS * SlidingTilesBoard.NUM_ROWS;
 
         //To store all the small image chunks in bitmap format in this list
         ArrayList<Bitmap> chunkedImages = new ArrayList<>(chunkNumbers);

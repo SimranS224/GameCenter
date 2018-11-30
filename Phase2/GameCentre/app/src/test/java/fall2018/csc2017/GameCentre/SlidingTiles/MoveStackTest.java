@@ -1,6 +1,5 @@
 package fall2018.csc2017.GameCentre.SlidingTiles;
 
-import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -11,7 +10,7 @@ public class MoveStackTest {
 
     @Before
     public void setUp() {
-        Board.setBoardSize(4);
+        SlidingTilesBoard.setBoardSize(4);
         MoveStack.setNumUndos(3);
         moveStack = new MoveStack();
     }

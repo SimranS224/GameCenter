@@ -13,7 +13,7 @@ import java.util.List;
  * The sliding tiles board .
  * Implements Serializable and Iterable<Tile> Interface
  */
-public class Board extends Observable implements Serializable, Iterable<Tile> {
+public class SlidingTilesBoard extends Observable implements Serializable, Iterable<Tile> {
 
     /**
      * The number of rows.
@@ -44,12 +44,12 @@ public class Board extends Observable implements Serializable, Iterable<Tile> {
      *
      * @param tiles the tiles for the board
      */
-    Board(List<Tile> tiles) {
+    SlidingTilesBoard(List<Tile> tiles) {
 
         Iterator<Tile> iter = tiles.iterator();
 
-        for (int row = 0; row != Board.NUM_ROWS; row++) {
-            for (int col = 0; col != Board.NUM_COLS; col++) {
+        for (int row = 0; row != SlidingTilesBoard.NUM_ROWS; row++) {
+            for (int col = 0; col != SlidingTilesBoard.NUM_COLS; col++) {
                 this.tiles[row][col] = iter.next();
             }
         }
@@ -73,7 +73,7 @@ public class Board extends Observable implements Serializable, Iterable<Tile> {
      * @return the number of rows of the board
      */
     static int getNumRows() {
-        return Board.NUM_ROWS;
+        return SlidingTilesBoard.NUM_ROWS;
     }
 
     /**
@@ -82,7 +82,7 @@ public class Board extends Observable implements Serializable, Iterable<Tile> {
      * @return the number of cols of the board
      */
     static int getNumCols() {
-        return Board.NUM_COLS;
+        return SlidingTilesBoard.NUM_COLS;
     }
 
     /**
@@ -132,7 +132,7 @@ public class Board extends Observable implements Serializable, Iterable<Tile> {
     }
 
     /**
-     * Get the size of the Board
+     * Get the size of the SlidingTilesBoard
      *
      * @return the number of rows in the board
      */
@@ -142,7 +142,7 @@ public class Board extends Observable implements Serializable, Iterable<Tile> {
 
     @Override
     public String toString() {
-        return "Board{" +
+        return "SlidingTilesBoard{" +
                 "tiles=" + Arrays.toString(tiles) +
                 '}';
     }

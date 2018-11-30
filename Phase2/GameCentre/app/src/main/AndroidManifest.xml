@@ -22,7 +22,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".SlidingTiles.GameActivity" />
+        <activity android:name=".SlidingTiles.SlidingTilesGameActivity" />
         <activity android:name=".ScoreBoard.ScoreBoardModelView.swipeTest"/>
         <activity android:name=".SlidingTiles.StartingActivity" />
         <activity android:name=".LoginActivityMain" />

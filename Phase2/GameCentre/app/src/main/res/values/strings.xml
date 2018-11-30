@@ -12,7 +12,7 @@
     <string name="welcome_to_sliding_tiles_n_a_puzzle_game_where_you_must_arrange_the_numbers_in_the_correct_order">Welcome To Sliding Tiles   A Puzzle Game where you must arrange the numbers in the correct order</string>
     <string name="choose_the_number_of_undos">Choose the Number of Undos</string>
     <string name="unlimited">Unlimited</string>
-    <string name="choose_your_board_size">Choose your board size</string>
+    <string name="choose_your_board_size">Choose your slidingTilesBoard size</string>
     <string name="choose_the_type_of_tiles">Choose the type of tiles</string>
     <string name="number_tiles">Number tiles</string>
     <string name="image_tiles">Image tiles</string>
