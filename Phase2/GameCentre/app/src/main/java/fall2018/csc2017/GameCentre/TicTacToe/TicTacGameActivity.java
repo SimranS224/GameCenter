@@ -11,6 +11,14 @@ import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Observer;
 
+/**
+ * MODEL/VIEW - did not test because tests would be for MODEL/VIEW, which did not need to be implemented
+ */
+
+/**
+ * Gameactivity class
+ */
+
 public class TicTacGameActivity extends AppCompatActivity implements Observer {
 
     /**

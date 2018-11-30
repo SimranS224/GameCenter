@@ -10,6 +10,10 @@ https://github.com/DaveNOTDavid/sample-puzzle/blob/master/app/src/main/java/com/
 This extension of GridView contains built in logic for handling swipes between buttons
  */
 
+/**
+ * MODEL/VIEW - did not test because tests would be for MODEL/VIEW, which did not need to be implemented
+ */
+
 import android.annotation.TargetApi;
 import android.content.Context;
 import android.os.Build;
@@ -18,6 +22,9 @@ import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.widget.GridView;
 
+/**
+ * Gridview class for Tic Tac Toe board
+ */
 public class TicTacGridView extends GridView {
     public static final int SWIPE_MIN_DISTANCE = 100;
     public static final int SWIPE_MAX_OFF_PATH = 100;

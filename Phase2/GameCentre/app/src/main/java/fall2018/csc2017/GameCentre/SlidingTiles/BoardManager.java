@@ -48,8 +48,9 @@ public class BoardManager extends Observable implements Serializable, Manager {
      */
     BoardManager() {
         List<Tile> tiles = new ArrayList<>();
-        final int numTiles = Board.getNumCols() * Board.getNumRows();
-        for (int tileNum = 0; tileNum != (numTiles-1); tileNum++) {
+
+        final int numTiles = Board.NUM_COLS * Board.NUM_ROWS;
+        for (int tileNum = 0; tileNum != (numTiles - 1); tileNum++) {
             tiles.add(new Tile(tileNum));
         }
         tiles.add(new Tile(24));
@@ -69,32 +70,34 @@ public class BoardManager extends Observable implements Serializable, Manager {
 
     /**
      * Return the name corresponding to the size.
+     *
      * @return the name corresponding to the size
      */
     @Override
-    public String getSpecificName(){
-        if (board.getBoardSize() == 3){
+    public String getSpecificName() {
+        if (board.getBoardSize() == 3) {
             return "SlidingTilesThree";
-        }else if (board.getBoardSize() == 4) {
+        } else if (board.getBoardSize() == 4) {
             return "SlidingTilesFour";
-        }else {
+        } else {
             return "SlidingTilesFive";
         }
     }
 
     /**
      * An algorithm to see whether the board is solvable
+     *
      * @return boolean, True if solvable, False otherwise
      */
-    public boolean checkPuzzleSolvable(List<Tile> tiles) {
+    boolean checkPuzzleSolvable(List<Tile> tiles) {
         // calculate number of inversions
         int inversions = 0;
         boolean solvable = false;
-        for (int i = 0; i != tiles.size() - 1; i++){
+        for (int i = 0; i != tiles.size() - 1; i++) {
             //get the ith iteration of the from the tiles list
             //use it as a reference
 
-            for(int j = i + 1; j < tiles.size() ; j++) {
+            for (int j = i + 1; j < tiles.size(); j++) {
                 //check whether the ith iteration from tiles list is
                 // greater than jth iteration from tiles list
                 if ((tiles.get(i).getId() > tiles.get(j).getId()) && (tiles.get(j).getId() != 25)
@@ -104,19 +107,18 @@ public class BoardManager extends Observable implements Serializable, Manager {
         }
         //check if number of rows is odd or even
         // If the grid width is odd, then the number of inversions in a solvable situation is even.
-        if (this.getBoard().getNumRows() % 2 != 0) {
+        if (Board.getNumRows() % 2 != 0) {
             if (inversions % 2 == 0) {
                 solvable = true;
             }
-        }
-        else {
+        } else {
             // the number of rows is even
             // If the grid width is even, and the blank is on an odd row counting from the bottom
             // (first, third-last etc), then the number of inversions in a solvable situation
             // is odd
             // check row position of blank tile
             int position = 0;
-            for (int i = 0; i < tiles.size(); i++){
+            for (int i = 0; i < tiles.size(); i++) {
                 if (tiles.get(i).getId() == 25) {
                     position = i;
                     break;
@@ -124,7 +126,7 @@ public class BoardManager extends Observable implements Serializable, Manager {
             }
 
             // get row position
-            int row_pos = position / this.getBoard().getNumCols();
+            int row_pos = position / Board.getNumCols();
             solvable = ((row_pos % 2 == 0) && (inversions % 2 != 0)) ||
                     ((row_pos % 2 != 0) && (inversions % 2 == 0));
         }
@@ -133,6 +135,7 @@ public class BoardManager extends Observable implements Serializable, Manager {
 
     /**
      * A getter for the score
+     *
      * @return the score
      */
     @Override
@@ -142,6 +145,7 @@ public class BoardManager extends Observable implements Serializable, Manager {
 
     /**
      * A setter for the score.
+     *
      * @param s The score to be set.
      */
     public void setScore(Long s) {
@@ -164,12 +168,10 @@ public class BoardManager extends Observable implements Serializable, Manager {
                 if (past.getId() > current.getId()) {
                     solved = false;
                     break;
-                }
-                else {
+                } else {
                     past = current;
                 }
-            }
-            else {
+            } else {
                 break;
             }
         }
@@ -229,6 +231,7 @@ public class BoardManager extends Observable implements Serializable, Manager {
         }
 
     }
+
     /**
      * Swap the tiles at (row1, col1) and (row2, col2)
      *

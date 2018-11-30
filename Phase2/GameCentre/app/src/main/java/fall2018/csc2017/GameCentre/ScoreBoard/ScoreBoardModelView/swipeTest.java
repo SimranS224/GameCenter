@@ -23,6 +23,9 @@ import fall2018.csc2017.GameCentre.ScoreBoard.ScoreBoardController.LeaderBoardRe
 import fall2018.csc2017.GameCentre.ScoreBoard.ScoreBoardController.Scores;
 import fall2018.csc2017.GameCentre.ScoreBoard.ScoreBoardController.UserScores;
 
+/*
+Model/View
+ */
 
 /**
  * This is the actual activity that manages the swipeView.

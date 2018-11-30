@@ -1,6 +1,7 @@
 package fall2018.csc2017.GameCentre.SlidingTiles;
 
 import android.support.annotation.NonNull;
+
 import java.util.NoSuchElementException;
 import java.util.Observable;
 import java.io.Serializable;
@@ -68,6 +69,7 @@ public class Board extends Observable implements Serializable, Iterable<Tile> {
 
     /**
      * Get number of rows of the board
+     *
      * @return the number of rows of the board
      */
     static int getNumRows() {
@@ -76,22 +78,26 @@ public class Board extends Observable implements Serializable, Iterable<Tile> {
 
     /**
      * Get number of cols of the board
+     *
      * @return the number of cols of the board
      */
     static int getNumCols() {
         return Board.NUM_COLS;
     }
+
     /**
      * Set the size of the board
+     *
      * @param size the size of the board
      */
     public static void setBoardSize(int size) {
-        NUM_ROWS=size;
-        NUM_COLS=size;
+        NUM_ROWS = size;
+        NUM_COLS = size;
     }
 
     /**
      * Set image of the board.
+     *
      * @param image Image to be set
      */
     static void setIMAGE(String image) {
@@ -100,6 +106,7 @@ public class Board extends Observable implements Serializable, Iterable<Tile> {
 
     /**
      * Gets the image of this board.
+     *
      * @return the image of this board.
      */
     static String getIMAGE() {
@@ -108,14 +115,16 @@ public class Board extends Observable implements Serializable, Iterable<Tile> {
 
     /**
      * Sets the type of the board.
+     *
      * @param type type of the board
      */
-    public static void setType(String type){
+    public static void setType(String type) {
         TYPE = type;
     }
 
     /**
      * Gets the type of the board.
+     *
      * @return returns the type of the board
      */
     public static String getType() {
@@ -124,6 +133,7 @@ public class Board extends Observable implements Serializable, Iterable<Tile> {
 
     /**
      * Get the size of the Board
+     *
      * @return the number of rows in the board
      */
     public int getBoardSize() {
