@@ -16,6 +16,9 @@ import java.util.ArrayList;
 import fall2018.csc2017.GameCentre.R;
 import fall2018.csc2017.GameCentre.ScoreBoard.ScoreBoardController.Scores;
 import fall2018.csc2017.GameCentre.ScoreBoard.ScoreBoardController.UserScores;
+/*
+Model/View code
+ */
 
 /**
  * This is an individual page in a sense. Every time a new page is swiped to, a new
@@ -72,7 +75,7 @@ public class DemoFragment extends Fragment {
         textView1.setText(type);
         textView2.setText(size);
 
-        //This chunk of code is what determines how many highScores to show
+        //This code is what determines how many highScores to show
         //on the listView. A scoreType of "p" means only the users highest
         //personal score is shown, scoreType of "g" means all of the the
         //global highSCores.

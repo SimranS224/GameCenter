@@ -1,5 +1,7 @@
 package fall2018.csc2017.GameCentre.SlidingTiles;
-
+/*
+Model/VIew code.
+ */
 /*
 Adapted from:
 https://github.com/DaveNOTDavid/sample-puzzle/blob/master/app/src/main/java/com/davenotdavid/samplepuzzle/GestureDetectGridView.java

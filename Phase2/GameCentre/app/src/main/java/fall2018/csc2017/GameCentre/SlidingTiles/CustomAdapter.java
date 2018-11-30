@@ -1,5 +1,7 @@
 package fall2018.csc2017.GameCentre.SlidingTiles;
-
+/*
+ * Model/View Code since it is used for diplaying data in a certain format
+ */
 /*
 Taken from:
 https://github.com/DaveNOTDavid/sample-puzzle/blob/master/app/src/main/java/com/davenotdavid/samplepuzzle/CustomAdapter.java

@@ -12,7 +12,13 @@ import java.util.Map;
 import fall2018.csc2017.GameCentre.Manager;
 import fall2018.csc2017.GameCentre.ScoreBoard.ScoreBoardController.LeaderBoardController;
 
+/*
+Model/View
+ */
 
+/**
+ * A LeaderBoardFrontEnd
+ */
 public class LeaderBoardFrontEnd {
 
     /**

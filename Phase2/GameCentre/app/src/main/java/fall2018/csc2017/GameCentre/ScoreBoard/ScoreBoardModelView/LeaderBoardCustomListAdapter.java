@@ -11,6 +11,9 @@ import fall2018.csc2017.GameCentre.R;
 import fall2018.csc2017.GameCentre.ScoreBoard.ScoreBoardController.Scores;
 import fall2018.csc2017.GameCentre.ScoreBoard.ScoreBoardController.UserScores;
 
+/*
+Model/View code
+ */
 
 /**
  * The List Adapter for the global scores.
