@@ -11,6 +11,8 @@ public class MoveStackTest {
 
     @Before
     public void setUp() {
+        Board.setBoardSize(4);
+        MoveStack.setNumUndos(3);
         moveStack = new MoveStack();
     }
 
@@ -51,11 +53,13 @@ public class MoveStackTest {
     public void getUndos() {
         setUp();
         MoveStack.setNumUndos(3);
-        assertEquals(3, moveStack.getUndos());
+        Integer[] c = {0, 1, 2, 3};
+        moveStack.add(c);
+        assertEquals("Undo uses left: 3", moveStack.getUndos());
         moveStack.remove();
-        assertEquals(2, moveStack.getUndos());
+        assertEquals("Undo uses left: 2", moveStack.getUndos());
         MoveStack.setNumUndos(10);
-        assertEquals(10, moveStack.getUndos());
+        assertEquals("Undo uses left: 10", moveStack.getUndos());
 
     }
 }

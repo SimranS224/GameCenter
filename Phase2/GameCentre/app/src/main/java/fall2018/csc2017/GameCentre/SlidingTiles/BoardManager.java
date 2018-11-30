@@ -30,7 +30,7 @@ public class BoardManager extends Observable implements Serializable, Manager {
      *
      * @param board the board
      */
-    public BoardManager(Board board) {
+    BoardManager(Board board) {
         this.board = board;
         this.score = 0L;
         this.stack = new MoveStack();
@@ -48,7 +48,7 @@ public class BoardManager extends Observable implements Serializable, Manager {
      */
     BoardManager() {
         List<Tile> tiles = new ArrayList<>();
-        final int numTiles = this.getBoard().getNumCols() * this.getBoard().getNumRows();
+        final int numTiles = Board.getNumCols() * Board.getNumRows();
         for (int tileNum = 0; tileNum != (numTiles-1); tileNum++) {
             tiles.add(new Tile(tileNum));
         }
@@ -192,6 +192,7 @@ public class BoardManager extends Observable implements Serializable, Manager {
         Tile below = row == Board.NUM_ROWS - 1 ? null : board.getTile(row + 1, col);
         Tile left = col == 0 ? null : board.getTile(row, col - 1);
         Tile right = col == Board.NUM_COLS - 1 ? null : board.getTile(row, col + 1);
+        System.out.println(right.getId());
         return (below != null && below.getId() == blankId)
                 || (above != null && above.getId() == blankId)
                 || (left != null && left.getId() == blankId)

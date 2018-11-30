@@ -19,27 +19,18 @@ import static org.junit.Assert.*;
 public class BoardAndTileTest {
 
     /** The board manager for testing. */
-    BoardManager boardManager;
-
-    /**
-     * Make a set of tiles that are in order.
-     * @return a set of tiles that are in order
-     */
-    private List<Tile> makeTiles() {
-        List<Tile> tiles = new ArrayList<>();
-        final int numTiles = Board.NUM_ROWS * Board.NUM_COLS;
-        for (int tileNum = 0; tileNum != numTiles; tileNum++) {
-            tiles.add(new Tile(tileNum + 1, tileNum));
-        }
-
-        return tiles;
-    }
+    private BoardManager boardManager;
 
     /**
      * Make a solved Board.
      */
     private void setUpCorrect() {
-        List<Tile> tiles = makeTiles();
+        Board.setBoardSize(4);
+        List<Tile> tiles = new ArrayList<>();
+        final int numTiles = Board.NUM_ROWS * Board.NUM_COLS;
+        for (int tileNum = 0; tileNum != numTiles; tileNum++) {
+            tiles.add(new Tile(tileNum + 1, tileNum));
+        }
         Board board = new Board(tiles);
         boardManager = new BoardManager(board);
     }
@@ -57,9 +48,9 @@ public class BoardAndTileTest {
     @Test
     public void testIsSolved() {
         setUpCorrect();
-        assertEquals(true, boardManager.isOver());
+        assertTrue(boardManager.isOver());
         swapFirstTwoTiles();
-        assertEquals(false, boardManager.isOver());
+        assertFalse(boardManager.isOver());
     }
 
     /**
@@ -94,8 +85,7 @@ public class BoardAndTileTest {
     @Test
     public void testIsValidTap() {
         setUpCorrect();
-        assertEquals(true, boardManager.isValidTap(11));
-        assertEquals(true, boardManager.isValidTap(14));
-        assertEquals(false, boardManager.isValidTap(10));
+        assertTrue(boardManager.isValidTap(14));
+        assertFalse(boardManager.isValidTap(10));
     }
 }

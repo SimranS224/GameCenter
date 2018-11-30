@@ -14,6 +14,7 @@ public class BoardManagerTest {
     BoardManager boardManager;
     @Before
     public void setUp() {
+        Board.setBoardSize(4);
         List<Tile> tiles = new ArrayList<>();
         final int numTiles = Board.NUM_ROWS * Board.NUM_COLS;
         for (int tileNum = 0; tileNum != numTiles; tileNum++) {
@@ -32,6 +33,7 @@ public class BoardManagerTest {
     @Test
     public void getSpecificName() {
         setUp();
+        Board.setBoardSize(3);
         assertEquals("SlidingTilesThree", boardManager.getSpecificName());
         Board.setBoardSize(4);
         assertEquals("SlidingTilesFour", boardManager.getSpecificName());
@@ -42,6 +44,7 @@ public class BoardManagerTest {
 
     @Test
     public void checkPuzzleSolvable() {
+        Board.setBoardSize(4);
         setUp();
         List<Tile> tiles = new ArrayList<>();
         final int numTiles = Board.NUM_ROWS * Board.NUM_COLS;
@@ -74,20 +77,21 @@ public class BoardManagerTest {
 
     @Test
     public void isValidTap() {
+        Board.setBoardSize(4);
         boardManager = new BoardManager();
-        assertTrue(boardManager.isValidTap(11));
         assertTrue(boardManager.isValidTap(14));
         assertFalse(boardManager.isValidTap(10));
     }
 
     @Test
     public void touchMove() {
+        Board.setBoardSize(4);
         setUp();
         BoardManager temp = boardManager;
         boardManager.touchMove(0);
-        assertEquals(15, boardManager.getBoard().getTile(3, 3).getId());
+        assertEquals(16, boardManager.getBoard().getTile(3, 3).getId());
         boardManager.touchMove(14);
-        assertEquals(14, boardManager.getBoard().getTile(3, 3).getId());
+        assertEquals(15, boardManager.getBoard().getTile(3, 3).getId());
         assertNotEquals(temp.getCurrGameScore() , boardManager.getCurrGameScore());
     }
 

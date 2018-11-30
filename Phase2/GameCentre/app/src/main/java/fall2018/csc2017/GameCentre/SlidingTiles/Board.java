@@ -70,7 +70,7 @@ public class Board extends Observable implements Serializable, Iterable<Tile> {
      * Get number of rows of the board
      * @return the number of rows of the board
      */
-    public static int getNumRows() {
+    static int getNumRows() {
         return Board.NUM_ROWS;
     }
 
@@ -78,7 +78,7 @@ public class Board extends Observable implements Serializable, Iterable<Tile> {
      * Get number of cols of the board
      * @return the number of cols of the board
      */
-    public static int getNumCols() {
+    static int getNumCols() {
         return Board.NUM_COLS;
     }
     /**
@@ -200,7 +200,7 @@ public class Board extends Observable implements Serializable, Iterable<Tile> {
             return null;
         }
     }
-    public void setTiles(Tile tile, int row, int col) {
+    void setTiles(Tile tile, int row, int col) {
         tiles[row][col] = tile;
         setChanged();
         notifyObservers();
