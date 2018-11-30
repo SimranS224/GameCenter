@@ -29,16 +29,17 @@ import java.util.Observer;
 
 public class TicTacGameActivity extends AppCompatActivity implements Observer {
 
+    public Timer time = new Timer();
     /**
      * the start time in millis
      */
-    private static final long START_TIME_IN_MILLIS = 100000;
+    /*private static final long START_TIME_IN_MILLIS = 100000;
 
     private static TextView mTextViewCountDown;
     private static CountDownTimer mCountDownTimer;
     private static boolean mTimerRunning;
 
-    public static long mTimeLeftInMillis = START_TIME_IN_MILLIS;
+    public static long mTimeLeftInMillis = START_TIME_IN_MILLIS;*/
     /**
      * The board manager.
      */
@@ -176,17 +177,12 @@ public class TicTacGameActivity extends AppCompatActivity implements Observer {
         }
 
         setContentView(R.layout.tictac_game_activity);
-        /*if (savedInstanceState == null) {
-            getSupportFragmentManager().beginTransaction()
-                    .replace(R.id.container, Con4GameFragment.newInstance())
-                    .commitNow();
-        }*/
 
         createTileButtons(this);
         // set to tictac_game_activity
         setContentView(R.layout.tictac_game_activity);
         // Add View to activity
-        mTextViewCountDown = findViewById(R.id.text_count_Down);
+        time.mTextViewCountDown = findViewById(R.id.text_count_Down);
         gridView = findViewById(R.id.gridView);
         gridView.setBoardManager(boardManager);
         gridView.setNumColumns(TicTacBoard.NUM_COLS);
@@ -206,18 +202,13 @@ public class TicTacGameActivity extends AppCompatActivity implements Observer {
                         columnHeight = displayHeight / TicTacBoard.NUM_ROWS;
 
                         display();
-                        resetTimer();
-                        startTimer();
+                        time.resetTimer();
+                        time.startTimer();
                     }
                 });
         moveCounter = boardManager.getMoveCounter();
         leaderBoardFrontEnd = new LeaderBoardFrontEnd();
         this.dataChange = false;
-//        getUserDatabaseReference();
-//        saveUserInformationOnDatabase();
-//        saveScoreCountOnDataBase();
-//        updateLeaderBoard();
-//        databaseScoreSave();
 
     }
 
@@ -278,7 +269,6 @@ public class TicTacGameActivity extends AppCompatActivity implements Observer {
                     Map<String, Object> map = (Map<String, Object>) dataSnapshot.getValue();
                     assert map != null;
                     if (map.get("Name") != null) {
-//                        String name = map.get("Name").toString();
                         currentUserName = map.get("Name").toString();
                     }
                 }
@@ -318,7 +308,7 @@ public class TicTacGameActivity extends AppCompatActivity implements Observer {
     }
 
 
-    public static void startTimer() {
+    /*public static void startTimer() {
         mCountDownTimer = new CountDownTimer(mTimeLeftInMillis, 1000) {
             @Override
             public void onTick(long millisUntilFinished) {
@@ -358,7 +348,7 @@ public class TicTacGameActivity extends AppCompatActivity implements Observer {
 
     public static boolean getmTimerRunning() {
         return mTimerRunning;
-    }
+    }*/
 
 
     /**
@@ -367,7 +357,7 @@ public class TicTacGameActivity extends AppCompatActivity implements Observer {
     @Override
     public void onBackPressed() {
         super.onBackPressed();
-        pauseTimer();
+        time.pauseTimer();
         this.finish();
 
     }

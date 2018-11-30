@@ -12,6 +12,11 @@ import java.util.List;
 class TicTacBoardManager implements Serializable, Manager {
 
     /**
+     * new instance of timer
+     */
+    public Timer time = new Timer();
+
+    /**
      * p1wins variable
      */
     private boolean p1Wins = false;
@@ -45,6 +50,12 @@ class TicTacBoardManager implements Serializable, Manager {
     private TicTacBoard board;
     private TicTacMoveStack stack;
 
+    /**
+     * Get timer
+     */
+    Timer getTimer() {
+        return time;
+    }
     /**
      * Manage a board that has been pre-populated.
      * THIS NEEDS TO BE KEPT AND IS USED WHEN CALLING THE AI STRATEGIES
@@ -116,14 +127,10 @@ class TicTacBoardManager implements Serializable, Manager {
 
     @Override
     public Long getCurrGameScore() {
-//        if (this.p1Wins) {
-        long longtime = TicTacGameActivity.getmTimeLeftInMillis();
+        long longtime = time.getmTimeLeftInMillis();
         Long doubletime = (longtime / 1000);
-//            int inttime = (int) doubletime;
         Long score = 100 - doubletime;
         return score;
-//        }
-//        return -1;
     }
 
     /**
@@ -131,29 +138,7 @@ class TicTacBoardManager implements Serializable, Manager {
      * @return if the puzzle markers have been filled.
      */
     public boolean isOver() {
-        /*int count = 0;
-        //check if the game over flag is set
-        if (board.getGameOver()) {
-            return true;
-        }
-        Iterator<TicTacMarker> iter = board.iterator();
-        while (iter.hasNext()) {
-            if (iter.next().getBackgroundId() != 0) {
-                count++;
-            }
-        }
-        if(count == (board.getCols()* board.getRows())) {
-            // board is full and game is over (tie)
-            board.setGameOver(true);
-            return true;
-        } else {
-            return false;
-        }*/
         return (this.getBoard().getGameOver() && p1Wins);
-//        {
-//            return true;
-//        }
-//        return false;
     }
 
     @Override

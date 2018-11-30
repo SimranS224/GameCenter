@@ -10,24 +10,35 @@ import static org.junit.Assert.*;
 public class TicTacMarkerTest {
     TicTacMarker marker;
 
-
+    /**
+     * Set up a marker
+     */
     @Before
     public void setUp() {
         marker = new TicTacMarker(0,0);
     }
 
+    /**
+     * Tests if the marker's background ID is the correct
+     */
     @Test
     public void testGetBackgroundId() {
         setUp();
         assertEquals(0, marker.getBackgroundId());
     }
 
+    /**
+     * Tests if the marker's background is the correct
+     */
     @Test
     public void testGetBackground() {
         setUp();
         assertEquals(R.drawable.blank_marker, marker.getBackground());
     }
 
+    /**
+     * Tests if the marker's backgrounds are properly set
+     */
     @Test
     public void testSetBackground() {
         setUp();
@@ -39,12 +50,18 @@ public class TicTacMarkerTest {
         assertEquals(R.drawable.blue_marker, marker.getBackground());
     }
 
+    /**
+     * Tests if the marker's gets the right id
+     */
     @Test
     public void testGetId() {
         setUp();
         assertEquals(0, marker.getId());
     }
 
+    /**
+     * Tests if the marker properly sets the id
+     */
     @Test
     public void testSetId() {
         setUp();
@@ -52,6 +69,9 @@ public class TicTacMarkerTest {
         assertEquals(1, marker.getId());
     }
 
+    /**
+     * Tests if the compareto function and see if it calculates properly
+     */
     @Test
     public void testCompareTo() {
         setUp();

@@ -13,33 +13,28 @@ import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertTrue;
 
 public class TicTacMinimaxStrategyTest {
-    //TicTacMinimaxStrategy miniMax;
     TicTacBoardManager boardManager;
-    //TicTacBoard board;
+
+    /**
+     * sets up the minimax strategy for the board manager
+     */
     @Before
     public void setUp() {
-//        //miniMax = new TicTacMinimaxStrategy(0);
-//        List<TicTacMarker> ticTacMarkers = new ArrayList<>();
-//        for (int row = 0; row < TicTacBoard.NUM_ROWS; row++) {
-//            for (int col = 0; col < TicTacBoard.NUM_COLS; col++) {
-//                ticTacMarkers.add(new TicTacMarker(row, col, 0));
-//            }
-//        }
-        // assume p1 always goes first
-        //this.board = new TicTacBoard(ticTacMarkers);
         boardManager = new TicTacBoardManager(new TicTacMinimaxStrategy(0));
     }
 
+    /**
+     *
+     */
     @Test
     public void testGetNextMovement() {
         setUp();
         boardManager.changeTurns();
         int position = boardManager.getStrategy().getNextMovement(boardManager, 1);
-        //assertEquals(2, position);
         boardManager.touchMove(position);
 
-        assertTrue(boardManager.getBoard().getMarker(0, 0).getBackgroundId() == 2  || boardManager.getBoard().getMarker(0, 1).getBackgroundId() == 2);
-        //assertEquals(2, boardManager.getBoard().getMarker(0, 0).getBackgroundId());
+        assertTrue(boardManager.getBoard().getMarker(0, 0).getBackgroundId() == 2
+                || boardManager.getBoard().getMarker(0, 1).getBackgroundId() == 2);
     }
 
     @Test
