@@ -8,6 +8,9 @@ import java.util.List;
 
 import static org.junit.Assert.*;
 
+/**
+ * Class for testing methods in RandomStrategy
+ */
 public class TicTacRandomStrategyTest {
     //TicTacRandomStrategy random;
     TicTacBoardManager boardManager;

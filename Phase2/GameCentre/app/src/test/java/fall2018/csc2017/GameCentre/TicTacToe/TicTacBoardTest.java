@@ -10,6 +10,9 @@ import java.util.List;
 
 import static org.junit.Assert.*;
 
+/**
+ * Class for testing tic tac board methods
+ */
 public class TicTacBoardTest {
     TicTacBoard board;
 
