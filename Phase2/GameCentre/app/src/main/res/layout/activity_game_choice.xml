@@ -11,6 +11,14 @@
     tools:context="fall2018.csc2017.GameCentre.GameChoiceActivity">
 
 
+    <Button
+        android:id="@+id/LeaderBoardButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/SlidingTiles"
+        android:layout_alignStart="@+id/SlidingTiles"
+        android:text="@string/leader_board" />
+
 
     <TextView
         android:id="@+id/GameText"

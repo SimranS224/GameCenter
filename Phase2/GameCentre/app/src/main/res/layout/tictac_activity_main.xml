@@ -11,6 +11,14 @@ android:focusableInTouchMode="true"
 tools:context="fall2018.csc2017.GameCentre.GameChoiceActivity">
 
 
+    <Button
+        android:id="@+id/LeaderBoardButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/randomAI_button"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="-2dp"
+        android:text="@string/leader_board" />
 
 <TextView
     android:id="@+id/GameText"

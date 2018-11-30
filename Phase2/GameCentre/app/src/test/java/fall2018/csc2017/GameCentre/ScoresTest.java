@@ -4,6 +4,8 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+import fall2018.csc2017.GameCentre.ScoreBoard.ScoreBoardController.Scores;
+
 import static org.junit.Assert.assertEquals;
 
 public class ScoresTest {

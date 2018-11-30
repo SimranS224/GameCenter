@@ -172,7 +172,7 @@ public class BoardManager implements Serializable, Manager {
                 break;
             }
         }
-        return solved || score == 4;
+        return solved || score == 2;
     }
 
     /**
