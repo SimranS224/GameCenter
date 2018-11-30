@@ -76,11 +76,8 @@ public class TicTacBoard extends Observable implements Serializable, Iterable<Ti
         this.p1_turn = true;
         this.game_over = false;
         //set the players turn to player 1 or 2
-        if (this.p1_turn) {
-            this.current_player = 0;
-        } else {
-            this.current_player = 1;
-        }
+        this.current_player = 0;
+
         Iterator<TicTacMarker> iter = ticTacMarkers.iterator();
 
         for (int row = 0; row < TicTacBoard.NUM_ROWS; row++) {
@@ -92,14 +89,12 @@ public class TicTacBoard extends Observable implements Serializable, Iterable<Ti
 
     /**
      * clone the board
-     * @param board
+     * @param board The board
      */
-    public TicTacBoard(TicTacBoard board) {
+    TicTacBoard(TicTacBoard board) {
         this.current_player = board.current_player;
         this.p1_turn = board.p1_turn;
         this.game_over = board.game_over;
-        this.current_player = board.current_player;
-
 
         for (int row = 0; row < TicTacBoard.NUM_ROWS; row++) {
             for (int col = 0; col < TicTacBoard.NUM_COLS; col++) {
@@ -113,56 +108,56 @@ public class TicTacBoard extends Observable implements Serializable, Iterable<Ti
     /**
      * Return p1 background
      */
-    public int getP1Background() {
+    int getP1Background() {
         return this.p1_background;
     }
 
     /**
      * Return gameover
      */
-    public boolean getGameOver() {
+    boolean getGameOver() {
         return this.game_over;
     }
 
     /**
      * set gameover
      */
-    public void setGameOver(boolean game_over) {
+    void setGameOver(boolean game_over) {
         this.game_over = game_over;
     }
 
     /**
      * Return p2 background
      */
-    public int getP2Background() {
+    int getP2Background() {
         return this.p2_background;
     }
 
     /**
      * Return current player
      */
-    public int getCurrentPlayer() {
+    int getCurrentPlayer() {
         return this.current_player;
     }
 
     /**
      * Return player1 id
      */
-    public int getPlayer1() {
+    int getPlayer1() {
         return this.P1_ID;
     }
 
     /**
      * Return player2 id
      */
-    public int getPlayer2() {
+    int getPlayer2() {
         return this.P2_ID;
     }
 
     /**
      * Return background
      */
-    public int getPlayerBackground(int player) {
+    int getPlayerBackground(int player) {
         if (player == 0) {
             return p1_background;
         } else {
@@ -173,7 +168,7 @@ public class TicTacBoard extends Observable implements Serializable, Iterable<Ti
     /**
      * Return num rows
      */
-    public int getRows() {
+    int getRows() {
         return this.NUM_ROWS;
     }
 

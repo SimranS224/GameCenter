@@ -3,13 +3,32 @@ package fall2018.csc2017.GameCentre.TicTacToe;
 import android.content.Context;
 import android.widget.Toast;
 
+/**
+ * This is the TicTacToe movement controller, meant to take in a position (a
+ * tap on the screen) and process the move for the given player from board
+ * manager. This class also takes care of taking turns of player 2, whether it be
+ * an AI or otherwise;
+ */
 class TicTacMovementController {
     private TicTacBoardManager boardManager;
     TicTacMovementController() {
     }
 
+    /**
+     * Setter for the boardManager.
+     * @param boardManager the given boardManager.
+     */
     public void setBoardManager(TicTacBoardManager boardManager) { this.boardManager = boardManager;}
 
+
+    /**
+     * Processes the tap movement for player 1 (always a human), and then
+     * process the movement for player 2 afterwards if the game is not over.
+     * Also displays the message to the screen in any situation, varying
+     * depending on who won, ties, or the user ran out of time.
+     * @param context the context of the activity.
+     * @param position the tap on the screen to be processed.
+     */
     void processTapMovement(Context context, int position) {
         if (boardManager.getBoard().getGameOver()) {
             return;

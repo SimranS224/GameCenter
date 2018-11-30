@@ -25,8 +25,7 @@ import fall2018.csc2017.GameCentre.ScoreBoard.ScoreBoardController.UserScores;
 
 
 /**
- * This is the actual activity that manages the swipeView; Nothing needs to be
- * changed in here.
+ * This is the actual activity that manages the swipeView.
  */
 public class swipeTest extends FragmentActivity {
     /**

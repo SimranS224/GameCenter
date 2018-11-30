@@ -337,10 +337,6 @@ public class StartingActivity extends AppCompatActivity {
                 if(dataSnapshot.exists() && dataSnapshot.getChildrenCount() >0) {
                     Map<String, Object> map = (Map<String,Object>) dataSnapshot.getValue();
                     assert map != null;
-                    if (map.get("Name")!=null) {
-                            String name = map.get("Name").toString();
-                            mWelcomeText.setText("Welcome Back "+name);
-                    }
                     if (map.get("Board Size")!=null) {
                         String boardSize = map.get("Board Size").toString();
                         switch (boardSize) {
@@ -409,7 +405,6 @@ public class StartingActivity extends AppCompatActivity {
 
     }
 
-
     /**
      * Get Current User's Saved Name from the database to the application
      */
@@ -445,93 +440,6 @@ public class StartingActivity extends AppCompatActivity {
         userID = Objects.requireNonNull(mAuth.getCurrentUser()).getUid();
         mUserDatabase= FirebaseDatabase.getInstance().getReference().child("Users").child("userId").child(userID).child("sliding_tiles");
     }
-
-//    private String downloadUserBoard(String fileName) {
-//
-//        StorageReference filePath = FirebaseStorage.getInstance().getReference().child("Saved_Games").child(userID);
-//        StorageReference riversRef = filePath.child("last_saved_game/");
-//
-//        if (riversRef ==null) {
-//            return fileName;
-//        }
-//        riversRef = riversRef.child(fileName);
-//
-//
-//            File localFile = null;
-//            if (fileName.equals(SAVE_FILENAME)) {
-//                localFile = new File(StartingActivity.this.getFilesDir().getAbsolutePath() + "/" + SAVE_FILENAME);
-//            } else if (fileName.equals(TEMP_SAVE_FILENAME)) {
-//                localFile = new File(StartingActivity.this.getFilesDir().getAbsolutePath() + "/" + TEMP_SAVE_FILENAME);
-//            }
-//            // Log.d(localFile.getAbsolutePath(), "downloadUserBoard: ");
-//
-//
-//            riversRef.getFile(localFile).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
-//                @Override
-//                public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
-//                    // Local temp file has been created
-//                    Log.d("load passed", "onSuccess: ");
-//
-//
-//                }
-//            }).addOnFailureListener(new OnFailureListener() {
-//                @Override
-//                public void onFailure(@NonNull Exception exception) {
-//                    // Handle any errors
-//                    Log.d("load failed", "onFailure: ");
-//                    finish();
-//                    return;
-//                }
-//            });
-//
-//
-//        return localFile.getName();
-//
-//
-//    }
-
-//    private void uploadUserBoard(final String fileName) {
-//        // Create a storage reference from our app
-//        StorageReference filePath = FirebaseStorage.getInstance().getReference().child("Saved_Games").child(userID);
-//
-//        Uri file = Uri.fromFile(new File(StartingActivity.this.getFilesDir().getAbsolutePath()+"/"+fileName));
-//        final StorageReference riversRef = filePath.child("last_saved_game/"+file.getLastPathSegment());
-//        UploadTask uploadTask = riversRef.putFile(file);
-//
-//        // Register observers to listen for when the download is done or if it fails
-//        uploadTask.addOnFailureListener(new OnFailureListener() {
-//            @Override
-//            public void onFailure(@NonNull Exception exception) {
-//                // Handle unsuccessful uploads
-////                finish();
-////                return;
-//            }
-//        }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-//            @Override
-//            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-//                Task<Uri> downloadUrl = riversRef.getDownloadUrl();
-//                Log.d(downloadUrl.toString(), "onSuccess: ");
-//
-//
-//
-//                Map newImage = new HashMap();
-//
-//                if(fileName.equals(SAVE_FILENAME)) {
-//                    newImage.put("SAVE URI", downloadUrl.toString());
-//                }
-//                if (fileName.equals(TEMP_SAVE_FILENAME)) {
-//                    newImage.put("TEMP_SAVE_URI",downloadUrl.toString());
-//                }
-//                mUserDatabase.updateChildren(newImage);
-//
-//
-//            }
-//        });
-//    }
-
-
-
-
 
 
 }

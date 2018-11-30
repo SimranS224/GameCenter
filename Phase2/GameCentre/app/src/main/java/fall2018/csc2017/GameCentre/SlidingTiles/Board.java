@@ -130,24 +130,6 @@ public class Board extends Observable implements Serializable, Iterable<Tile> {
         return NUM_ROWS;
     }
 
-    /**
-     * Swap the tiles at (row1, col1) and (row2, col2)
-     *
-     * @param row1 the first tile row
-     * @param col1 the first tile col
-     * @param row2 the second tile row
-     * @param col2 the second tile col
-     */
-    void swapTiles(int row1, int col1, int row2, int col2) {
-        Tile temp = tiles[row1][col1]; //to store original tile
-        tiles[row1][col1] = tiles[row2][col2];
-        tiles[row2][col2] = temp;
-
-
-        setChanged();
-        notifyObservers();
-    }
-
     @Override
     public String toString() {
         return "Board{" +
@@ -217,5 +199,10 @@ public class Board extends Observable implements Serializable, Iterable<Tile> {
             }
             return null;
         }
+    }
+    public void setTiles(Tile tile, int row, int col) {
+        tiles[row][col] = tile;
+        setChanged();
+        notifyObservers();
     }
 }
