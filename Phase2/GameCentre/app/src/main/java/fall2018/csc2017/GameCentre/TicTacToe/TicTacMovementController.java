@@ -14,7 +14,7 @@ class TicTacMovementController {
         if (boardManager.getBoard().getGameOver()) {
             return;
         }
-        if (!TicTacGameActivity.getmTimerRunning()) {
+        if (!Timer.getmTimerRunning()) {
             boardManager.getBoard().setGameOver(true);
             Toast.makeText(context, "NO MORE TIME!", Toast.LENGTH_SHORT).show();
         } else
@@ -23,15 +23,14 @@ class TicTacMovementController {
             // check if game is solved
             // Toast.makeText(context, "Add code to check getWinner()", Toast.LENGTH_SHORT).show();
             if (boardManager.getWinner(position)) {
+                boardManager.getTimer().pauseTimer();
                 boardManager.getBoard().setGameOver(true);
                 boardManager.setUserWins(true);
                 Toast.makeText(context, "P1 WIN!", Toast.LENGTH_SHORT).show();
-                TicTacGameActivity.pauseTimer();
-
             }  else if (boardManager.getValidMoves().size() == 0) {
+                boardManager.getTimer().pauseTimer();
                 boardManager.getBoard().setGameOver(true);
                 Toast.makeText(context, "Tie!", Toast.LENGTH_SHORT).show();
-                TicTacGameActivity.pauseTimer();
             } else {
                 if (boardManager.getStrategy().isValid()) {
                     // strategy is valid so it is AI turn now
@@ -39,9 +38,9 @@ class TicTacMovementController {
                         position = boardManager.getStrategy().getNextMovement(boardManager, 0);
                         current_player = boardManager.touchMove(position);
                         if (boardManager.getWinner(position)) {
+                            boardManager.getTimer().pauseTimer();
                             boardManager.getBoard().setGameOver(true);
                             Toast.makeText(context, "P2 WIN!", Toast.LENGTH_SHORT).show();
-                            TicTacGameActivity.pauseTimer();
                         }
                     }
                 }
@@ -51,25 +50,4 @@ class TicTacMovementController {
             Toast.makeText(context, "Invalid Tap: position:" + position , Toast.LENGTH_SHORT).show();
         }
     }
-
-//    private void showDialog(Context context) {
-//        AlertDialog.Builder builder = new AlertDialog.Builder(context);
-//        builder.setMessage("Game Over~")
-//                .setCancelable(false)
-//                .setPositiveButton("Go to Tic Tac Toe Dashboard", new DialogInterface.OnClickListener() {
-//                    public void onClick(DialogInterface dialog, int id) {
-//                        Intent intent = new Intent(TicTacMovementController.this, TicTacMainActivity.class );
-//                    }
-//                })
-//                .setNegativeButton("Quit", new DialogInterface.OnClickListener() {
-//                    public void onClick(DialogInterface dialog, int id) {
-//                        finish();
-//                    }
-//                });
-//        AlertDialog alert = builder.create();
-//        alert.show();
-//    }
-
-
-
 }

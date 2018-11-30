@@ -25,9 +25,18 @@ import fall2018.csc2017.GameCentre.ScoreBoard.ScoreBoardModelView.LeaderBoardFro
 import fall2018.csc2017.GameCentre.Sequencer.SequencerBoardManager;
 import fall2018.csc2017.GameCentre.Sequencer.SequencerStartingActivity;
 import fall2018.csc2017.GameCentre.SlidingTiles.BoardManager;
+import fall2018.csc2017.GameCentre.SlidingTiles.StartingActivity;
+import fall2018.csc2017.GameCentre.TicTacToe.TicTacBoard;
+import fall2018.csc2017.GameCentre.TicTacToe.TicTacBoardManager;
+import fall2018.csc2017.GameCentre.TicTacToe.TicTacEmptyStrategy;
+import fall2018.csc2017.GameCentre.TicTacToe.TicTacMinimaxStrategy;
+import fall2018.csc2017.GameCentre.TicTacToe.TicTacRandomStrategy;
 
 import static android.content.Context.MODE_PRIVATE;
 
+/**
+ * Controls Game Activity for Sliding Tiles, TicTacToe and Sequencer
+ */
 public class GameActivityController {
 
     /**
@@ -49,32 +58,46 @@ public class GameActivityController {
      * Name of the current user
      */
     private String currentUserName;
+
+
     /**
      * The LeaderBoard for this Game.
      */
     private LeaderBoardFrontEnd leaderBoardFrontEnd = new LeaderBoardFrontEnd();
+
+
     /**
      * Firebase Database reference pointing to the current user
      */
     private DatabaseReference mUserDatabase;
-    public GameActivityController() {
-    }
 
-//    private void setBoardManagerType(Manager boardManager) {
-//        if (boardManager instanceof SequencerBoardManager){
-//            this.boardManager = sequencerBoardManager;
-//        }
-//        else if(boardManager instanceof BoardManager) {
-//            this.boardManager = slidingtilesBoardManager;
-//        }
-//    }
-    public SequencerBoardManager getSequencerBoardManager(){
-            return (SequencerBoardManager) this.boardManager;
 
-    }
+    /**
+     * Creates a GameActivity Controller that controls each game activity
+     */
+    public GameActivityController() { }
 
+
+    /**
+     * Get the board manager of Sequencer
+     * @return The sequencer board manager
+     */
+    public SequencerBoardManager getSequencerBoardManager() { return (SequencerBoardManager) this.boardManager; }
+
+    /**
+     * Get the board manager of Sliding Tiles
+     * @return The sliding tiles board manager
+     */
     public BoardManager getSlidingtilesBoardManager() {
         return (BoardManager) this.boardManager;
+    }
+
+    /**
+     * Get the board manager of TicTacToe Board Manager
+     * @return The tictactoe board manager
+     */
+    public TicTacBoardManager getTicTacBoardManager() {
+        return (TicTacBoardManager) this.boardManager;
     }
 
 
@@ -142,10 +165,16 @@ public class GameActivityController {
     /**
      * Saves the Current User's settings to the database
      */
-    public void saveUserInformationOnDatabase(TextView theScore) {
+    public void saveUserInformationOnDatabase(Object theScore) {
 
+        String lastSavedScore;
+        if(theScore instanceof Long) {
+            lastSavedScore = theScore.toString();
+        } else {
+            lastSavedScore = ((TextView) theScore).getText().toString();
+        }
+//        StrlastSavedScore = theScore.toString();
 
-        String lastSavedScore = theScore.getText().toString();
         Map<String, Object> userInfo = new HashMap<>();
 
         userInfo.put("last_Saved_Score", lastSavedScore);
@@ -157,9 +186,14 @@ public class GameActivityController {
     /**
      * Saves a counter variable to the database that firebase listens for theScore changing.
      */
-    public void saveScoreCountOnDataBase(TextView theScore) {
+    public void saveScoreCountOnDataBase(Object theScore) {
 
-        String lastSavedScore = theScore.getText().toString();
+        String lastSavedScore;
+        if(theScore instanceof Long) {
+            lastSavedScore = theScore.toString();
+        } else {
+            lastSavedScore = ((TextView) theScore).getText().toString();
+        }
         Map<String, Object> newMap = new HashMap<>();
         newMap.put("last_Saved_Score", lastSavedScore);
         mGamesDatabase.updateChildren(newMap);
@@ -176,19 +210,20 @@ public class GameActivityController {
      */
     public void loadFromFile(String fileName, Context context) {
 
-        //String dbFileName= downloadUserBoard(fileName);
 
         try {
             InputStream inputStream = context.openFileInput(fileName);
             if (inputStream != null) {
                 ObjectInputStream input = new ObjectInputStream(inputStream);
+
                 if(fileName.equals(SequencerStartingActivity.SAVE_FILENAME) || fileName.equals(SequencerStartingActivity.TEMP_SAVE_FILENAME)) {
                     boardManager = (SequencerBoardManager) input.readObject();
                 }
 
-                else {
+                else if(fileName.equals(StartingActivity.SAVE_FILENAME) || fileName.equals(StartingActivity.TEMP_SAVE_FILENAME)) {
                     boardManager = (BoardManager) input.readObject();
                 }
+
                 inputStream.close();
             }
         } catch (FileNotFoundException e) {
@@ -199,6 +234,8 @@ public class GameActivityController {
             Log.e("login activity", "File contained unexpected data type: " + e.toString());
         }
     }
+
+
 
     /**
      * Save the board manager to fileName.
@@ -214,5 +251,24 @@ public class GameActivityController {
         } catch (IOException e) {
             Log.e("Exception", "File write failed: " + e.toString());
         }
+    }
+
+    /**
+     * Create a new Tic Tac Toe Board Manager
+     */
+    public void createTicTacBoardManager(String gameType) {
+        if(gameType.equals("PlayerToPlayer")) {
+            boardManager = new TicTacBoardManager(new TicTacEmptyStrategy(0));
+        }
+
+        else if(gameType.equals("PlayerToRandom")) {
+            boardManager = new TicTacBoardManager(new TicTacRandomStrategy(0));
+        }
+
+        else if(gameType.equals("PlayerToAI")) {
+            boardManager = new TicTacBoardManager(new TicTacMinimaxStrategy(0));
+        }
+
+
     }
 }

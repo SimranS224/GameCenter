@@ -1,9 +1,10 @@
 # Contact information:
-   - Simran Singh, 905-805-0221
-   - Jeffrey Chen, 613-240-3999
-   - Marco Angeli, 905-617-4898
-   - Abdullah Amin, 647-391-6749
-   - Ryan Foster, 416-836-3422
+   - Simran Singh, 905-805-0221 - git username: Simran/Singh Simran Partap
+   - Jeffrey Chen, 613-240-3999 - git username: gosen
+   - Marco Angeli, 905-617-4898 - git username: Marco Angeli
+   - Abdullah Amin, 647-391-6749 - git username: Abdullah amin
+   - Ryan Foster, 416-836-3422 - git username: fosterr6/ Singh Simran Partap (Some pushed were
+                                        pushed by Ryan logged onto Simran's account in the CSC labs)
 
 # Communication tools used:
 - Trello - used to assign tasks and go over what needed to be added

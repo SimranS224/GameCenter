@@ -10,6 +10,9 @@ import java.util.List;
 
 import static org.junit.Assert.*;
 
+/**
+ * Class for testing tic tac board methods
+ */
 public class TicTacBoardTest {
     TicTacBoard board;
 
@@ -44,8 +47,11 @@ public class TicTacBoardTest {
 
     }
 
+    /**
+     * Tests if the iterator goes through the board properly
+     */
     @Test
-    public void iterator() {
+    public void testIterator() {
         setUp();
         int count = 0;
         Iterator<TicTacMarker> iter = board.iterator();

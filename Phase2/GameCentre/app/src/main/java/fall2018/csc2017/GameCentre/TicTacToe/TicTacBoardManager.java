@@ -9,7 +9,12 @@ import java.util.List;
 /**
  * Manage a board, including swapping tiles, checking for a win, and managing taps.
  */
-class TicTacBoardManager implements Serializable, Manager {
+public class TicTacBoardManager implements Serializable, Manager {
+
+    /**
+     * new instance of timer
+     */
+    public Timer time = new Timer();
 
     /**
      * p1wins variable
@@ -20,11 +25,6 @@ class TicTacBoardManager implements Serializable, Manager {
      * global variable position
      */
     private int game_position = -1;
-
-    /**
-     * movement controller
-     */
-    private TicTacMovementController mController;
 
     /**
      * strategy
@@ -43,8 +43,13 @@ class TicTacBoardManager implements Serializable, Manager {
      * The board being managed.
      */
     private TicTacBoard board;
-    private TicTacMoveStack stack;
 
+    /**
+     * Get timer
+     */
+    Timer getTimer() {
+        return time;
+    }
     /**
      * Manage a board that has been pre-populated.
      * THIS NEEDS TO BE KEPT AND IS USED WHEN CALLING THE AI STRATEGIES
@@ -53,7 +58,6 @@ class TicTacBoardManager implements Serializable, Manager {
     public TicTacBoardManager(TicTacBoard board) {
         this.board = board;
         this.moveCounter = 0L;
-        this.stack = new TicTacMoveStack();
         this.game_position = -1;
     }
 
@@ -65,10 +69,6 @@ class TicTacBoardManager implements Serializable, Manager {
     }
 
     /**
-     *
-     */
-
-    /**
      * Return the strategy
      */
     public TicTacStrategy getStrategy() {
@@ -78,9 +78,8 @@ class TicTacBoardManager implements Serializable, Manager {
     /**
      * Manage a new board.
      */
-    TicTacBoardManager(TicTacStrategy strategy) {
+    public TicTacBoardManager(TicTacStrategy strategy) {
         this.strategy = strategy;
-        mController = new TicTacMovementController();
 
         List<TicTacMarker> ticTacMarkers = new ArrayList<>();
         for (int row = 0; row < TicTacBoard.NUM_ROWS; row++) {
@@ -88,10 +87,8 @@ class TicTacBoardManager implements Serializable, Manager {
                 ticTacMarkers.add(new TicTacMarker(row, col, 0));
             }
         }
-        // assume p1 always goes first
         this.board = new TicTacBoard(ticTacMarkers);
         this.moveCounter = 0L;
-        stack = new TicTacMoveStack();
     }
 
     /**
@@ -116,14 +113,10 @@ class TicTacBoardManager implements Serializable, Manager {
 
     @Override
     public Long getCurrGameScore() {
-//        if (this.p1Wins) {
-        long longtime = TicTacGameActivity.getmTimeLeftInMillis();
+        long longtime = time.getmTimeLeftInMillis();
         Long doubletime = (longtime / 1000);
-//            int inttime = (int) doubletime;
         Long score = 100 - doubletime;
         return score;
-//        }
-//        return -1;
     }
 
     /**
@@ -131,29 +124,7 @@ class TicTacBoardManager implements Serializable, Manager {
      * @return if the puzzle markers have been filled.
      */
     public boolean isOver() {
-        /*int count = 0;
-        //check if the game over flag is set
-        if (board.getGameOver()) {
-            return true;
-        }
-        Iterator<TicTacMarker> iter = board.iterator();
-        while (iter.hasNext()) {
-            if (iter.next().getBackgroundId() != 0) {
-                count++;
-            }
-        }
-        if(count == (board.getCols()* board.getRows())) {
-            // board is full and game is over (tie)
-            board.setGameOver(true);
-            return true;
-        } else {
-            return false;
-        }*/
         return (this.getBoard().getGameOver() && p1Wins);
-//        {
-//            return true;
-//        }
-//        return false;
     }
 
     @Override
@@ -217,20 +188,6 @@ class TicTacBoardManager implements Serializable, Manager {
         return d1 == 3 || d2 == 3;
     }
 
-//    /**
-//     * Return whether the blank tile is used.
-//     *
-//     * @param position the tile to check
-//     * @return whether the tile at position is blank tile
-//     */
-//    boolean isValidTap(int position) {
-//        return board.isValidTap(position);
-//    }
-//
-//    public ArrayList<Integer> getValidMoves() {
-//        return board.getValidMoves();
-//    }
-
     /**
      * Process a touch at position in the board, swapping tiles as appropriate.
      *
@@ -254,8 +211,6 @@ class TicTacBoardManager implements Serializable, Manager {
             }
             // change player turns after tap
             this.changeTurns();
-            // just a test
-            //board.swapMarkers(row, col, row, col);
 
         }
         moveCounter++;
@@ -308,11 +263,5 @@ class TicTacBoardManager implements Serializable, Manager {
             board.current_player = 0;
         }
     }
-
-
-
-
-
-
 
 }

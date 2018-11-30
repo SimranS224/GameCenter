@@ -4,8 +4,6 @@ package fall2018.csc2017.GameCentre.ScoreBoard.ScoreBoardController;
 import java.util.ArrayList;
 
 import fall2018.csc2017.GameCentre.Manager;
-import fall2018.csc2017.GameCentre.ScoreBoard.ScoreBoardController.Scores;
-import fall2018.csc2017.GameCentre.ScoreBoard.ScoreBoardController.UserScores;
 
 public class LeaderBoardController {
 
@@ -40,7 +38,7 @@ public class LeaderBoardController {
      *
      * @param newPlayer the name of the current player
      */
-    public void setPlayerName(String newPlayer) { // TODO can use this to set the name Abdullah
+    public void setPlayerName(String newPlayer) {
         this.currPlayerName = newPlayer;
     }
 
@@ -108,15 +106,12 @@ public class LeaderBoardController {
     /**
      * Sets the listOfScores to a list containing data from firebase
      *
-     * @param list
+     * @param list a list from firebase to read
      */
     public void setFromFireBaseList(ArrayList<Object> list) {
         for (int i = 0; i < list.size(); i++) {
             this.add(list.get(i));
-
         }
-
-
     }
 
     /**
