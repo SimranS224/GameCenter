@@ -42,7 +42,7 @@ public class TicTacMinimaxStrategy extends TicTacStrategy {
         ArrayList<Integer> validMoves = boardManager.getValidMoves();
         //checks for win, lose, tie and return value accordingly
 
-
+        //(boardManager.getWinner(current_player)))
         if (current_player == board.getPlayer1()  &&  (winning(board, current_player))) {
             //human wins so return -10
             return new Move(-1, -10 + depth);

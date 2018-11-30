@@ -47,6 +47,7 @@ public class UserScoresTest {
         setUp();
         assertTrue(userscores.contains(score));
         assertFalse(userscores.contains("fr"));
+
     }
 
     @Test

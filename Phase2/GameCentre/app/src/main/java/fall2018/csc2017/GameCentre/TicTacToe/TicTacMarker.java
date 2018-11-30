@@ -41,6 +41,7 @@ public class TicTacMarker implements Comparable<TicTacMarker>, Serializable {
 
     public void setBackground(int backgroundid) {
         this.backgroundid = backgroundid;
+        //this.id = backgroundid+1;
         switch (this.backgroundid) {
             case 0:
                 this.background = R.drawable.blank_marker;
