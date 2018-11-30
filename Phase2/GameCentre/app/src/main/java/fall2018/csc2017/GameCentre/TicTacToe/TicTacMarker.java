@@ -26,7 +26,7 @@ public class TicTacMarker implements Comparable<TicTacMarker>, Serializable {
      *
      * @return the background id
      */
-    public int getBackgroundId() {
+    int getBackgroundId() {
         return backgroundid;
     }
 
@@ -91,7 +91,7 @@ public class TicTacMarker implements Comparable<TicTacMarker>, Serializable {
      *
      * @param backgroundId The background id the Actual Id - 1.
      */
-    public TicTacMarker(int row, int column, int backgroundId) {
+    TicTacMarker(int row, int column, int backgroundId) {
         this.row = row;
         this.column = column;
         this.backgroundid = backgroundId;
