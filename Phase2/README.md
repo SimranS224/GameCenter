@@ -29,7 +29,7 @@ The scores in the database are lower than actually attainable,
 for SlidingTiles we did this for testing purposes, further the leaderboard only display the highest score of a person.
 
 # leaderboard Note
-Each games scores is calculated such that lower scores mean that you did better in the game, the goal was to resemble ranking.   
+Each games scores is calculated such that lower scores mean that you did better in the game, the goal was to resemble ranking. Further to navigate swipe left and right through the tab views, note there is a delay for the fragments to be displayed, we tried several solutions but were unable to resolve this delay to our extension of implementing a leaderboard with tab views. By swiping 4 times to the right all the fragments are loaded and display (note if a fragment has not yet displayed swiping all the way to the right and then back to any view you desire to look at will solve the issue).
 
 #**IMPORTANT NOTE:
 
