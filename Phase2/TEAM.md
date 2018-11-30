@@ -6,6 +6,9 @@
    - Ryan Foster, 416-836-3422 - git username: fosterr6/ Singh Simran Partap (Some pushed were
                                         pushed by Ryan logged onto Simran's account in the CSC labs)
 
+# Contributions:
+
+
 # Communication tools used:
 - Trello - used to assign tasks and go over what needed to be added
 - Facebook Messenger - used for communication
@@ -56,3 +59,21 @@ unfamiliar.
 - During this time we divided up into teams and then regrouped and then divided
 up as we tackled various issues such as saving the image that was split to make
 the board.
+
+Phase 2:
+Meeting 1: Discussed who was going to code what, brainstormed ideas for games
+Added a new Firebase Project, Added SplashActvity, Added Game Choice Activity
+Fixed .gitignore and repo issues, Design and started implement restructuring of Leaderboards
+Chose additional games to implement, Tic Tac toe and sequencer
+Settled on a design for Sequencer
+Meeting 2 + phone call: We listed what each individual had worked on since the last time we met.
+ - basic structure for tic tac toe was finished
+ sequencer set up had begun
+ - Scoreboard could store elements in a list, Slideview started working for textviews
+Discussed what still needed to be worked on
+- solvable for sliding tiles, unittests, sequencer randomizing the sequences still needed,
+AI still needed for tic tac toe
+Meeting 3: Got together and got a lot of work done
+- solvablesliding tiles got fixed, started thinking about design patterns, random strategy and
+hard AI and PVP for Tictactoe basically working,
+

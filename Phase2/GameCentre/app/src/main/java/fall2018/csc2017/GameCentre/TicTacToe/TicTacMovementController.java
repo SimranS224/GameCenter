@@ -4,6 +4,10 @@ import android.content.Context;
 import android.widget.Toast;
 
 /**
+ * MODEL/VIEW - did not test because tests would be for MODEL/VIEW, which did not need to be implemented
+ */
+
+/**
  * This is the TicTacToe movement controller, meant to take in a position (a
  * tap on the screen) and process the move for the given player from board
  * manager. This class also takes care of taking turns of player 2, whether it be
