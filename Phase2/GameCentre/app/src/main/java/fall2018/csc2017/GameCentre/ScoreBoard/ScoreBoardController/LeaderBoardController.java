@@ -5,6 +5,9 @@ import java.util.ArrayList;
 
 import fall2018.csc2017.GameCentre.Manager;
 
+/**
+ * A LeaderboardController
+ */
 public class LeaderBoardController {
 
 
@@ -47,7 +50,7 @@ public class LeaderBoardController {
      *
      * @return the name of the current player
      */
-    public String getPLayerName() {
+    String getPLayerName() {
         return this.currPlayerName;
     }
 

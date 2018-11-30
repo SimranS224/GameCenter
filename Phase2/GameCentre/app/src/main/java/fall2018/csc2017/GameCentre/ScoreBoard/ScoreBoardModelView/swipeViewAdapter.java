@@ -10,6 +10,9 @@ import java.util.ArrayList;
 
 import fall2018.csc2017.GameCentre.ScoreBoard.ScoreBoardController.UserScores;
 
+/*
+Model/view code
+ */
 
 /**
  * This is the controller for the swipeView. In short, each time we change pages, ie a swipe,
@@ -40,6 +43,7 @@ public class swipeViewAdapter extends FragmentStatePagerAdapter {
         scoreType[1] = "g"; // Global highscores
 
     }
+
     /**
      * The total number of pages to be shown in the swipeView.
      */
