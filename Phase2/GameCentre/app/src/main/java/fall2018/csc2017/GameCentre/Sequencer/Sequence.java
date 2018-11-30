@@ -10,7 +10,7 @@ public class Sequence implements Serializable {
     // The initial Position
     public int position = 0;
 
-    public Sequence() {
+    Sequence() {
         sequence = new ArrayList<>();
         Random sequenceNumber = new Random();
         for (int i = 0; i < 100; i++) {
@@ -31,7 +31,7 @@ public class Sequence implements Serializable {
     /**
      * Resets the position back to 0
      */
-    public void reset() {
+    void reset() {
         position = 0;
     }
 

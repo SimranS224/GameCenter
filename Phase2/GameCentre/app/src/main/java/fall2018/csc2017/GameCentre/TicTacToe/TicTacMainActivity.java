@@ -23,6 +23,13 @@ import fall2018.csc2017.GameCentre.GameChoiceActivity;
 import fall2018.csc2017.GameCentre.R;
 import fall2018.csc2017.GameCentre.ScoreBoard.ScoreBoardModelView.swipeTest;
 
+/**
+ * MODEL/VIEW - did not test because tests would be for MODEL/VIEW, which did not need to be implemented
+ */
+
+/**
+ * Main activity for tic tac toe
+ */
 public class TicTacMainActivity extends AppCompatActivity {
     private Button connect4button;
     private Button randomAIbutton;

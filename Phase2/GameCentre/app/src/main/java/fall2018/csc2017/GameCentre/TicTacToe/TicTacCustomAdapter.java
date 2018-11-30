@@ -11,6 +11,9 @@ This Class is an overwrite of the Base Adapter class
 It is designed to aid setting the button sizes and positions in the GridView
  */
 
+/**
+ * MODEL/VIEW - did not test because tests would be for MODEL/VIEW, which did not need to be implemented
+ */
 
 import android.view.View;
 import android.view.ViewGroup;
