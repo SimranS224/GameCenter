@@ -1,5 +1,7 @@
 package fall2018.csc2017.GameCentre.Sequencer;
 
+// Mode/View
+
 import fall2018.csc2017.GameCentre.GameActivityModel;
 import fall2018.csc2017.GameCentre.SlidingTiles.CustomAdapter;
 import fall2018.csc2017.GameCentre.R;

@@ -1,5 +1,7 @@
 package fall2018.csc2017.GameCentre.Sequencer;
 
+// Mode/View
+
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.graphics.Color;

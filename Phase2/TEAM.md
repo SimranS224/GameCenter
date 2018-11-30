@@ -55,7 +55,7 @@ so we decided on using the number of moves the user makes
 - We also ran into a few issues in terms of saving the board on the database
 and splitting the images and collectively discussed ways of solving the issue.
 - Further anyone who had finished a certain part moved on to implementing another
-feature , for example after implementing the undo feature Marco moved 
+feature , for example after implementing the undo feature Marco moved
 on to try an implementing the image splitting
 Meeting4 : In this meeting we worked toward finishing the project and combining
 various parts together.
@@ -66,25 +66,23 @@ up as we tackled various issues such as saving the image that was split to make
 the board.
 
 Phase 2:
-Meeting 1: Discussed who was going to code what, brainstormed ideas for games
-Added a new Firebase Project, Added SplashActvity, Added Game Choice Activity
-Fixed .gitignore and repo issues, Design and started implement restructuring of Leaderboards
-Chose additional games to implement, Tic Tac toe and sequencer
-Settled on a design for Sequencer
+
+Meeting 1: Discussed who was going to code what, brainstormed ideas for games. Added a new Firebase Project, Added SplashActvity, Added Game Choice Activity. Fixed .gitignore and repo issues, Design and started implement restructuring of Leaderboards. Chose additional games to implement, Tic Tac toe and sequencer. Settled on a design for Sequencer where Marco and Abdullah were going to do most of the work for.
+
 Meeting 2 + phone call: We listed what each individual had worked on since the last time we met.
- - basic structure for tic tac toe was finished
+ - Basic structure for tic tac toe was finished
  sequencer set up had begun
  - Scoreboard could store elements in a list, Slideview started working for textviews
+ - Sequencer development had begun. While some android-side challenges were met, we were confident they were fixable.
+
 Discussed what still needed to be worked on
-- solvable for sliding tiles, unittests, sequencer randomizing the sequences still needed,
+- Solvable for sliding tiles, unittests, sequencer randomizing the sequences still needed,
 AI still needed for tic tac toe
 Meeting 3: Got together and got a lot of work done
-- solvable sliding tiles got fixed, started thinking about design patterns, random strategy and
-hard AI and PVP for Tictactoe basically working, sequencer developing well, leaderboard still being worked on
+- solvable sliding tiles got fixed, started thinking about design patterns, random strategy and hard AI and PVP for Tictactoe basically working, sequencer developing well, leaderboard still being worked on
+
 Meeting 4: Discussed what needed final touches and started writing test codes;
 fixed a bunch of bugs in Tic Tac Toe, Sequencer worked, scoreboard almost done,
 unittests and little details still needed to be done
-Meeting 5: Scoreboard done, worked on unittests and cleaned up a lot of code smells,
-added java doc, and finished unittests. Also added the walkthrough pdf
 
-
+Meeting 5: Scoreboard done, worked on unittests and cleaned up a lot of code smells, added java doc, and finished unittests. Also added the walkthrough.pdf
