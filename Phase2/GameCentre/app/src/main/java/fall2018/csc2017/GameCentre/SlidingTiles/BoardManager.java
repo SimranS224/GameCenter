@@ -11,7 +11,7 @@ import fall2018.csc2017.GameCentre.Manager;
 /**
  * Manage a board, including swapping tiles, checking for a win, and managing taps.
  */
-class BoardManager implements Serializable, Manager {
+public class BoardManager implements Serializable, Manager {
 
     /**
      * score
@@ -172,7 +172,7 @@ class BoardManager implements Serializable, Manager {
                 break;
             }
         }
-        return solved || score == 4;
+        return solved || score == 2;
     }
 
     /**

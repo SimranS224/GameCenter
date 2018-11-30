@@ -21,6 +21,7 @@ import java.util.Objects;
 import fall2018.csc2017.GameCentre.FirstActivity;
 import fall2018.csc2017.GameCentre.GameChoiceActivity;
 import fall2018.csc2017.GameCentre.R;
+import fall2018.csc2017.GameCentre.ScoreBoard.ScoreBoardModelView.swipeTest;
 
 public class TicTacMainActivity extends AppCompatActivity {
     private Button connect4button;
@@ -59,6 +60,7 @@ public class TicTacMainActivity extends AppCompatActivity {
         addMainMenuButtonListener();
         mWelcomeText = findViewById(R.id.welcomeText);
         getUserNameFromDatabase();
+        switchToLeaderBoard();
 
         //Player vs Player button
         connect4button = findViewById(R.id.connect4button);
@@ -119,6 +121,20 @@ public class TicTacMainActivity extends AppCompatActivity {
                 Intent intent = new Intent(TicTacMainActivity.this,FirstActivity.class);
                 startActivity(intent);
                 finish();
+            }
+        });
+    }
+    /**
+     * Switch to the leaderboard view LeaderBoard
+     */
+    private void switchToLeaderBoard(){
+
+        Button mLeaderBoard = findViewById(R.id.LeaderBoardButton);
+        mLeaderBoard.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(TicTacMainActivity.this,swipeTest.class);
+                startActivity(intent);
             }
         });
     }
