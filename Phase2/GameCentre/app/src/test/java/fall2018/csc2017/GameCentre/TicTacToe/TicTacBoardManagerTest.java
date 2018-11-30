@@ -9,7 +9,13 @@ import java.util.List;
 
 import static org.junit.Assert.*;
 
+/**
+ * Class for testing methods in boardmanager
+ */
 public class TicTacBoardManagerTest {
+    /**
+     * Setting up the board and boardmanager
+     */
     TicTacBoardManager boardManager;
     TicTacBoard board;
     @Before
@@ -72,21 +78,6 @@ public class TicTacBoardManagerTest {
         boardManager.touchMove(2);
         assertEquals(boardManager.getWinner(2), true);
     }
-//    /**
-//     * Tests the getPossibleMoves function
-//     */
-//    @Test
-//    public void testGetValidMoves() {
-//        setUp();
-//        ArrayList<Integer> allMoves = new ArrayList<>();
-//        for (int i = 0; i < boardManager.getBoard().NUM_COLS * boardManager.getBoard().NUM_COLS; i++) {
-//            allMoves.add(i);
-//        }
-//        assertEquals(allMoves, boardManager.getValidMoves());
-//        boardManager.touchMove(3);
-//        allMoves.remove(2);
-//        assertEquals(allMoves, boardManager.getValidMoves());
-//    }
 
     /**
      * Tests when the board changes turns,
@@ -99,18 +90,6 @@ public class TicTacBoardManagerTest {
         boardManager.changeTurns();
         assertEquals(board.getCurrentPlayer(), board.getPlayer2());
     }
-
-//    /**
-//     * tests that all position are valid when the board is empty
-//     */
-//    @Test
-//    public void testIsValidTap() {
-//        setUp();
-//        //empty board all positions are valid
-//        for (int i = 0; i != board.getBoardSize(); i++) {
-//            assertEquals(true, boardManager.isValidTap(i));
-//        }
-//    }
 
     /**
      * Checks when a marker is taken, and when a marker is taken, isValidTap should return false
@@ -154,6 +133,9 @@ public class TicTacBoardManagerTest {
         board.setBackground(row, col, board.getP1Background());
     }
 
+    /**
+     * tests get valid moves when a tile is taken
+     */
     @Test
     public void testGetValidMoves2() {
         setUp();

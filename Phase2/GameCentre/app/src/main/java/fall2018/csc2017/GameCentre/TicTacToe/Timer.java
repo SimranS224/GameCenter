@@ -9,7 +9,7 @@ public class Timer {
     /**
      * the start time in millis
      */
-    private static final long START_TIME_IN_MILLIS = 5000;
+    private static final long START_TIME_IN_MILLIS = 100000;
 
     public static TextView mTextViewCountDown;
     public static CountDownTimer mCountDownTimer;
