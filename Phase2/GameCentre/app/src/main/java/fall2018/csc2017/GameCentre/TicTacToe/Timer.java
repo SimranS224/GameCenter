@@ -6,7 +6,7 @@ import android.widget.TextView;
 import java.util.Locale;
 
 /**
- * The class for timer
+ * The class for timer adapted from https://www.youtube.com/watch?v=zmjfAcnosS0&feature=share&fbclid=IwAR1glno3C3do99FweI38bzS6Opi_6-tzzSE1VmeYUcFthzEqInj2f5E0wrQ
  */
 public class Timer {
     /**
