@@ -14,7 +14,7 @@ class TicTacMovementController {
         if (boardManager.getBoard().getGameOver()) {
             return;
         }
-        if (!TicTacGameActivity.getmTimerRunning()) {
+        if (!TicTacGameActivity.getMTimerRunning()) {
             boardManager.getBoard().setGameOver(true);
             Toast.makeText(context, "NO MORE TIME!", Toast.LENGTH_SHORT).show();
         } else

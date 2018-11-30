@@ -1,7 +1,7 @@
 package fall2018.csc2017.GameCentre.TicTacToe;
 
 public class TicTacEmptyStrategy extends TicTacStrategy{
-    TicTacEmptyStrategy(int depth) {
+    public TicTacEmptyStrategy(int depth) {
         super(depth);
     }
 

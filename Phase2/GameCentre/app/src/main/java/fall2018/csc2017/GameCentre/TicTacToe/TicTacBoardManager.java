@@ -9,7 +9,7 @@ import java.util.List;
 /**
  * Manage a board, including swapping tiles, checking for a win, and managing taps.
  */
-class TicTacBoardManager implements Serializable, Manager {
+public class TicTacBoardManager implements Serializable, Manager {
 
     /**
      * p1wins variable
@@ -78,7 +78,7 @@ class TicTacBoardManager implements Serializable, Manager {
     /**
      * Manage a new board.
      */
-    TicTacBoardManager(TicTacStrategy strategy) {
+    public TicTacBoardManager(TicTacStrategy strategy) {
         this.strategy = strategy;
         mController = new TicTacMovementController();
 

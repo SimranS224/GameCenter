@@ -16,8 +16,11 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import fall2018.csc2017.GameCentre.GameActivityController;
 import fall2018.csc2017.GameCentre.ScoreBoard.ScoreBoardModelView.LeaderBoardFrontEnd;
 import fall2018.csc2017.GameCentre.R;
+import fall2018.csc2017.GameCentre.Sequencer.SequencerStartingActivity;
+import fall2018.csc2017.GameCentre.SlidingTiles.StartingActivity;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -34,40 +37,36 @@ public class TicTacGameActivity extends AppCompatActivity implements Observer {
      */
     private static final long START_TIME_IN_MILLIS = 100000;
 
+    /**
+     * Textview for the countdown timer
+     */
     private static TextView mTextViewCountDown;
+
+    /**
+     * The countdown timer
+     */
     private static CountDownTimer mCountDownTimer;
+
+    /**
+     * Tells whether timer is running or not.
+     */
     private static boolean mTimerRunning;
 
+    /**
+     * The starting time.
+     */
     public static long mTimeLeftInMillis = START_TIME_IN_MILLIS;
-    /**
-     * The board manager.
-     */
-    private TicTacBoardManager boardManager;
+
+
 
     /**
-     * Refererence to the list of games database.
+     * The controller of the game activity
      */
-    private DatabaseReference mGamesDatabase;
+    private GameActivityController controller;
+
 
     /**
-     * Checks if data has been changed
-     */
-    private boolean dataChange;
-
-    /**
-     * Name of the current user
-     */
-    private String currentUserName;
-    /**
-     * The LeaderBoard for this Game.
-     */
-    private LeaderBoardFrontEnd leaderBoardFrontEnd;
-    /**
-     * Firebase Database reference pointing to the current user
-     */
-    private DatabaseReference mUserDatabase;
-    /**
-     * moveCounter
+     * The value of the Counter
      */
     private Long moveCounter;
 
@@ -94,21 +93,17 @@ public class TicTacGameActivity extends AppCompatActivity implements Observer {
         updateTileButtons();
         gridView.setAdapter(new TicTacCustomAdapter(markerButtons, columnWidth, columnHeight));
 
-        /*//autosave
-        saveToFile(StartingActivity.SAVE_FILENAME);
-        saveToFile(StartingActivity.TEMP_SAVE_FILENAME);*/
     }
 
-    //@Override
+    @Override
     public void update(Observable o, Object arg) {
-        System.out.println("TicTacGameActivity.update()==========");
         display();
-        moveCounter = boardManager.getMoveCounter();
-        getUserDatabaseReference();
-        saveUserInformationOnDatabase();
-        saveScoreCountOnDataBase();
-        updateLeaderBoard();
-        databaseScoreSave();
+        moveCounter = controller.getTicTacBoardManager().getMoveCounter();
+        controller.getUserDatabaseReference("tic_tac_toe");
+        controller.saveUserInformationOnDatabase(moveCounter);
+        controller.saveScoreCountOnDataBase(moveCounter);
+        controller.updateLeaderBoard();
+        controller.databaseScoreSave();
     }
 
     /**
@@ -117,7 +112,7 @@ public class TicTacGameActivity extends AppCompatActivity implements Observer {
      * @param context the context
      */
     private void createTileButtons(Context context) {
-        TicTacBoard board = boardManager.getBoard();
+        TicTacBoard board = controller.getTicTacBoardManager().getBoard();
         markerButtons = new ArrayList<>();
         for (int row = 0; row < TicTacBoard.NUM_ROWS; row++) {
             for (int col = 0; col < TicTacBoard.NUM_COLS; col++) {
@@ -132,7 +127,7 @@ public class TicTacGameActivity extends AppCompatActivity implements Observer {
      * Update the backgrounds on the buttons to match the tiles.
      */
     private void updateTileButtons() {
-        TicTacBoard board = boardManager.getBoard();
+        TicTacBoard board = controller.getTicTacBoardManager().getBoard();
         int nextPos = 0;
         for (Button b : markerButtons) {
             int row = nextPos / TicTacBoard.NUM_COLS;
@@ -140,57 +135,39 @@ public class TicTacGameActivity extends AppCompatActivity implements Observer {
             b.setBackgroundResource(board.getMarker(row, col).getBackground());
             nextPos++;
         }
-        //final TextView score = findViewById(R.id.score);
-        //score.setText(String.valueOf(boardManager.getCurrGameScore()));
-        //saveUserInformationOnDatabase();
 
     }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
-        getUserDatabaseReference();
+
         super.onCreate(savedInstanceState);
+
         Bundle b = getIntent().getExtras();
 
+        controller = new GameActivityController();
+        controller.getUserDatabaseReference("tic_tac_toe");
 
-        int gametype = -1; // or other values
-        int depth = -1;
-        if (b != null) {
-            gametype = b.getInt("gametype");
-            depth = b.getInt("depth");
-        }
-        if (gametype == -1) {
-            //Toast.makeText(getApplicationContext(), "Invalid game type", Toast.LENGTH_SHORT).show();
-            return;
-        } else if (gametype == TicTacMainActivity.PLAYER_TO_PLAYER) {
-            //PLAYER TO PLAYER CASE
-            boardManager = new TicTacBoardManager(new TicTacEmptyStrategy(depth));
 
-        } else if (gametype == TicTacMainActivity.PLAYER_TO_RANDOM) {
-            //PLAYER TO RANDOM AI CASE
-            boardManager = new TicTacBoardManager(new TicTacRandomStrategy(depth));
-        } else if (gametype == TicTacMainActivity.PLAYER_TO_AI) {
-            //PLAYER TO MINIMAX AI CASE
-            boardManager = new TicTacBoardManager(new TicTacMinimaxStrategy(depth));
-        }
+        if (createNewGame(b)) return;
+
 
         setContentView(R.layout.tictac_game_activity);
-        /*if (savedInstanceState == null) {
-            getSupportFragmentManager().beginTransaction()
-                    .replace(R.id.container, Con4GameFragment.newInstance())
-                    .commitNow();
-        }*/
+
 
         createTileButtons(this);
+
         // set to tictac_game_activity
         setContentView(R.layout.tictac_game_activity);
+
+
         // Add View to activity
         mTextViewCountDown = findViewById(R.id.text_count_Down);
         gridView = findViewById(R.id.gridView);
-        gridView.setBoardManager(boardManager);
+        gridView.setBoardManager(controller.getTicTacBoardManager());
         gridView.setNumColumns(TicTacBoard.NUM_COLS);
-        boardManager.getBoard().addObserver(this);
+        controller.getTicTacBoardManager().getBoard().addObserver(this);
 
         // Observer sets up desired dimensions as well as calls our update function
         gridView.getViewTreeObserver().addOnGlobalLayoutListener(
@@ -210,114 +187,48 @@ public class TicTacGameActivity extends AppCompatActivity implements Observer {
                         startTimer();
                     }
                 });
-        moveCounter = boardManager.getMoveCounter();
-        leaderBoardFrontEnd = new LeaderBoardFrontEnd();
-        this.dataChange = false;
-//        getUserDatabaseReference();
-//        saveUserInformationOnDatabase();
-//        saveScoreCountOnDataBase();
-//        updateLeaderBoard();
-//        databaseScoreSave();
-
-    }
-
-     /*
-    Scoreboard code which reads scores as the game when the game ends
-     */
-
-    /**
-     * Save the theScore to the leaderboard when the game finishes.
-     */
-    private void databaseScoreSave() {
-        mGamesDatabase.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                if (boardManager.isGetWinnerHasBeenCalled()) {
-                    if (boardManager.isOver() && !dataChange) {
-                        leaderBoardFrontEnd.empty();
-                        System.out.println(currentUserName);
-                        leaderBoardFrontEnd.setmNameCurrentUser(currentUserName);
-                        leaderBoardFrontEnd.saveScoreToLeaderBoard(dataSnapshot, boardManager); // move to leaderboard front endTODO
-
-                        dataChange = true;
-                    }
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-        });
-    }
-
-    /**
-     * Get database reference from the Firebase Database pointing to the current user
-     */
-    private void getUserDatabaseReference() {
-
-        // Firebase User Authorisation
-        FirebaseAuth mAuth = FirebaseAuth.getInstance();
-        String userID = Objects.requireNonNull(mAuth.getCurrentUser()).getUid();
-        mUserDatabase = FirebaseDatabase.getInstance().getReference().child("Users").child("userId").child(userID).child("tic_tac_toe");
-        mGamesDatabase = FirebaseDatabase.getInstance().getReference().child("Users").child("Games");
-
-    }
-
-
-    /**
-     * Get Current User's Saved Information from the database to the application
-     */
-    private void updateLeaderBoard() {
-
-        getUserDatabaseReference();
-        mUserDatabase.getParent().addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                if (dataSnapshot.exists() && dataSnapshot.getChildrenCount() > 0) {
-                    Map<String, Object> map = (Map<String, Object>) dataSnapshot.getValue();
-                    assert map != null;
-                    if (map.get("Name") != null) {
-//                        String name = map.get("Name").toString();
-                        currentUserName = map.get("Name").toString();
-                    }
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-        });
-    }
-
-    /**
-     * Saves the Current User's settings to the database
-     */
-    private void saveUserInformationOnDatabase() {
-
-
-        String lastSavedScore = moveCounter.toString();
-        Map<String, Object> userInfo = new HashMap<>();
-
-        userInfo.put("last_Saved_Score", lastSavedScore);
-
-        mUserDatabase.updateChildren(userInfo);
+        moveCounter = controller.getTicTacBoardManager().getMoveCounter();
 
     }
 
     /**
-     * Saves a counter variable to the database that firebase listens for score changing.
+     * Create a new game depending on the user choice. Game could be against easy AI, hard AI or two player Game.
+     * @param b The game type
+     * @return returns false if the game type was chosen.
      */
-    private void saveScoreCountOnDataBase() {
+    private boolean createNewGame(Bundle b) {
+        int gameType = -1; // or other values
+        int depth = -1;
+        if (b != null) {
+            gameType = b.getInt("gametype");
+            depth = b.getInt("depth");
+        }
+        if (gameType == -1) {
+            return true;
 
-        String lastSavedScore = moveCounter.toString();
-        Map<String, Object> newMap = new HashMap<>();
-        newMap.put("last_Saved_Score", lastSavedScore);
-        mGamesDatabase.updateChildren(newMap);
+        }
+        //PLAYER TO PLAYER CASE
+        else if (gameType == TicTacMainActivity.PLAYER_TO_PLAYER) {
+
+            controller.createTicTacBoardManager("PlayerToPlayer");
+        }
+        //PLAYER TO RANDOM AI CASE
+        else if (gameType == TicTacMainActivity.PLAYER_TO_RANDOM) {
+            controller.createTicTacBoardManager("PlayerToRandom");
+
+        }
+
+        //PLAYER TO MINIMAX AI CASE
+        else if (gameType == TicTacMainActivity.PLAYER_TO_AI) {
+            controller.createTicTacBoardManager("PlayerToAI");
+
+        }
+        return false;
     }
 
-
+    /**
+     * Starts the count down timer
+     */
     public static void startTimer() {
         mCountDownTimer = new CountDownTimer(mTimeLeftInMillis, 1000) {
             @Override
@@ -334,16 +245,25 @@ public class TicTacGameActivity extends AppCompatActivity implements Observer {
         mTimerRunning = true;
     }
 
+    /**
+     * Pause the count down timer
+     */
     public static void pauseTimer() {
         mCountDownTimer.cancel();
         mTimerRunning = false;
     }
 
+    /**
+     * Reset the countdown timer
+     */
     public static void resetTimer() {
         mTimeLeftInMillis = START_TIME_IN_MILLIS;
         updateCountDownText();
     }
 
+    /**
+     * Updates the countdown timer text
+     */
     public static void updateCountDownText() {
         int minutes = (int) (mTimeLeftInMillis / 1000) / 60;
         int seconds = (int) (mTimeLeftInMillis / 1000) % 60;
@@ -352,11 +272,19 @@ public class TicTacGameActivity extends AppCompatActivity implements Observer {
         mTextViewCountDown.setText(timeLeftFormatted);
     }
 
+    /**
+     * Gets the time left
+     * @return The time left
+     */
     public static long getmTimeLeftInMillis() {
         return mTimeLeftInMillis;
     }
 
-    public static boolean getmTimerRunning() {
+    /**
+     * Check whether there is time remaining
+     * @return True if time is remaining else false
+     */
+    public static boolean getMTimerRunning() {
         return mTimerRunning;
     }
 

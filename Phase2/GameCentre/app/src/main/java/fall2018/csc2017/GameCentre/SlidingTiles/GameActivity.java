@@ -54,12 +54,6 @@ public class GameActivity extends AppCompatActivity implements Observer {
      */
     TextView textView;
 
-//
-//    /**
-//     * The board manager.
-//     */
-//    private BoardManager boardManager;
-
 
     /**
      * The buttons to display.
@@ -85,31 +79,6 @@ public class GameActivity extends AppCompatActivity implements Observer {
      * The controller of the game activity
      */
     private GameActivityController controller;
-
-//    /**
-//     * Refererence to the list of games database.
-//     */
-//    private DatabaseReference mGamesDatabase;
-//
-//    /**
-//     * Checks if data has been changed
-//     */
-//    private boolean dataChange;
-//
-//    /**
-//     * Name of the current user
-//     */
-//    private String currentUserName;
-//    /**
-//     * The LeaderBoard for this Game.
-//     */
-//    private LeaderBoardFrontEnd leaderBoardFrontEnd;
-//    /**
-//     * Firebase Database reference pointing to the current user
-//     */
-//    private DatabaseReference mUserDatabase;
-
-
 
 
     /**
@@ -161,8 +130,6 @@ public class GameActivity extends AppCompatActivity implements Observer {
 
 
         controller.loadFromFile(StartingActivity.TEMP_SAVE_FILENAME,this);
-        int unn = MoveStack.NUM_UNDOS;
-        System.out.println(unn);
         createTileButtons(this);
         setContentView(R.layout.activity_main);
         if (isImage()) {
@@ -216,19 +183,6 @@ public class GameActivity extends AppCompatActivity implements Observer {
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
     /**
      * Dispatch onPause() to fragments.
      */
@@ -276,8 +230,6 @@ public class GameActivity extends AppCompatActivity implements Observer {
                     controller.getSlidingtilesBoardManager().setScore(controller.getSlidingtilesBoardManager().getCurrGameScore() + 1);
 
                 }
-//                saveScoreToLeaderBoard(boardManager);
-
 
             }
         });
@@ -328,9 +280,6 @@ public class GameActivity extends AppCompatActivity implements Observer {
 //        saveScoreToLeaderBoard(boardManager);
     }
 
-    /*
-    Bitmap code for using Images
-     */
 
     /**
      * Returns the image split into smaller sub images.

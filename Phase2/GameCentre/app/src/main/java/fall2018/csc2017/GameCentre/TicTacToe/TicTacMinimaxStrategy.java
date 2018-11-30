@@ -21,7 +21,7 @@ public class TicTacMinimaxStrategy extends TicTacStrategy {
         }
     }
 
-    TicTacMinimaxStrategy(int depth) {
+    public TicTacMinimaxStrategy(int depth) {
         super(depth);
     }
 

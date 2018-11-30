@@ -30,8 +30,10 @@ import java.util.Objects;
 import java.util.Random;
 
 import fall2018.csc2017.GameCentre.FirstActivity;
+import fall2018.csc2017.GameCentre.GameChoiceActivity;
 import fall2018.csc2017.GameCentre.R;
 import fall2018.csc2017.GameCentre.ScoreBoard.ScoreBoardModelView.swipeTest;
+import fall2018.csc2017.GameCentre.SlidingTiles.StartingActivity;
 
 /**
  * The initial activity for the sliding puzzle tile game.
@@ -98,13 +100,30 @@ public class SequencerStartingActivity extends AppCompatActivity {
         //getUserDatabaseReference();
 
         addLogoutButtonListener();
-
+        addMainMenuButtonListener();
 
         //update welcome text with currentUserName
         mWelcomeText = findViewById(R.id.welcomeText);
         getUserInfoFromDatabase();
 
        addBackgroundTapListener();
+    }
+
+
+    /**
+     * Activate Main Menu Button
+     */
+    private void addMainMenuButtonListener() {
+
+        Button mMainMenuButton = findViewById(R.id.MainMenu);
+        mMainMenuButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(SequencerStartingActivity.this,GameChoiceActivity.class);
+                startActivity(intent);
+                finish();
+            }
+        });
     }
 
     /**

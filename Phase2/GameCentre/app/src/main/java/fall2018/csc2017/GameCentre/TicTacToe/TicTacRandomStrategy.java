@@ -6,7 +6,7 @@ import java.util.ArrayList;
 
 public class TicTacRandomStrategy extends TicTacStrategy{
 
-    TicTacRandomStrategy(int depth) {
+    public TicTacRandomStrategy(int depth) {
        super(depth);
     }
 
