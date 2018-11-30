@@ -55,7 +55,7 @@ public class TicTacBoardManagerTest {
     }
 
     /**
-     * Tests whether puzzleSolved works properly by feeding it the played position.
+     * Tests whetherr puzzleSolved works properly by feeding it the played position.
      */
     @Test
     public void testGetWinner() {
