@@ -50,7 +50,7 @@ public class LeaderBoardController {
      *
      * @return the name of the current player
      */
-    String getPLayerName() {
+    public String getPLayerName() {
         return this.currPlayerName;
     }
 
@@ -143,7 +143,7 @@ public class LeaderBoardController {
      *
      * @param score the score that the user finished with
      */
-    private void addWinningScore(Long score) {
+    void addWinningScore(Long score) {
         String theScore = score.toString();
         String name = this.getPLayerName();
         Scores userScore = new Scores();
