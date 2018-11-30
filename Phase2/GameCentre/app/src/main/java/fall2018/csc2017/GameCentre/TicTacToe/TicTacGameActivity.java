@@ -1,63 +1,22 @@
 package fall2018.csc2017.GameCentre.TicTacToe;
 
 import android.content.Context;
-import android.os.CountDownTimer;
-import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.ViewTreeObserver;
 import android.widget.Button;
-import android.widget.TextView;
-
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
-
 import fall2018.csc2017.GameCentre.GameActivityController;
-import fall2018.csc2017.GameCentre.ScoreBoard.ScoreBoardModelView.LeaderBoardFrontEnd;
 import fall2018.csc2017.GameCentre.R;
-import fall2018.csc2017.GameCentre.Sequencer.SequencerStartingActivity;
-import fall2018.csc2017.GameCentre.SlidingTiles.StartingActivity;
-
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Locale;
-import java.util.Map;
-import java.util.Objects;
 import java.util.Observable;
 import java.util.Observer;
 
 public class TicTacGameActivity extends AppCompatActivity implements Observer {
 
     /**
-     * the start time in millis
+     * Timer of the game
      */
-    private static final long START_TIME_IN_MILLIS = 100000;
-
-    /**
-     * Textview for the countdown timer
-     */
-    private static TextView mTextViewCountDown;
-
-    /**
-     * The countdown timer
-     */
-    private static CountDownTimer mCountDownTimer;
-
-    /**
-     * Tells whether timer is running or not.
-     */
-    private static boolean mTimerRunning;
-
-    /**
-     * The starting time.
-     */
-    public static long mTimeLeftInMillis = START_TIME_IN_MILLIS;
-
-
+    public Timer time = new Timer();
 
     /**
      * The controller of the game activity
@@ -92,7 +51,6 @@ public class TicTacGameActivity extends AppCompatActivity implements Observer {
     public void display() {
         updateTileButtons();
         gridView.setAdapter(new TicTacCustomAdapter(markerButtons, columnWidth, columnHeight));
-
     }
 
     @Override
@@ -163,7 +121,7 @@ public class TicTacGameActivity extends AppCompatActivity implements Observer {
 
 
         // Add View to activity
-        mTextViewCountDown = findViewById(R.id.text_count_Down);
+        time.mTextViewCountDown = findViewById(R.id.text_count_Down);
         gridView = findViewById(R.id.gridView);
         gridView.setBoardManager(controller.getTicTacBoardManager());
         gridView.setNumColumns(TicTacBoard.NUM_COLS);
@@ -183,8 +141,8 @@ public class TicTacGameActivity extends AppCompatActivity implements Observer {
                         columnHeight = displayHeight / TicTacBoard.NUM_ROWS;
 
                         display();
-                        resetTimer();
-                        startTimer();
+                        time.resetTimer();
+                        time.startTimer();
                     }
                 });
         moveCounter = controller.getTicTacBoardManager().getMoveCounter();
@@ -227,80 +185,15 @@ public class TicTacGameActivity extends AppCompatActivity implements Observer {
     }
 
     /**
-     * Starts the count down timer
-     */
-    public static void startTimer() {
-        mCountDownTimer = new CountDownTimer(mTimeLeftInMillis, 1000) {
-            @Override
-            public void onTick(long millisUntilFinished) {
-                mTimeLeftInMillis = millisUntilFinished;
-                updateCountDownText();
-            }
-
-            @Override
-            public void onFinish() {
-                mTimerRunning = false;
-            }
-        }.start();
-        mTimerRunning = true;
-    }
-
-    /**
-     * Pause the count down timer
-     */
-    public static void pauseTimer() {
-        mCountDownTimer.cancel();
-        mTimerRunning = false;
-    }
-
-    /**
-     * Reset the countdown timer
-     */
-    public static void resetTimer() {
-        mTimeLeftInMillis = START_TIME_IN_MILLIS;
-        updateCountDownText();
-    }
-
-    /**
-     * Updates the countdown timer text
-     */
-    public static void updateCountDownText() {
-        int minutes = (int) (mTimeLeftInMillis / 1000) / 60;
-        int seconds = (int) (mTimeLeftInMillis / 1000) % 60;
-
-        String timeLeftFormatted = String.format(Locale.getDefault(), "%02d:%02d", minutes, seconds);
-        mTextViewCountDown.setText(timeLeftFormatted);
-    }
-
-    /**
-     * Gets the time left
-     * @return The time left
-     */
-    public static long getmTimeLeftInMillis() {
-        return mTimeLeftInMillis;
-    }
-
-    /**
-     * Check whether there is time remaining
-     * @return True if time is remaining else false
-     */
-    public static boolean getMTimerRunning() {
-        return mTimerRunning;
-    }
-
-
-    /**
      * Adopted from https://stackoverflow.com/questions/4778754/how-do-i-kill-an-activity-when-the-back-button-is-pressed
      */
     @Override
     public void onBackPressed() {
         super.onBackPressed();
-        pauseTimer();
+        time.pauseTimer();
         this.finish();
 
     }
 
 
 }
-
-

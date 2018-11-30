@@ -170,17 +170,6 @@ public class TicTacBoard extends Observable implements Serializable, Iterable<Ti
         }
     }
 
-//    /**
-//     * change turns
-//     */
-//    public void changeTurns() {
-//        if (this.current_player == 0) {
-//            this.current_player = 1;
-//        } else {
-//            this.current_player = 0;
-//        }
-//    }
-
     /**
      * Return num rows
      */
@@ -205,31 +194,6 @@ public class TicTacBoard extends Observable implements Serializable, Iterable<Ti
         return ticTacMarkers[row][col];
     }
 
-//    /**
-//     * Set the size of the board
-//     * @param size the size of the board
-//     */
-//    public static void setBoardSize(int size) {
-//        NUM_ROWS=size;
-//        NUM_COLS=size;
-//    }
-
-//    /**
-//     * Sets the type of the board.
-//     * @param type type of the board
-//     */
-//    public static void setType(String type){
-//        TYPE = type;
-//    }
-
-//    /**
-//     * Gets the type of the board.
-//     * @return returns the type of the board
-//     */
-//    public static String getType() {
-//        return TYPE;
-//    }
-
     /**
      * Get the size of the Board
      * @return the number of rows in the board
@@ -244,15 +208,6 @@ public class TicTacBoard extends Observable implements Serializable, Iterable<Ti
         setChanged();
         notifyObservers();
     }
-
-//    @Override
-//    public String toString() {
-//        return "Board{" +
-//                "ticTacMarkers=" + Arrays.toString(ticTacMarkers) +
-//                '}';
-//    }
-
-
 
     //implementing the iterator
     @NonNull
