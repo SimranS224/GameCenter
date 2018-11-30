@@ -1,5 +1,8 @@
 package fall2018.csc2017.GameCentre.Sequencer;
 
+// Mode/View
+
+
 import android.content.Context;
 import android.widget.Toast;
 
