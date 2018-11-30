@@ -75,6 +75,12 @@ Discussed what still needed to be worked on
 - solvable for sliding tiles, unittests, sequencer randomizing the sequences still needed,
 AI still needed for tic tac toe
 Meeting 3: Got together and got a lot of work done
-- solvablesliding tiles got fixed, started thinking about design patterns, random strategy and
-hard AI and PVP for Tictactoe basically working,
+- solvable sliding tiles got fixed, started thinking about design patterns, random strategy and
+hard AI and PVP for Tictactoe basically working, sequencer developing well, leaderboard still being worked on
+Meeting 4: Discussed what needed final touches and started writing test codes;
+fixed a bunch of bugs in Tic Tac Toe, Sequencer worked, scoreboard almost done,
+unittests and little details still needed to be done
+Meeting 5: Scoreboard done, worked on unittests and cleaned up a lot of code smells,
+added java doc, and finished unittests. Also added the walkthrough pdf
+
 
