@@ -5,13 +5,14 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Observable;
 
 import fall2018.csc2017.GameCentre.Manager;
 
 /**
  * Manage a board, including swapping tiles, checking for a win, and managing taps.
  */
-public class BoardManager implements Serializable, Manager {
+public class BoardManager extends Observable implements Serializable, Manager {
 
     /**
      * score
@@ -220,12 +221,28 @@ public class BoardManager implements Serializable, Manager {
             int blankCol = blankPos % Board.NUM_COLS;
 
             //swap them
-            board.swapTiles(row, col, blankRow, blankCol);
+            swapTiles(row, col, blankRow, blankCol);
             Integer[] c = {row, col, blankRow, blankCol};
             stack.add(c);
+            score++;
         }
-        score++;
 
+    }
+    /**
+     * Swap the tiles at (row1, col1) and (row2, col2)
+     *
+     * @param row1 the first tile row
+     * @param col1 the first tile col
+     * @param row2 the second tile row
+     * @param col2 the second tile col
+     */
+    void swapTiles(int row1, int col1, int row2, int col2) {
+        Tile tile1 = board.getTile(row1, col1); //to store original tile
+        Tile tile2 = board.getTile(row2, col2);
+        board.setTiles(tile1, row2, col2);
+        board.setTiles(tile2, row1, col1);
+        setChanged();
+        notifyObservers();
     }
 
 }

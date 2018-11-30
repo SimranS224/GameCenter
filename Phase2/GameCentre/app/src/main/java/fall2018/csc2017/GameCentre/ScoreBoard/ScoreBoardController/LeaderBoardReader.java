@@ -20,7 +20,7 @@ public class LeaderBoardReader {
     /**
      * Adds a list of hashed highscores for all games from firebase to the contents of LeaderBoardReader.
      *
-     * @param list the hashed lists of highscores
+     * @param list the hashed lists of highscores (i.e A Hashed UserScores object )
      */
     public void addAllToContents(ArrayList list) {
         UserScores curList = new UserScores();
