@@ -7,26 +7,28 @@ import static org.junit.Assert.*;
 public class SequencerBoardManagerTest {
 
     @Test
-    public void increaseScore() {
+    public void increaseRound() {
         SequencerBoardManager b = new SequencerBoardManager();
-        assertEquals(b.getCurrGameScore(), (Long) 1L);
-        b.increaseScore();
-        b.increaseScore();
-        assertEquals(b.getCurrGameScore(), (Long) 3L);
+        assertEquals(1L, b.getRound());
+        assertEquals((Long) 99L, b.getCurrGameScore());
+        b.increaseRound();
+        b.increaseRound();
+        assertEquals(3L, b.getRound());
+        assertEquals((Long) 97L, b.getCurrGameScore());
     }
 
     @Test
     public void isValidTap() {
         SequencerBoardManager b = new SequencerBoardManager();
-        assertEquals(false, b.isValidTap(20));
+        assertFalse(b.isValidTap(20));
     }
 
     @Test
     public void setGameOver() {
         SequencerBoardManager b = new SequencerBoardManager();
-        assertEquals(false, b.isOver());
+        assertFalse(b.isOver());
         b.setGameOver();
-        assertEquals(true, b.isOver());
+        assertTrue(b.isOver());
     }
 
     @Test
