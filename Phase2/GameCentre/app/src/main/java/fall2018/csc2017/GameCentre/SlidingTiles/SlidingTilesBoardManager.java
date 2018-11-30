@@ -23,6 +23,9 @@ public class SlidingTilesBoardManager extends Observable implements Serializable
      * The slidingTilesBoard being managed.
      */
     private SlidingTilesBoard slidingTilesBoard;
+    /**
+     * Stack for storing undo's.
+     */
     MoveStack stack;
 
     /**
