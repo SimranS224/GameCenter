@@ -26,7 +26,7 @@
         android:layout_alignParentStart="true"
         android:layout_centerVertical="true"
         android:gravity="center"
-        android:text="@string/welcome_to_sequencer_the_game_where_you_have_to_copy_the_sequence_get_it_right_and_the_sequence_s_size_increases_by_1"
+        android:text="@string/welcome_to_sequencer_remember_a_100_long_sequence_to_win_each_round_remember_one_more_element_of_the_sequence"
         android:textAlignment="center"
         android:textAppearance="@style/TextAppearance.AppCompat.Body2"
         android:textColor="@android:color/white"
